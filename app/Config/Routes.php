@@ -7,3 +7,13 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('/api/test', 'TestController::api');
+
+$routes->get('/api/produit/get-produits', 'ProduitController::produits');
+$routes->get('/api/produit/get-produit', 'ProduitController::produit');
+
+$routes->post('/api/account/register', 'CompteController::register');
+$routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
+$routes->post('/api/account/login', 'CompteController::login');
+$routes->post('/api/account/forgot-password', 'CompteController::forgotPassword');
+$routes->post('/api/account/update-password', 'CompteController::updatePassword');
+
