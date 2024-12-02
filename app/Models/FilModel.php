@@ -7,10 +7,14 @@ use CodeIgniter\Model;
 class FilModel extends Model
 {
     protected $table = 'fil';
-    protected $primaryKey = 'libCouleur';
+    protected $primaryKey = 'libcouleur';
 
-    protected $allowedFields = ['libCouleur'];
+    protected $allowedFields = ['libcouleur'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
+
+    public function getFil($libCouleur) {
+        return $this->where("libcouleur", $libCouleur)->first();
+    }
 }

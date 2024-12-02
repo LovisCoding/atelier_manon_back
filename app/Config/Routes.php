@@ -16,6 +16,9 @@ $routes->post('/api/produit/delete-produit', 'ProduitController::deleteProduit')
 $routes->post('/api/matprod/add-matprod', 'MatProdController::addMatProd');
 $routes->post('/api/matprod/delete-matprod', 'MatProdController::deleteMatProd');
 
+$routes->post('/api/pieprod/add-pieprod', 'PieProdController::addPieProd');
+$routes->post('/api/pieprod/delete-pieprod', 'PieProdController::deletePieProd');
+
 
 $routes->post('/api/account/register', 'CompteController::register');
 $routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
