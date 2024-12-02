@@ -12,15 +12,13 @@ class CompteController extends ResourceController
 
 	public function register()
 	{
-		$email = $this->request->getPost('email');
-		$mdp = $this->request->getPost('mdp');
+		$data = $this->request->getJSON();
 
-		$nomCli = $this->request->getPost('nomCli');
-		$prenomCli = $this->request->getPost('prenomCli');
+		$existingUser = $this->model->getAccountByEmail($data->email);
 
-		$adresse = $this->request->getPost('adresse');
-
-		$existingUser = $this->model->getAccountByEmail($email);
+		if (is_array($data->adresse)) {
+			$adresse = '{' . implode(',', array_map(fn($item) => "\"$item\"", $data->adresse)) . '}';
+		}
 
 		if ($existingUser)
 			return $this->respond("Un compte avec cet email est déjà créé.");
@@ -29,21 +27,21 @@ class CompteController extends ResourceController
 		$token = bin2hex(random_bytes(16));
 
 		session()->set("registration_$token", [
-			'email' => $email,
-			'mdp' => password_hash($mdp, PASSWORD_BCRYPT),
-			'nomCli' => $nomCli,
-			'prenomCli' => $prenomCli,
+			'email' => $data->email,
+			'mdp' => password_hash($data->mdp, PASSWORD_BCRYPT),
+			'nomCli' => $data->nomCli,
+			'prenomCli' => $data->prenomCli,
 			'adresse' => $adresse
 		]);
 
 		$confirmAccountLink = site_url("email/confirmAccount/$token");
 
 		$emailService = \Config\Services::email();
-		$emailService->setTo($email);
+		$emailService->setTo($data->email);
 		$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
 		$emailService->setSubject('Création de votre compte TaskMate !');
 		$emailService->setMessage("
-			Bonjour $prenomCli $nomCli,
+			Bonjour $data->prenomCli $data->nomCli,
 			
 			Merci de vous être inscrit à l'Atelier de Manon.
 			Pour activer votre compte, cliquez sur le lien suivant :
@@ -66,7 +64,8 @@ class CompteController extends ResourceController
 
 	public function confirmAccount()
 	{
-		$token = $this->request->getPost("token");
+		$data = $this->request->getJSON();
+		$token = $data->token;
 		$registrationData = session()->get("registration_$token");
 
 		if (!$registrationData) {
@@ -81,20 +80,19 @@ class CompteController extends ResourceController
 		return $this->respond("Votre compte a bien été crée.");
 	}
 
-	public function connection()
+	public function login()
 	{
 		$session = session();
-		$email = $this->request->getPost('email');
-		$mdpInput = $this->request->getPost('mdp');
-		$account = $this->model->getAccountByEmail($email);
+		$data = $this->request->getJSON();
+		$account = $this->model->getAccountByEmail($data->email);
 
 		if ($account) {
 			$mdp = $account['mdp'];
-			$authenticatePassword = password_verify($mdpInput, $mdp);
+			$authenticatePassword = password_verify($data->mdp, $mdp);
 
 			if ($authenticatePassword) {
 				$ses_data = [
-					'idCli' => $account['idCli'],
+					'idCli' => $account['idcli'],
 					'isLoggedIn' => true,
 				];
 				$session->set($ses_data);
@@ -110,8 +108,8 @@ class CompteController extends ResourceController
 
 	public function forgotPassword() 
 	{
-		$email = $this->request->getPost('email');
-		$account = $this->model->getAccountByEmail($email);
+		$data = $this->request->getJSON();
+		$account = $this->model->getAccountByEmail($data->email);
 
 		if ($account) {
 
@@ -120,9 +118,11 @@ class CompteController extends ResourceController
 
 			$expiration = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-			$account->set('token', $token)
-				->set('token_expiration', $expiration)
-				->update($account['id']);
+
+			$this->model->update($account['idcli'], [
+				'token' => $token,
+				'token_expiration' => $expiration
+			]);
 
 			$resetLink = site_url("/forgot-password/reset-password/$token");
 			$message = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe: $resetLink";
@@ -130,7 +130,7 @@ class CompteController extends ResourceController
 			$emailService = \Config\Services::email();
 
 
-			$emailService->setTo($email);
+			$emailService->setTo($data->email);
 			$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
 			$emailService->setSubject('Réinitialisation de mot de passe');
 			$emailService->setMessage($message);
@@ -147,7 +147,8 @@ class CompteController extends ResourceController
 
 	public function resetPassword()
 	{
-		$token = $this->request->getPost("token");
+		$data = $this->request->getJSON();
+		$token = $data->token;
 
 		if (!session()->get("updatePassword_$token")) {
 			return $this->respond("Token invalide.");
@@ -158,17 +159,14 @@ class CompteController extends ResourceController
 
 	public function updatePassword()
 	{
-		$token = $this->request->getPost('token');
+		$data = $this->request->getJSON();
+		
+		$account = $this->model->getAccountByToken($data->token);
 	
-		$password = $this->request->getPost('password');
-		$confirmPassword = $this->request->getPost('confirm_password');
-	
-		$account = $this->model->getAccountByToken($token);
-	
-		if ($account && $password === $confirmPassword) 
+		if ($account && $data->password === $data->confirm_password) 
 		{
-			$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-			$this->model->updatePassword($hashedPassword, $account["idCli"]);
+			$hashedPassword = password_hash($data->password, PASSWORD_DEFAULT);
+			$this->model->updatePassword($hashedPassword, $account["idcli"]);
 			return $this->respond("Mot de passe réinitialisé avec succès.");
 		} 
 		else 

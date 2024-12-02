@@ -7,22 +7,19 @@ use CodeIgniter\Model;
 class CompteModel extends Model
 {
     protected $table = 'compte';
-    protected $primaryKey = 'idCli';
+    protected $primaryKey = 'idcli';
 
     protected $allowedFields = [
         'email', 
         'mdp', 
-        'nomCli', 
-        'preCli', 
+        'nomcli', 
+        'precli', 
         'adresse', 
         'token', 
         'token_expiration', 
         'estAdmin', 
         'news'
     ];
-
-    protected $useTimestamps = false;
-    protected $returnType = 'array';
 
     public function getAccountByEmail($email) 
     {
@@ -31,8 +28,8 @@ class CompteModel extends Model
 
     public function getAccountByToken($token) 
     {
-        $account = $this->where('reset_token', $token)
-            ->where('reset_token_expiration >=', date('Y-m-d H:i:s'))
+        return $this->where('token', $token)
+            ->where('token_expiration >=', date('Y-m-d H:i:s'))
             ->first();
     }
 
