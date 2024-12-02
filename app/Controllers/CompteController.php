@@ -66,11 +66,12 @@ class CompteController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 		$token = $data->token;
-		$registrationData = session()->get("registration_$token");
 
-		if (!$registrationData) {
-			$this->respond("Token invalide.");
+		if (!session()->has("registration_$token")) {
+			return $this->respond("Token invalide.");
 		}
+
+		$registrationData = session()->get("registration_$token");
 
 		// Enregistrer les données dans la base de données
 		$this->model->createAccount($registrationData);

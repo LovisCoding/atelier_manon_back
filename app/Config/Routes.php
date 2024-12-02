@@ -11,6 +11,10 @@ $routes->get('/api/test', 'TestController::api');
 $routes->get('/api/produit/get-produits', 'ProduitController::produits');
 $routes->get('/api/produit/get-produit', 'ProduitController::produit');
 $routes->post('/api/produit/update-produit', 'ProduitController::updateProduit');
+$routes->post('/api/produit/delete-produit', 'ProduitController::deleteProduit');
+
+$routes->post('/api/matprod/add-matprod', 'MatProdController::addMatProd');
+$routes->post('/api/matprod/delete-matprod', 'MatProdController::deleteMatProd');
 
 
 $routes->post('/api/account/register', 'CompteController::register');

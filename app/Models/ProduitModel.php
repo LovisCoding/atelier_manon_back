@@ -70,7 +70,7 @@ class ProduitModel extends Model
             "estgravable" => $estGravable,
             "tabphoto" => $tabPhoto,
             "tempsrea" => $tempsRea,
-            "idcated" => $idCateg
+            "idcateg" => $idCateg
         ]);
     }
 
@@ -94,5 +94,9 @@ class ProduitModel extends Model
         ]);
 
         return $this->getInsertID();
+    }
+
+    public function deleteProduit($idProd) {
+        $this->delete($idProd);
     }
 }

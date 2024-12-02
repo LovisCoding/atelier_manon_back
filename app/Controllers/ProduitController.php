@@ -24,14 +24,14 @@ class ProduitController extends ResourceController
 
         return $this->respond(
             [
-                'page' => $page, 
-                'nbDisplay' => $nbDisplay, 
+                'page' => $page,
+                'nbDisplay' => $nbDisplay,
                 'produits' => $produits
             ]
         );
     }
 
-	public function produit()
+    public function produit()
     {
         $idProd = $this->request->getGet('idProd');
 
@@ -41,15 +41,15 @@ class ProduitController extends ResourceController
     }
 
     public function updateProduit()
-    {    
+    {
         $data = $this->request->getJSON();
         if (is_array($data->tabPhoto)) {
-			$tabPhoto = '{' . implode(',', array_map(fn($item) => "\"$item\"", $data->tabPhoto)) . '}';
-		}
+            $tabPhoto = '{' . implode(',', array_map(fn($item) => "\"$item\"", $data->tabPhoto)) . '}';
+        }
 
         if ($data->idProd !== -1) {
             $this->model->updateProduit(
-                $data->idProd, 
+                $data->idProd,
                 $data->libProd,
                 $data->descriptionProd,
                 floatval($data->prix),
@@ -60,9 +60,7 @@ class ProduitController extends ResourceController
             );
 
             return $this->respond("Modification effectuée avec succès.");
-
-        }
-        else {
+        } else {
             $id = $this->model->createProduit(
                 $data->libProd,
                 $data->descriptionProd,
@@ -77,8 +75,30 @@ class ProduitController extends ResourceController
                 return $this->respond("Ce nom est déjà utilisé");
             }
             return $this->respond($id);
-
         }
+    }
+
+    public function deleteProduit() 
+    {
+        $data = $this->request->getJSON();
+
+        $this->model->deleteProduit($data->idProd);
+
+        return $this->respond("Produit supprimé avec succès !");
+
+    }
+
+
+
+    public function addMateriel() 
+    {
+        $data = $this->request->getJSON();
+        $idProd = $data->idProd;
+        $idMateriel = $data->idMateriel;
+
+        $this->model->deleteProduit($data->idProd);
+
+        return $this->respond("Produit supprimé avec succès !");
 
     }
 
