@@ -35,4 +35,13 @@ class PieProdController extends ResourceController
 		return $this->respond($response);
 	}
 
+	public function getPierresProduit()
+	{
+		$idProd = $this->request->getGet("idProd");
+
+		$pierres =  $this->model->getPierresProduit($idProd);
+
+		return $this->respond($pierres);
+	}
+
 }

@@ -66,4 +66,15 @@ class PieProdModel extends Model
 
         return "Impossible de supprimer cette pierre de ce produit ! (matériau ou produit inexistant)";
     }
+
+    public function getPierresProduit($idProd)
+    {
+        $result = $this->where("idprod", $idProd)
+                       ->select("libpierre")
+                       ->get()
+                       ->getResultArray();
+    
+        return array_column($result, 'libpierre');
+    }
+    
 }

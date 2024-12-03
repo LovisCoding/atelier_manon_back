@@ -70,4 +70,15 @@ class MatProdModel extends Model
 
         return "Impossible de supprimer ce matériau de ce produit ! (matériau ou produit inexistant)";
     }
+
+
+    public function getMateriauxProduit($idProd)
+    {
+        $result = $this->where("idprod", $idProd)
+                       ->select("libmateriau")
+                       ->get()
+                       ->getResultArray();
+    
+        return array_column($result, 'libmateriau');
+    }
 }

@@ -35,4 +35,14 @@ class MatProdController extends ResourceController
 		return $this->respond($response);
 	}
 
+	public function getMateriauxProduit() 
+	{
+		$idProd = $this->request->getGet("idProd");
+
+		$materiaux =  $this->model->getMateriauxProduit($idProd);
+
+		return $this->respond($materiaux);
+	}
+
+
 }

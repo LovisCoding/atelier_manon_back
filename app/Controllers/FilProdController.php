@@ -15,7 +15,7 @@ class FilProdController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 
-		$idProd = $data->idProd;
+		$idProd = intval($data->idProd);
 		$libCouleur = $data->libCouleur;
 
 		$response = $this->model->addFilProd($idProd, $libCouleur);
@@ -33,6 +33,16 @@ class FilProdController extends ResourceController
 		$response = $this->model->deleteFilProd($idProd, $libCouleur);
 
 		return $this->respond($response);
+	}
+
+	public function getFilsProduit()
+	{
+		$idProd = $this->request->getGet("idProd");
+
+		$fils =  $this->model->getFilsProduit($idProd);
+
+		return $this->respond($fils);
+
 	}
 
 }

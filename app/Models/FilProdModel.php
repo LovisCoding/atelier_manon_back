@@ -4,10 +4,12 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PieProdModel extends Model
+class FilProdModel extends Model
 {
     protected $table = 'filprod';
-    protected $primaryKey = null;
+
+    protected $primaryKey = ['idprod', 'libcouleur'];
+    protected $useAutoIncrement = false;
 
     protected $allowedFields = ['idprod', 'libcouleur'];
 
@@ -30,7 +32,7 @@ class PieProdModel extends Model
     }
 
 
-    public function addPieProd($idProd, $libCouleur)
+    public function addFilProd($idProd, $libCouleur)
     {
         $filProd = $this->where("idprod", $idProd)
             ->where("libcouleur", $libCouleur)
@@ -40,23 +42,23 @@ class PieProdModel extends Model
 
             $this->db->table($this->table)->insert([
                 "idprod" => $idProd,
-                "libcouleur" => $filProd
+                "libcouleur" => $libCouleur
             ]);
 
             return "Fil ajouté au produit avec succès !";
         }
 
-        return "Impossible d'ajouter cette fil à ce produit ! (matériau ou produit inexistant)";
+        return "Impossible d'ajouter ce fil à ce produit ! (matériau ou produit inexistant)";
     }
 
 
-    public function deletePieProd($idProd, $libCouleur)
+    public function deleteFilProd($idProd, $libCouleur)
     {
         $filProd = $this->where("idprod", $idProd)
             ->where("libcouleur", $libCouleur)
             ->first();
 
-        if ($this->existsProdAndPierre($idProd, $libCouleur) && $filProd) {
+        if ($this->existsProdAndFil($idProd, $libCouleur) && $filProd) {
             $this->where("idprod", $idProd)
                 ->where("libcouleur", $libCouleur)
                 ->delete();
@@ -65,5 +67,15 @@ class PieProdModel extends Model
         }
 
         return "Impossible de supprimer cette fil de ce produit ! (matériau ou produit inexistant)";
+    }
+
+    public function getFilsProduit($idProd)
+    {
+        $result = $this->where("idprod", $idProd)
+            ->select("libcouleur")
+            ->get()
+            ->getResultArray();
+
+        return array_column($result, 'libcouleur');
     }
 }
