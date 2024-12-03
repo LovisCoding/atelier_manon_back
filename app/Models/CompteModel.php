@@ -21,6 +21,11 @@ class CompteModel extends Model
         'news'
     ];
 
+    public function getAccountById($idCli) 
+    {
+        return $this->where("idcli", $idCli)->first();
+    }
+
     public function getAccountByEmail($email) 
     {
         return $this->where("email", $email)->first();

@@ -65,6 +65,11 @@ $routes->post('/api/codepromo/delete-codepromo', 'CodePromoController::deleteCod
 $routes->get('/api/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
 
 
+$routes->post('/api/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
+$routes->post('/api/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
+$routes->get('/api/utilisationcode/get-codes-commande', 'UtilisationCodeController::getCodesPromoByCommande');
+
+
 $routes->post('/api/account/register', 'CompteController::register');
 $routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
 $routes->post('/api/account/login', 'CompteController::login');
