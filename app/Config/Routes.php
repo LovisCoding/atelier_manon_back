@@ -56,6 +56,14 @@ $routes->post('/api/avis/delete-avis', 'AvisController::deleteAvis');
 $routes->get('/api/avis/get-all-avis', 'AvisController::getAllAvis');
 $routes->get('/api/avis/get-avis', 'AvisController::getAvis');
 
+$routes->post('/api/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
+$routes->post('/api/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
+$routes->get('/api/promoproduit/get-produits-promo', 'PromoProduitController::getProduitsByCode');
+
+$routes->post('/api/codepromo/add-codepromo', 'CodePromoController::addCodePromo');
+$routes->post('/api/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
+$routes->get('/api/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
+
 
 $routes->post('/api/account/register', 'CompteController::register');
 $routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
