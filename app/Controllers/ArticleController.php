@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
+use DateTime;
 
 class ArticleController extends ResourceController
 {
@@ -36,16 +37,17 @@ class ArticleController extends ResourceController
 			$response = $this->model->updateArticle(
 				$data->idArticle,
 				$data->titreArticle,
-				$data->contenu,
-				$data->dateArticle
+				$data->contenu
 			);
 		}
 		else
 		{
+			$dateArticle = (new DateTime())->format("d-m-Y");
+
 			$response = $this->model->addArticle(
 				$data->titreArticle,
 				$data->contenu,
-				$data->dateArticle
+				$dateArticle
 			);
 		}
 

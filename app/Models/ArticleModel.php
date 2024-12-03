@@ -27,13 +27,12 @@ class ArticleModel extends Model
         return $this->where("idArticle", $idArticle)->first();;
     }
 
-    public function updateArticle($idArticle, $titreArticle, $contenu, $dateArticle)
+    public function updateArticle($idArticle, $titreArticle, $contenu)
     {    
 
         if ($this->update($idArticle, [
             "titreArticle" => $titreArticle,
-            "contenu" => $contenu,
-            "dateArticle" => $dateArticle
+            "contenu" => $contenu
         ])) {
             return "Article modifié avec succès";
         }

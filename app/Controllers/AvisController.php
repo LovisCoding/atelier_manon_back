@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
+use DateTime;
 
 class AvisController extends ResourceController
 {
@@ -30,9 +31,11 @@ class AvisController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 
+		$dateAvis = (new DateTime())->format("d-m-Y");
+
 		$response = $this->model->addAvis(
 			$data->contenu,
-			$data->dateAvis,
+			$dateAvis,
 			$data->note,
 			$data->idCli
 		);

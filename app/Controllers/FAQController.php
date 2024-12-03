@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
+use DateTime;
 
 class FAQController extends ResourceController
 {
@@ -35,16 +36,17 @@ class FAQController extends ResourceController
 			$response = $this->model->updateQuestion(
 				$data->idQuestion,
 				$data->contenu,
-				$data->dateQuestion,
 				$data->reponse,
 				$data->idCli
 			);
 		}
 		else
 		{
+			$dateQuestion = (new DateTime())->format("d-m-Y");
+
 			$response = $this->model->addQuestion(
 				$data->contenu,
-				$data->dateQuestion,
+				$dateQuestion,
 				$data->reponse,
 				$data->idCli
 			);

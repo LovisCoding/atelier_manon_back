@@ -26,11 +26,10 @@ class FAQModel extends Model
         return $this->where("idQuestion", $idQuestion)->first();;
     }
 
-    public function updateQuestion($idQuestion, $contenu, $dateQuestion, $reponse, $idCli)
+    public function updateQuestion($idQuestion, $contenu, $reponse, $idCli)
     {    
         if ($this->update($idQuestion, [
             "contenu" => $contenu,
-            "dateQuestion" => $dateQuestion,
             "reponse" => $reponse,
             "idCli" => $idCli
         ])) {
