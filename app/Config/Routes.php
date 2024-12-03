@@ -64,11 +64,15 @@ $routes->post('/api/codepromo/add-codepromo', 'CodePromoController::addCodePromo
 $routes->post('/api/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
 $routes->get('/api/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
 
-
 $routes->post('/api/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
 $routes->post('/api/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
 $routes->get('/api/utilisationcode/get-codes-commande', 'UtilisationCodeController::getCodesPromoByCommande');
 
+$routes->post('/api/commande/add-commande', 'CommandeController::addCommande');
+$routes->post('/api/commande/delete-commande', 'CommandeController::deleteCommande');
+$routes->post('/api/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
+$routes->get('/api/commande/get-commande', 'CommandeController::getCommande');
+$routes->get('/api/commande/get-commandes', 'CommandeController::getCommandes');
 
 $routes->post('/api/account/register', 'CompteController::register');
 $routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
