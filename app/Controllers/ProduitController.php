@@ -11,6 +11,11 @@ class ProduitController extends ResourceController
     protected $modelName = 'App\Models\ProduitModel';
     protected $format    = 'json';
 
+    public function getImage($image)
+    {
+        return $this->respond("/images/" . $image);
+    }
+
     public function produits()
     {
         $page = intval($this->request->getGet('page'));
@@ -79,19 +84,18 @@ class ProduitController extends ResourceController
         }
     }
 
-    public function deleteProduit() 
+    public function deleteProduit()
     {
         $data = $this->request->getJSON();
 
         $this->model->deleteProduit($data->idProd);
 
         return $this->respond("Produit supprimé avec succès !");
-
     }
 
 
 
-    public function addMateriel() 
+    public function addMateriel()
     {
         $data = $this->request->getJSON();
         $idProd = $data->idProd;
@@ -100,10 +104,9 @@ class ProduitController extends ResourceController
         $this->model->deleteProduit($data->idProd);
 
         return $this->respond("Produit supprimé avec succès !");
-
     }
 
-    public function getBestSellers() 
+    public function getBestSellers()
     {
         $quantiteToDisplay = $this->request->getGet("quantiteToDisplay");
         $bestSellers = $this->model->getBestSellers($quantiteToDisplay);
