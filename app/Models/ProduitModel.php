@@ -4,6 +4,8 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ProduitModel extends Model
 {
     protected $table = 'Produit';
@@ -127,18 +129,40 @@ class ProduitModel extends Model
             }
         }
 
+        $produits = [];
         if (sizeof($produitsQuantites) < $quantiteToDisplay) {
-            return $this->limit(3)->findAll();
+            $produits = $this->limit(3)->findAll();
         } else {
             arsort($produitsQuantites);
             $topProduits = array_slice($produitsQuantites, 0, 3, true);
 
-            $produits = [];
             foreach ($topProduits as $idProd => $qa) {
                 $produits[] = $this->getProduit($idProd);
             }
-            return $produits;
         }
 
+        $newProduit = [];
+        foreach ($produits as $produit) {
+            $tabPhoto = $this->parsePgArray($produit['tabPhoto']);
+            if (sizeof($tabPhoto) > 0) {
+                $produit["photo"] = $tabPhoto[0];
+                $newProduit[] = $produit;
+            }
+        }
+
+        return $newProduit;
+
+    }
+
+
+    private function parsePgArray(string $pgArray): array
+    {
+        $pgArray = trim($pgArray, '{}');
+
+        $elements = preg_split('/(?<!\\\\),/', $pgArray);
+
+        return array_map(function ($element) {
+            return trim(stripslashes($element), '"');
+        }, $elements);
     }
 }

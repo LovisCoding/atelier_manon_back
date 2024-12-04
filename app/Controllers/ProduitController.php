@@ -13,8 +13,21 @@ class ProduitController extends ResourceController
 
     public function getImage($image)
     {
-        return $this->respond("/images/" . $image);
+        $filePath = FCPATH . 'images/' . $image;
+    
+        if (!is_file($filePath)) {
+            return $this->failNotFound('Image not found');
+        }
+    
+        $mimeType = mime_content_type($filePath);
+    
+        header("Content-Type: $mimeType");
+        header("Content-Length: " . filesize($filePath));
+    
+        readfile($filePath);
+        exit;
     }
+    
 
     public function produits()
     {
