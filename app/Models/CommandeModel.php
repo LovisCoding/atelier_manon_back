@@ -4,6 +4,8 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CommandeModel extends Model
 {
     protected $table = 'Commande';
@@ -29,9 +31,76 @@ class CommandeModel extends Model
         return $this->findAll();
     }
 
+
+    public function getProduitsFromCommande($idCommande)
+    {
+        $commandeProduitModel = new CommandeProduitModel();
+        return $commandeProduitModel->getProduitsCommande($idCommande);
+    }
+
+
+    public function getCodesPromo($produit, $idCommande)
+    {
+        $utilisationCodeModel = new UtilisationCodeModel();
+        $utilisationCodes = $utilisationCodeModel->getCodesPromoByCommande($idCommande);
+
+        $promoProduitModel = new PromoProduitModel();
+
+        $codesPromoProduit = [];
+
+        foreach($utilisationCodes as $utilisationCode) {
+            $produitsApplyPromo = $promoProduitModel->getProduitsByCode($utilisationCode);
+            
+            if (in_array($produit, $produitsApplyPromo))
+            {
+                $codePromoModel = new CodePromoModel();
+                $codesPromoProduit[] = $codePromoModel->getCodePromo($utilisationCode);
+            }
+
+        }
+
+        return $codesPromoProduit;
+    }
+
+
+
     public function getCommande($idCommande)
     {
-        return $this->where("idCommande", $idCommande)->first();
+        $commande = $this->where("idCommande", $idCommande)->first();
+
+        $prixTotal = 0;
+        $prixTotalReduc = 0;
+
+        $produitsCommande = $this->getProduitsFromCommande($idCommande);
+        
+        foreach ($produitsCommande as $produitCommande) {
+            $produit = $produitCommande["produit"];
+            $prix = $produit["prix"];
+
+            $codesPromo = $this->getCodesPromo($produit, $idCommande);
+            $prixReduc = $prix;
+            foreach ($codesPromo as $codePromo) 
+            {
+                if ($codePromo["type"] == "P") {
+                    $reduc = (100 - floatval($codePromo["reduc"])) *0.01;
+                    $prixReduc *= $reduc;
+                }       
+                else {
+                    $prixReduc -= floatval($codePromo["reduc"]);
+                }       
+            }
+
+            $qa = intval($produitCommande["qa"]);
+
+            $prixTotal += $prix * $qa;
+            $prixTotalReduc += $prixReduc * $qa; 
+
+        }
+
+        $commande["prixTotal"] = $prixTotal;
+        $commande["prixTotalReduc"] = $prixTotalReduc;
+
+        return $commande;
     }
 
     public function getClient($idCommande)
@@ -64,7 +133,24 @@ class CommandeModel extends Model
             "etat" => "Pas commencée"
         ]);
 
-        return $this->getInsertID();
+        $newId = $this->getInsertID();
+
+        $panierModel = new PanierModel();
+        $produitsPanier = $panierModel->getPaniersFromClient($idCli);
+
+        $commandeProduitModel = new CommandeProduitModel();
+
+        foreach ($produitsPanier as $produitPanier) {
+            $commandeProduitModel->addProduitToCommande(
+                $produitPanier["idProd"],
+                $newId,
+                $produitPanier["gravure"],
+                $produitPanier["variante"],
+                $produitPanier["qa"]
+            );
+        }
+
+        return $newId;
     }
 
 

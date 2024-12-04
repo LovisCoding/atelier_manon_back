@@ -14,6 +14,16 @@ class AvisModel extends Model
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
+    public function getAccount($idCli = -1) 
+    {
+        if ($idCli == -1)
+            return null;
+
+        $accountModel = new CompteModel();
+        return $accountModel->getAccountById($idCli);
+
+    }
+
 
     public function getAvis($idAvis = -1) 
     {
@@ -32,6 +42,10 @@ class AvisModel extends Model
 
     public function addAvis($contenu, $dateAvis, $note, $idCli)
     {    
+        $account = $this->getAccount($idCli);
+        if (!$account) 
+            return "Ce client n'existe pas.";
+        
         $avis = $this->getAvisByClient($idCli);
 
         if ($avis)
