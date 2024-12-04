@@ -6,97 +6,139 @@ use CodeIgniter\Model;
 
 class ProduitModel extends Model
 {
-    protected $table = 'produit';
-    protected $primaryKey = 'idprod';
+    protected $table = 'Produit';
+    protected $primaryKey = 'idProd';
 
     protected $allowedFields = [
-        'libprod', 
-        'descriptionprod', 
-        'prix', 
-        'estgravable', 
-        'tabphoto', 
-        'tempsrea', 
-        'idcateg'
+        'libProd',
+        'descriptionProd',
+        'prix',
+        'estGravable',
+        'tabPhoto',
+        'tempsRea',
+        'idCateg'
     ];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
     public function getProduit($idProd = -1)
-    {    
+    {
         if ($idProd == -1)
             return null;
-        return $this->where("idprod", $idProd)->first();;
+        return $this->where("idProd", $idProd)->first();;
     }
-    
+
 
     public function getProduitsPage($page = 1, $nbDisplay = 9, $search = "", $category = null, $priceInf = 0, $priceSup = null)
     {
         // Calculer l'offset (début des éléments à afficher)
         $offset = ($page - 1) * $nbDisplay;
-    
-        $query = $this->asArray()->orderBy('idprod', 'ASC');
-    
+
+        $query = $this->asArray()->orderBy('idProd', 'ASC');
+
         if (!empty($search)) {
             $query->groupStart()
-                  ->like('libprod', $search)
-                  ->orLike('descriptionprod', $search)
-                  ->groupEnd();
+                ->like('libProd', $search)
+                ->orLike('descriptionProd', $search)
+                ->groupEnd();
         }
-    
+
         if (!empty($category)) {
-            $query->where('idcateg', $category);
+            $query->where('idCateg', $category);
         }
-    
+
         $query->where('prix >=', $priceInf);
-        
+
         if (!is_null($priceSup)) {
             $query->where('prix <=', $priceSup);
         }
-    
+
         $query->limit($nbDisplay, $offset);
         $produits = $query->findAll();
 
         return $produits;
     }
-    
+
 
     public function updateProduit($idProd, $libProd, $descriptionProd, $prix, $estGravable, $tabPhoto, $tempsRea, $idCateg)
-    {    
+    {
         $this->update($idProd, [
-            "libprod" => $libProd,
-            "descriptionprod" => $descriptionProd,
+            "libProd" => $libProd,
+            "descriptionProd" => $descriptionProd,
             "prix" => $prix,
-            "estgravable" => $estGravable,
-            "tabphoto" => $tabPhoto,
-            "tempsrea" => $tempsRea,
-            "idcateg" => $idCateg
+            "estGravable" => $estGravable,
+            "tabPhoto" => $tabPhoto,
+            "tempsRea" => $tempsRea,
+            "idCateg" => $idCateg
         ]);
     }
 
 
     public function createProduit($libProd, $descriptionProd, $prix, $estGravable, $tabPhoto, $tempsRea, $idCateg)
-    {    
-        $existProduct = $this->where("libprod", $libProd)->first();
+    {
+        $existProduct = $this->where("libProd", $libProd)->first();
 
         if ($existProduct) {
             return -1;
         }
 
         $this->insert([
-            "libprod" => $libProd,
-            "descriptionprod" => $descriptionProd,
+            "libProd" => $libProd,
+            "descriptionProd" => $descriptionProd,
             "prix" => $prix,
-            "estgravable" => $estGravable,
-            "tabphoto" => $tabPhoto,
-            "tempsrea" => $tempsRea,
-            "idcateg" => $idCateg
+            "estGravable" => $estGravable,
+            "tabPhoto" => $tabPhoto,
+            "tempsRea" => $tempsRea,
+            "idCateg" => $idCateg
         ]);
 
         return $this->getInsertID();
     }
 
-    public function deleteProduit($idProd) {
+    public function deleteProduit($idProd)
+    {
         $this->delete($idProd);
+    }
+
+
+    public function getBestSellers($quantiteToDisplay)
+    {
+        $commandeModel = new CommandeModel();
+
+        $commandes = $commandeModel
+            ->where('dateCommande >=', date('Y-m-01', strtotime('first day of last month')))
+            ->where('dateCommande <=', date('Y-m-t', strtotime('last day of last month')))
+            ->findAll();
+
+        $commandeProduitModel = new CommandeProduitModel();
+        $produitsQuantites = [];
+
+        foreach ($commandes as $commande) {
+            $commandeProduits = $commandeProduitModel->getProduitsCommande($commande["idCommande"]);
+
+            foreach ($commandeProduits as $produit) {
+                $idProd = $produit["idProd"];
+                $qa = intval($produit["qa"]);
+                if (isset($produitsQuantites[$idProd]))
+                    $produitsQuantites[$idProd] += $qa;
+                else
+                    $produitsQuantites[$idProd] = $qa;
+            }
+        }
+
+        if (sizeof($produitsQuantites) < $quantiteToDisplay) {
+            return $this->limit(3)->findAll();
+        } else {
+            arsort($produitsQuantites);
+            $topProduits = array_slice($produitsQuantites, 0, 3, true);
+
+            $produits = [];
+            foreach ($topProduits as $idProd => $qa) {
+                $produits[] = $this->getProduit($idProd);
+            }
+            return $produits;
+        }
+
     }
 }

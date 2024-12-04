@@ -6,17 +6,17 @@ use CodeIgniter\Model;
 
 class PierreModel extends Model
 {
-    protected $table = 'pierre';
-    protected $primaryKey = 'libpierre';
+    protected $table = 'Pierre';
+    protected $primaryKey = 'libPierre';
     protected $useAutoIncrement = false;
 
-    protected $allowedFields = ['libpierre', 'descriptionpierre'];
+    protected $allowedFields = ['libPierre', 'descriptionPierre'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
     public function getPierre($libPierre) {
-        return $this->where("libpierre", $libPierre)->first();
+        return $this->where("libPierre", $libPierre)->first();
     }
 
     public function getPierres() {
@@ -26,7 +26,7 @@ class PierreModel extends Model
     public function addPierre($libPierre, $descriptionPierre) {
         $pierre = $this->getPierre($libPierre);
 
-        if (!$pierre && $this->insert(["libpierre" => $libPierre, "descriptionpierre" => $descriptionPierre])) {
+        if (!$pierre && $this->insert(["libPierre" => $libPierre, "descriptionPierre" => $descriptionPierre])) {
             return "Pierre ajouté avec succès.";
         }
         return "Impossible d'ajouter cette pierre.";

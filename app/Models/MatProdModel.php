@@ -6,12 +6,12 @@ use CodeIgniter\Model;
 
 class MatProdModel extends Model
 {
-    protected $table = 'matprod';
+    protected $table = 'MatProd';
 
-    protected $primaryKey = ['idprod', 'libmateriau'];
+    protected $primaryKey = ['idProd', 'libmateriau'];
     protected $useAutoIncrement = false;
 
-    protected $allowedFields = ['idprod', 'libmateriau'];
+    protected $allowedFields = ['idProd', 'libmateriau'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
@@ -36,14 +36,14 @@ class MatProdModel extends Model
 
     public function addMatProd($idProd, $libMat)
     {
-        $matProd = $this->where("idprod", $idProd)
-            ->where("libmateriau", $libMat)
+        $matProd = $this->where("idProd", $idProd)
+            ->where("libMateriau", $libMat)
             ->first();
 
         if ($this->existsProdAndMat($idProd, $libMat) && !$matProd) {
 
             $this->db->table($this->table)->insert([
-                "idprod" => $idProd,
+                "idProd" => $idProd,
                 "libmateriau" => $libMat
             ]);
 
@@ -56,13 +56,13 @@ class MatProdModel extends Model
 
     public function deleteMatProd($idProd, $libMat)
     {
-        $matProd = $this->where("idprod", $idProd)
-            ->where("libmateriau", $libMat)
+        $matProd = $this->where("idProd", $idProd)
+            ->where("libMateriau", $libMat)
             ->first();
 
         if ($this->existsProdAndMat($idProd, $libMat) && $matProd) {
-            $this->where("idprod", $idProd)
-                ->where("libmateriau", $libMat)
+            $this->where("idProd", $idProd)
+                ->where("libMateriau", $libMat)
                 ->delete();
 
             return "Matériau supprimé du produit avec succès !";
@@ -74,11 +74,11 @@ class MatProdModel extends Model
 
     public function getMateriauxProduit($idProd)
     {
-        $result = $this->where("idprod", $idProd)
-                       ->select("libmateriau")
+        $result = $this->where("idProd", $idProd)
+                       ->select("libMateriau")
                        ->get()
                        ->getResultArray();
     
-        return array_column($result, 'libmateriau');
+        return array_column($result, 'libMateriau');
     }
 }

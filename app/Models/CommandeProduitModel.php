@@ -19,7 +19,7 @@ class CommandeProduitModel extends Model
     public function getProduit($idProd)
     {
         $produitModel = new ProduitModel();
-        return $produitModel->where("idprod", $idProd)->first();
+        return $produitModel->where("idProd", $idProd)->first();
     }
 
     public function getCommande($idCommande)
@@ -55,7 +55,7 @@ class CommandeProduitModel extends Model
                 $produit = $this->getProduit($newProduit["idProd"]);
                 if ($produit) {
                     $newProduit["produit"] = $produit;
-                    $tabPhoto = $this->parsePgArray($produit['tabphoto']);
+                    $tabPhoto = $this->parsePgArray($produit['tabPhoto']);
                     if (!isEmpty($tabPhoto))
                         return $tabPhoto[0];
                     $newProduit["photo"] = $tabPhoto[0];

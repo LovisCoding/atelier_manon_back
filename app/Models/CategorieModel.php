@@ -6,20 +6,20 @@ use CodeIgniter\Model;
 
 class CategorieModel extends Model
 {
-    protected $table = 'categorie';
-    protected $primaryKey = 'idcateg';
+    protected $table = 'Categorie';
+    protected $primaryKey = 'idCateg';
 
-    protected $allowedFields = ['libcateg'];
+    protected $allowedFields = ['libCateg'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
     public function getCategorie($idCateg) {
-        return $this->where("idcateg", $idCateg)->first();
+        return $this->where("idCateg", $idCateg)->first();
     }
     
     public function getCategorieByLib($libCateg) {
-        return $this->where("libcateg", $libCateg)->first();
+        return $this->where("libCateg", $libCateg)->first();
     }
     
     public function getCategories() {
@@ -29,7 +29,7 @@ class CategorieModel extends Model
     public function addCategorie($libCateg) {
         $categorie = $this->getCategorieByLib($libCateg);
 
-        if (!$categorie && $this->insert(["libcateg" => $libCateg])) {
+        if (!$categorie && $this->insert(["libCateg" => $libCateg])) {
             return "Catégorie ajouté avec succès.";
         }
         return "Impossible d'ajouter ce catégorie.";

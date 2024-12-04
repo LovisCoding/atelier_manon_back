@@ -6,17 +6,17 @@ use CodeIgniter\Model;
 
 class FilModel extends Model
 {
-    protected $table = 'fil';
-    protected $primaryKey = 'libcouleur';
+    protected $table = 'Fil';
+    protected $primaryKey = 'libCouleur';
     protected $useAutoIncrement = false;
 
-    protected $allowedFields = ['libcouleur'];
+    protected $allowedFields = ['libCouleur'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
     public function getFil($libCouleur) {
-        return $this->where("libcouleur", $libCouleur)->first();
+        return $this->where("libCouleur", $libCouleur)->first();
     }
 
     public function getFils() {
@@ -26,7 +26,7 @@ class FilModel extends Model
     public function addFil($libCouleur) {
         $fil = $this->getFil($libCouleur);
 
-        if (!$fil && $this->insert(["libcouleur" => $libCouleur])) {
+        if (!$fil && $this->insert(["libCouleur" => $libCouleur])) {
             return "Fil ajouté avec succès.";
         }
         return "Impossible d'ajouter ce fil.";

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\CommandeModel;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\ProduitModel;
 
@@ -100,6 +101,13 @@ class ProduitController extends ResourceController
 
         return $this->respond("Produit supprimé avec succès !");
 
+    }
+
+    public function getBestSellers() 
+    {
+        $quantiteToDisplay = $this->request->getGet("quantiteToDisplay");
+        $bestSellers = $this->model->getBestSellers($quantiteToDisplay);
+        return $this->respond($bestSellers);
     }
 
 

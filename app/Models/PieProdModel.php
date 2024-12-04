@@ -6,10 +6,10 @@ use CodeIgniter\Model;
 
 class PieProdModel extends Model
 {
-    protected $table = 'pieprod';
+    protected $table = 'PieProd';
     protected $primaryKey = null;
 
-    protected $allowedFields = ['idprod', 'libpierre'];
+    protected $allowedFields = ['idProd', 'libpierre'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
@@ -32,15 +32,15 @@ class PieProdModel extends Model
 
     public function addPieProd($idProd, $libPierre)
     {
-        $pierreProd = $this->where("idprod", $idProd)
-            ->where("libpierre", $libPierre)
+        $pierreProd = $this->where("idProd", $idProd)
+            ->where("libPierre", $libPierre)
             ->first();
 
         if ($this->existsProdAndPierre($idProd, $libPierre) && !$pierreProd) {
 
             $this->db->table($this->table)->insert([
-                "idprod" => $idProd,
-                "libpierre" => $libPierre
+                "idProd" => $idProd,
+                "libPierre" => $libPierre
             ]);
 
             return "Pierre ajouté au produit avec succès !";
@@ -52,13 +52,13 @@ class PieProdModel extends Model
 
     public function deletePieProd($idProd, $libPierre)
     {
-        $pierreProd = $this->where("idprod", $idProd)
-            ->where("libpierre", $libPierre)
+        $pierreProd = $this->where("idProd", $idProd)
+            ->where("libPierre", $libPierre)
             ->first();
 
         if ($this->existsProdAndPierre($idProd, $libPierre) && $pierreProd) {
-            $this->where("idprod", $idProd)
-                ->where("libpierre", $libPierre)
+            $this->where("idProd", $idProd)
+                ->where("libPierre", $libPierre)
                 ->delete();
 
             return "Pierre supprimé du produit avec succès !";
@@ -69,12 +69,12 @@ class PieProdModel extends Model
 
     public function getPierresProduit($idProd)
     {
-        $result = $this->where("idprod", $idProd)
-                       ->select("libpierre")
+        $result = $this->where("idProd", $idProd)
+                       ->select("libPierre")
                        ->get()
                        ->getResultArray();
     
-        return array_column($result, 'libpierre');
+        return array_column($result, 'libPierre');
     }
     
 }

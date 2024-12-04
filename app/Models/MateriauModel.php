@@ -6,18 +6,18 @@ use CodeIgniter\Model;
 
 class MateriauModel extends Model
 {
-    protected $table = 'materiau';
-    protected $primaryKey = 'libmateriau';
+    protected $table = 'Materiau';
+    protected $primaryKey = 'libMateriau';
     protected $useAutoIncrement = false;
 
-    protected $allowedFields = ['libmateriau'];
+    protected $allowedFields = ['libMateriau'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
     public function getMateriau($libMateriau) 
     {
-        return $this->where("libmateriau", $libMateriau)->first();
+        return $this->where("libMateriau", $libMateriau)->first();
     }
 
     public function getMateriaux() {
@@ -27,7 +27,7 @@ class MateriauModel extends Model
     public function addMateriau($libMateriau) {
         $materiau = $this->getMateriau($libMateriau);
 
-        if (!$materiau && $this->insert(["libmateriau" => $libMateriau])) {
+        if (!$materiau && $this->insert(["libMateriau" => $libMateriau])) {
             return "Matériau ajouté avec succès.";
         }
         return "Impossible d'ajouter ce matériau.";

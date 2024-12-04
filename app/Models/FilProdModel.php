@@ -6,12 +6,12 @@ use CodeIgniter\Model;
 
 class FilProdModel extends Model
 {
-    protected $table = 'filprod';
+    protected $table = 'FilProd';
 
-    protected $primaryKey = ['idprod', 'libcouleur'];
+    protected $primaryKey = ['idProd', 'libcouleur'];
     protected $useAutoIncrement = false;
 
-    protected $allowedFields = ['idprod', 'libcouleur'];
+    protected $allowedFields = ['idProd', 'libcouleur'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
@@ -34,15 +34,15 @@ class FilProdModel extends Model
 
     public function addFilProd($idProd, $libCouleur)
     {
-        $filProd = $this->where("idprod", $idProd)
-            ->where("libcouleur", $libCouleur)
+        $filProd = $this->where("idProd", $idProd)
+            ->where("libCouleur", $libCouleur)
             ->first();
 
         if ($this->existsProdAndFil($idProd, $libCouleur) && !$filProd) {
 
             $this->db->table($this->table)->insert([
-                "idprod" => $idProd,
-                "libcouleur" => $libCouleur
+                "idProd" => $idProd,
+                "libCouleur" => $libCouleur
             ]);
 
             return "Fil ajouté au produit avec succès !";
@@ -54,13 +54,13 @@ class FilProdModel extends Model
 
     public function deleteFilProd($idProd, $libCouleur)
     {
-        $filProd = $this->where("idprod", $idProd)
-            ->where("libcouleur", $libCouleur)
+        $filProd = $this->where("idProd", $idProd)
+            ->where("libCouleur", $libCouleur)
             ->first();
 
         if ($this->existsProdAndFil($idProd, $libCouleur) && $filProd) {
-            $this->where("idprod", $idProd)
-                ->where("libcouleur", $libCouleur)
+            $this->where("idProd", $idProd)
+                ->where("libCouleur", $libCouleur)
                 ->delete();
 
             return "Fil supprimé du produit avec succès !";
@@ -71,11 +71,11 @@ class FilProdModel extends Model
 
     public function getFilsProduit($idProd)
     {
-        $result = $this->where("idprod", $idProd)
-            ->select("libcouleur")
+        $result = $this->where("idProd", $idProd)
+            ->select("libCouleur")
             ->get()
             ->getResultArray();
 
-        return array_column($result, 'libcouleur');
+        return array_column($result, 'libCouleur');
     }
 }

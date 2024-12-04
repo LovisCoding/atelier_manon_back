@@ -6,14 +6,14 @@ use CodeIgniter\Model;
 
 class CompteModel extends Model
 {
-    protected $table = 'compte';
-    protected $primaryKey = 'idcli';
+    protected $table = 'Compte';
+    protected $primaryKey = 'idCli';
 
     protected $allowedFields = [
         'email', 
         'mdp', 
-        'nomcli', 
-        'precli', 
+        'nomCli', 
+        'preCli', 
         'adresse', 
         'token', 
         'token_expiration', 
@@ -23,7 +23,7 @@ class CompteModel extends Model
 
     public function getAccountById($idCli) 
     {
-        return $this->where("idcli", $idCli)->first();
+        return $this->where("idCli", $idCli)->first();
     }
 
     public function getAccountByEmail($email) 
@@ -45,8 +45,8 @@ class CompteModel extends Model
             [
                 "email" => $registrationData['email'],
                 "mdp" => $registrationData['mdp'],
-                "nomcli" => $registrationData['nomCli'],
-                "precli" => $registrationData['prenomCli'],
+                "nomCli" => $registrationData['nomCli'],
+                "preCli" => $registrationData['prenomCli'],
                 "adresse" => $registrationData['adresse'],
             ]
         );

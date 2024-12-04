@@ -93,7 +93,7 @@ class CompteController extends ResourceController
 
 			if ($authenticatePassword) {
 				$ses_data = [
-					'idCli' => $account['idcli'],
+					'idCli' => $account['idCli'],
 					'isLoggedIn' => true,
 				];
 				$session->set($ses_data);
@@ -120,7 +120,7 @@ class CompteController extends ResourceController
 			$expiration = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
 
-			$this->model->update($account['idcli'], [
+			$this->model->update($account['idCli'], [
 				'token' => $token,
 				'token_expiration' => $expiration
 			]);
@@ -167,7 +167,7 @@ class CompteController extends ResourceController
 		if ($account && $data->password === $data->confirm_password) 
 		{
 			$hashedPassword = password_hash($data->password, PASSWORD_DEFAULT);
-			$this->model->updatePassword($hashedPassword, $account["idcli"]);
+			$this->model->updatePassword($hashedPassword, $account["idCli"]);
 			return $this->respond("Mot de passe réinitialisé avec succès.");
 		} 
 		else 
