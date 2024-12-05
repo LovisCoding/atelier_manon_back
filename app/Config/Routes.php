@@ -117,6 +117,7 @@ $routes->delete('/api/admin/avis/delete-avis', 'AvisController::deleteAvis');
 $routes->post('/api/admin/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
 $routes->post('/api/admin/promoproduit/add-promoproduits', 'PromoProduitController::addPromoProduits');
 $routes->delete('/api/admin/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
+$routes->delete('/api/admin/promoproduit/delete-promoproduits', 'PromoProduitController::deletePromoProduits');
 $routes->get('/api/admin/promoproduit/get-produits-promo', 'PromoProduitController::getProduitsByCode');
 
 $routes->post('/api/admin/codepromo/add-codepromo', 'CodePromoController::addCodePromo');
