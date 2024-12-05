@@ -51,4 +51,22 @@ class CodePromoModel extends Model
 
         return false;
     }
+	public function getCodesPromoWithUse() {
+		$codesPromo = $this->findAll();
+		$utilisationCodeModel = new UtilisationCodeModel();
+		$utilisationCodes = $utilisationCodeModel->findAll();
+		$codesPromoWithUse = [];
+		foreach($codesPromo as $codePromo) {
+			$use = 0;
+			foreach($utilisationCodes as $utilisationCode) {
+				if ($utilisationCode["code"] == $codePromo["code"]) {
+					$use++;
+				}
+			}
+			$codePromo["use"] = $use;
+			$codesPromoWithUse[] = $codePromo;
+		}
+		
+		return $codesPromoWithUse;
+	}
 }

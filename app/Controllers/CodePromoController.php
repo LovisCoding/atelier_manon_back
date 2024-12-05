@@ -56,6 +56,19 @@ class CodePromoController extends ResourceController
 	
 		return $this->respond("Code promo supprimé avec succès.",201);
 	}
+	public function getCodesPromoWithUse()
+	{
+		$codesPromo =  $this->model->getCodesPromoWithUse();
+
+		return $this->respond($codesPromo);
+	}
+	public function getCodePromo()
+	{
+		$code = $this->request->getGet("code");
+		$codePromo =  $this->model->getCodePromo($code);
+
+		return $this->respond($codePromo);
+	}
 	
 
 

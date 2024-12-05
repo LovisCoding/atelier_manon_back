@@ -104,4 +104,9 @@ class UtilisationCodeModel extends Model
     
         return array_column($result, 'code');
     }
+	public function getCountUtilisationCode($code)
+	{
+		$utilisateCode = $this->where("code", $code)->countAllResults();
+		return $utilisateCode;
+	}
 }
