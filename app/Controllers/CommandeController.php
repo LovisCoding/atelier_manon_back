@@ -17,6 +17,15 @@ class CommandeController extends ResourceController
 		return $this->respond($commandes);
     }
 
+    public function getCommandesByClient()
+    {
+        $idCli = $this->request->getGet("idCli");
+        $commandes =  $this->model->getCommandes($idCli);
+
+		return $this->respond($commandes);
+    }
+
+
     public function getCommande()
     {
         $idCommande = $this->request->getGet('idCommande');

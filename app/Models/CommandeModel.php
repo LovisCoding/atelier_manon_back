@@ -26,9 +26,11 @@ class CommandeModel extends Model
     protected $returnType = 'array';
 
 
-    public function getCommandes()
+    public function getCommandes($idCli = -1)
     {
-        return $this->findAll();
+        if ($idCli == -1)
+            return $this->findAll();
+        return $this->where("idCli", $idCli)->findAll();
     }
 
 
