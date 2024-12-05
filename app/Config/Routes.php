@@ -8,55 +8,37 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 $routes->get('/api/test', 'TestController::api');
 
+/*********************/
+/* ACCESSIBLE A TOUS */
+/*********************/
+
 $routes->get('/api/produit/get-produits', 'ProduitController::produits');
 $routes->get('/api/produit/get-all-produits', 'ProduitController::produitsAll');
 $routes->get('/api/produit/get-produit', 'ProduitController::produit');
-$routes->post('/api/produit/update-produit', 'ProduitController::updateProduit');
-$routes->delete('/api/produit/delete-produit', 'ProduitController::deleteProduit');
 $routes->get('/api/produit/get-bestsellers', 'ProduitController::getBestSellers');
 
 $routes->get('/api/img/(:any)', 'ProduitController::getImage/$1');
 
-$routes->post('/api/matprod/add-matprod', 'MatProdController::addMatProd');
-$routes->delete('/api/matprod/delete-matprod', 'MatProdController::deleteMatProd');
 $routes->get('/api/matprod/get-materiaux-produit', 'MatProdController::getMateriauxProduit');
 
-$routes->post('/api/pieprod/add-pieprod', 'PieProdController::addPieProd');
-$routes->delete('/api/pieprod/delete-pieprod', 'PieProdController::deletePieProd');
 $routes->get('/api/pieprod/get-pierres-produit', 'PieProdController::getPierresProduit');
 
-$routes->post('/api/filprod/add-filprod', 'FilProdController::addFilProd');
-$routes->delete('/api/filprod/delete-filprod', 'FilProdController::deleteFilProd');
 $routes->get('/api/filprod/get-fils-produit', 'FilProdController::getFilsProduit');
 
-$routes->post('/api/materiau/add-materiau', 'MateriauController::addMateriau');
-$routes->delete('/api/materiau/delete-materiau', 'MateriauController::deleteMateriau');
 $routes->get('/api/materiau/get-materiaux', 'MateriauController::getMateriaux');
 
-$routes->post('/api/pierre/add-pierre', 'PierreController::addPierre');
-$routes->delete('/api/pierre/delete-pierre', 'PierreController::deletePierre');
 $routes->get('/api/pierre/get-pierres', 'PierreController::getPierres');
 
-$routes->post('/api/fil/add-fil', 'FilController::addFil');
-$routes->delete('/api/fil/delete-fil', 'FilController::deleteFil');
 $routes->get('/api/fil/get-fils', 'FilController::getFils');
 
-$routes->post('/api/categorie/add-categorie', 'CategorieController::addCategorie');
-$routes->delete('/api/categorie/delete-categorie', 'CategorieController::deleteCategorie');
 $routes->get('/api/categorie/get-categories', 'CategorieController::getCategories');
 
-$routes->post('/api/article/add-update-article', 'ArticleController::addUpdateArticle');
-$routes->delete('/api/article/delete-article', 'ArticleController::deleteArticle');
 $routes->get('/api/article/get-articles', 'ArticleController::getArticles');
 $routes->get('/api/article/get-article', 'ArticleController::getArticle');
 
-$routes->post('/api/question/add-update-question', 'FAQController::addUpdateQuestion');
-$routes->delete('/api/question/delete-question', 'FAQController::deleteQuestion');
 $routes->get('/api/question/get-questions', 'FAQController::getQuestions');
 $routes->get('/api/question/get-question', 'FAQController::getQuestion');
 
-$routes->post('/api/avis/add-avis', 'AvisController::addAvis');
-$routes->delete('/api/avis/delete-avis', 'AvisController::deleteAvis');
 $routes->get('/api/avis/get-all-avis', 'AvisController::getAllAvis');
 $routes->get('/api/avis/get-avis', 'AvisController::getAvis');
 
@@ -94,4 +76,82 @@ $routes->post('/api/account/login', 'CompteController::login');
 $routes->post('/api/account/forgot-password', 'CompteController::forgotPassword');
 $routes->post('/api/account/reset-password', 'CompteController::resetPassword');
 $routes->post('/api/account/update-password', 'CompteController::updatePassword');
+
+/**********/
+/* CLIENT */
+/**********/
+
+$routes->post('/api/client/question/add-update-question', 'FAQController::addUpdateQuestion');
+
+$routes->post('/api/client/avis/add-avis', 'AvisController::addAvis');
+
+$routes->post('/api/client/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
+$routes->delete('/api/client/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
+$routes->get('/api/client/utilisationcode/get-codes-commande', 'UtilisationCodeController::getCodesPromoByCommande');
+
+$routes->post('/api/client/commande/add-commande', 'CommandeController::addCommande');
+
+$routes->get('/api/client/commande/get-commande', 'CommandeController::getCommande');
+$routes->get('/api/client/commande/get-commandes-client', 'CommandeController::getCommandesByClient');
+
+$routes->post('/api/client/panier/add-product-panier', 'PanierController::addProductToPanier');
+$routes->post('/api/client/panier/reduce-product-panier', 'PanierController::reduceProductFromPanier');
+$routes->delete('/api/client/panier/delete-panier-client', 'PanierController::deletePanierClient');
+$routes->delete('/api/client/panier/delete-product-panier', 'PanierController::deleteProductFromPanier');
+$routes->get('/api/client/panier/get-panier-client', 'PanierController::getPaniersFromClient');
+
+$routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProduitController::getProduitsCommande');
+
+
+/*********/
+/* ADMIN */
+/*********/
+
+$routes->post('/api/admin/produit/update-produit', 'ProduitController::updateProduit');
+$routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
+
+$routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
+$routes->delete('/api/admin/matprod/delete-matprod', 'MatProdController::deleteMatProd');
+
+$routes->post('/api/admin/pieprod/add-pieprod', 'PieProdController::addPieProd');
+$routes->delete('/api/admin/pieprod/delete-pieprod', 'PieProdController::deletePieProd');
+
+$routes->post('/api/admin/filprod/add-filprod', 'FilProdController::addFilProd');
+$routes->delete('/api/admin/filprod/delete-filprod', 'FilProdController::deleteFilProd');
+
+$routes->post('/api/admin/materiau/add-materiau', 'MateriauController::addMateriau');
+$routes->delete('/api/admin/materiau/delete-materiau', 'MateriauController::deleteMateriau');
+
+$routes->post('/api/admin/pierre/add-pierre', 'PierreController::addPierre');
+$routes->delete('/api/admin/pierre/delete-pierre', 'PierreController::deletePierre');
+
+$routes->post('/api/admin/fil/add-fil', 'FilController::addFil');
+$routes->delete('/api/admin/fil/delete-fil', 'FilController::deleteFil');
+
+$routes->post('/api/admin/categorie/add-categorie', 'CategorieController::addCategorie');
+$routes->delete('/api/admin/categorie/delete-categorie', 'CategorieController::deleteCategorie');
+
+$routes->post('/api/admin/article/add-update-article', 'ArticleController::addUpdateArticle');
+$routes->delete('/api/admin/article/delete-article', 'ArticleController::deleteArticle');
+
+$routes->delete('/api/admin/question/delete-question', 'FAQController::deleteQuestion');
+
+$routes->delete('/api/admin/avis/delete-avis', 'AvisController::deleteAvis');
+
+$routes->post('/api/admin/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
+$routes->delete('/api/admin/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
+$routes->get('/api/admin/promoproduit/get-produits-promo', 'PromoProduitController::getProduitsByCode');
+
+$routes->post('/api/admin/codepromo/add-codepromo', 'CodePromoController::addCodePromo');
+$routes->delete('/api/admin/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
+$routes->get('/api/admin/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
+
+
+$routes->delete('/api/admin/commande/delete-commande', 'CommandeController::deleteCommande');
+$routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
+
+$routes->get('/api/admin/commande/get-commandes', 'CommandeController::getCommandes');
+
+
+
 
