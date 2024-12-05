@@ -13,6 +13,7 @@ $routes->get('/api/test', 'TestController::api');
 /*********************/
 
 $routes->get('/api/produit/get-produits', 'ProduitController::produits');
+$routes->get('/api/produit/get-all-produits', 'ProduitController::produitsAll');
 $routes->get('/api/produit/get-produit', 'ProduitController::produit');
 $routes->get('/api/produit/get-bestsellers', 'ProduitController::getBestSellers');
 
@@ -40,6 +41,34 @@ $routes->get('/api/question/get-question', 'FAQController::getQuestion');
 
 $routes->get('/api/avis/get-all-avis', 'AvisController::getAllAvis');
 $routes->get('/api/avis/get-avis', 'AvisController::getAvis');
+
+$routes->post('/api/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
+$routes->delete('/api/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
+$routes->get('/api/promoproduit/get-produits-promo', 'PromoProduitController::getProduitsByCode');
+
+$routes->post('/api/codepromo/add-codepromo', 'CodePromoController::addCodePromo');
+$routes->delete('/api/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
+$routes->get('/api/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
+$routes->get('/api/codepromo/get-codespromo-use', 'CodePromoController::getCodesPromoWithUse');
+$routes->get('/api/codepromo/get-codespromo-id', 'CodePromoController::getCodePromo');
+
+$routes->post('/api/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
+$routes->delete('/api/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
+$routes->get('/api/utilisationcode/get-codes-commande', 'UtilisationCodeController::getCodesPromoByCommande');
+
+$routes->post('/api/commande/add-commande', 'CommandeController::addCommande');
+$routes->delete('/api/commande/delete-commande', 'CommandeController::deleteCommande');
+$routes->post('/api/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
+$routes->get('/api/commande/get-commande', 'CommandeController::getCommande');
+$routes->get('/api/commande/get-commandes', 'CommandeController::getCommandes');
+
+$routes->post('/api/panier/add-product-panier', 'PanierController::addProductToPanier');
+$routes->post('/api/panier/reduce-product-panier', 'PanierController::reduceProductFromPanier');
+$routes->delete('/api/panier/delete-panier-client', 'PanierController::deletePanierClient');
+$routes->delete('/api/panier/delete-product-panier', 'PanierController::deleteProductFromPanier');
+$routes->get('/api/panier/get-panier-client', 'PanierController::getPaniersFromClient');
+
+$routes->get('/api/commandeproduit/get-produits-commande', 'CommandeProduitController::getProduitsCommande');
 
 $routes->post('/api/account/register', 'CompteController::register');
 $routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
@@ -117,6 +146,7 @@ $routes->delete('/api/admin/avis/delete-avis', 'AvisController::deleteAvis');
 $routes->post('/api/admin/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
 $routes->post('/api/admin/promoproduit/add-promoproduits', 'PromoProduitController::addPromoProduits');
 $routes->delete('/api/admin/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
+$routes->delete('/api/admin/promoproduit/delete-promoproduits', 'PromoProduitController::deletePromoProduits');
 $routes->get('/api/admin/promoproduit/get-produits-promo', 'PromoProduitController::getProduitsByCode');
 
 $routes->post('/api/admin/codepromo/add-codepromo', 'CodePromoController::addCodePromo');

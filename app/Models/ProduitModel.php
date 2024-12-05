@@ -166,6 +166,19 @@ class ProduitModel extends Model
 
     }
 
+	public function getProduits() {
+		$produits = $this->findAll();
+		$newProduits = [];
+		foreach ($produits as $produit) {
+			$tabPhoto = $this->parsePgArray($produit['tabPhoto']);
+			if (sizeof($tabPhoto) > 0) {
+				$produit["photo"] = $tabPhoto[0];
+				$produit["tabPhoto"] = $tabPhoto;
+				$newProduits[] = $produit;
+			}
+		}
+		return $newProduits;
+	}
     private function parsePgArray(string $pgArray): array
     {
         $pgArray = trim($pgArray, '{}');
@@ -176,4 +189,5 @@ class ProduitModel extends Model
             return trim(stripslashes($element), '"');
         }, $elements);
     }
+	
 }
