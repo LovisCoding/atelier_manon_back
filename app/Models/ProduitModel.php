@@ -166,7 +166,6 @@ class ProduitModel extends Model
 
     }
 
-
     private function parsePgArray(string $pgArray): array
     {
         $pgArray = trim($pgArray, '{}');

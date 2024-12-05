@@ -91,4 +91,10 @@ class CompteModel extends Model
         }
         return "Impossible de supprimer la newsletter de ce compte.";
     }
+
+    public function contactMail($nom, $mail, $objet, $content) 
+    {
+
+    }
+
 }

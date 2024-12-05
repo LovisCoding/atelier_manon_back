@@ -216,4 +216,26 @@ class CompteController extends ResourceController
 			return $this->respond("Les mails ont bien été envoyés.");
 		}
 	}
+
+	public function contactMail()
+    {
+        $data = $this->request->getJSON();
+
+		$emailService = \Config\Services::email();
+		$emailService->setTo('mail.atelierdemanon@gmail.com');
+		$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
+		$emailService->setSubject($data->objet);
+		$emailService->setMessage("
+			Message de la part de $data->nom,
+            avec l'adresse mail $data->mail :
+			
+			$data->content"
+		);
+
+		if (!$emailService->send()) {
+			return $this->respond("Erreur lors de l'envoi de l'email.");
+		}
+
+		return $this->respond("Les mails ont bien été envoyés.");
+    }
 }
