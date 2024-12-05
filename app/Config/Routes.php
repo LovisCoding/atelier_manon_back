@@ -9,6 +9,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/api/test', 'TestController::api');
 
 $routes->get('/api/produit/get-produits', 'ProduitController::produits');
+$routes->get('/api/produit/get-all-produits', 'ProduitController::produitsAll');
 $routes->get('/api/produit/get-produit', 'ProduitController::produit');
 $routes->post('/api/produit/update-produit', 'ProduitController::updateProduit');
 $routes->delete('/api/produit/delete-produit', 'ProduitController::deleteProduit');
@@ -67,6 +68,7 @@ $routes->post('/api/codepromo/add-codepromo', 'CodePromoController::addCodePromo
 $routes->delete('/api/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
 $routes->get('/api/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
 $routes->get('/api/codepromo/get-codespromo-use', 'CodePromoController::getCodesPromoWithUse');
+$routes->get('/api/codepromo/get-codespromo-id', 'CodePromoController::getCodePromo');
 
 $routes->post('/api/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
 $routes->delete('/api/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
