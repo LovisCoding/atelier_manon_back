@@ -13,10 +13,14 @@ class CommandeProduitController extends ResourceController
 	public function getProduitsCommande()
 	{
 		$idCommande = $this->request->getGet("idCommande");
-
-		$produits =  $this->model->getProduitsCommande($idCommande);
-
+	
+		if (empty($idCommande) || !is_numeric($idCommande)) {
+			return $this->fail("L'identifiant de la commande est requis et doit être un entier valide.", 400);
+		}
+	
+		$produits = $this->model->getProduitsCommande($idCommande);
+	
 		return $this->respond($produits);
 	}
-
+	
 }

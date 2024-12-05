@@ -21,49 +21,74 @@ class FAQController extends ResourceController
 	public function getQuestion()
 	{
 		$idQuestion = $this->request->getGet('idQuestion');
-
+	
+		if (!$idQuestion || !is_numeric($idQuestion)) {
+			return $this->respond("ID de question invalide.", 400);
+		}
+	
 		$question =  $this->model->getQuestion($idQuestion);
-
-        return $this->respond($question);
+	
+		if (!$question) {
+			return $this->respond("Aucune question trouvée avec cet ID.", 404);
+		}
+	
+		return $this->respond($question);
 	}
 	
 	public function addUpdateQuestion() 
 	{
 		$data = $this->request->getJSON();
-
-		if ($data->idQuestion !== -1) 
-		{
+	
+		if (empty($data->contenu) || empty($data->reponse) || empty($data->idCli)) {
+			return $this->respond("Les champs 'contenu', 'réponse', et 'idCli' sont requis.", 400); 
+		}
+	
+		if ($data->idQuestion !== -1) {
 			$response = $this->model->updateQuestion(
 				$data->idQuestion,
 				$data->contenu,
 				$data->reponse,
 				$data->idCli
 			);
+	
+			if ($response) {
+				return $this->respond("Question mise à jour avec succès.", 201);
+			} else {
+				return $this->respond("Erreur lors de la mise à jour de la question.", 500);
+			}
 		}
-		else
-		{
+		else {
 			$dateQuestion = (new DateTime())->format("d-m-Y");
-
+	
 			$response = $this->model->addQuestion(
 				$data->contenu,
 				$dateQuestion,
 				$data->reponse,
 				$data->idCli
 			);
+	
+			if ($response !== -1) {
+				return $this->respond($response, 201);
+			} else {
+				return $this->respond("Erreur lors de l'ajout de la question.", 500); 
+			}
 		}
-
-
-		return $this->respond($response);
 	}
 
 	public function deleteQuestion() 
 	{
 		$data = $this->request->getJSON();
-
-		$response = $this->model->deleteQuestion(
-			intval($data->idQuestion)
-		);
-
-		return $this->respond($response);
+	
+		if (empty($data->idQuestion)) {
+			return $this->respond("L'ID de la question est requis pour la suppression.", 400); 
+		}
+	
+		$response = $this->model->deleteQuestion(intval($data->idQuestion));
+	
+		if ($response) {
+			return $this->respond("Question supprimée avec succès.", 201);
+		} else {
+			return $this->respond("Erreur lors de la suppression de la question.", 500); 
+		}
 	}
 }

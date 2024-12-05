@@ -44,12 +44,12 @@ class AvisModel extends Model
     {    
         $account = $this->getAccount($idCli);
         if (!$account) 
-            return "Ce client n'existe pas.";
+            return false;
         
         $avis = $this->getAvisByClient($idCli);
 
         if ($avis)
-            return "Ce client a déjà posté un avis.";
+            return false;
 
         if($this->insert([
             "contenu" => $contenu,
@@ -69,9 +69,9 @@ class AvisModel extends Model
         if ($avis) 
         {
             $this->delete($idAvis);
-            return "Avis supprimé avec succès.";
+            return true;
         }
-        return "Impossible de supprimer cet avis.";
+        return false;
 
     }
 }

@@ -27,9 +27,9 @@ class PierreModel extends Model
         $pierre = $this->getPierre($libPierre);
 
         if (!$pierre && $this->insert(["libPierre" => $libPierre, "descriptionPierre" => $descriptionPierre])) {
-            return "Pierre ajoutée avec succès.";
+            return true;
         }
-        return "Impossible d'ajouter cette pierre.";
+        return false;
     }
 
     public function deletePierre($libPierre) {
@@ -37,10 +37,10 @@ class PierreModel extends Model
 
         if ($pierre) {
             $this->delete($pierre);
-            return "Pierre supprimée avec succès.";
+            return true;
         }
 
-        return "Impossible de supprimer cette pierre.";
+        return false;
     }
 
 

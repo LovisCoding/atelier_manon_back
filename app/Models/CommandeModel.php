@@ -181,10 +181,10 @@ class CommandeModel extends Model
 
         if ($commande) {
             $this->delete($idCommande);
-            return "Commande supprimée avec succès";
+            return true;
         }
 
-        return "Impossible de supprimer cette commande";
+        return false;
     }
 
     public function updateEtatCommande($idCommande, $etat) 
@@ -193,9 +193,9 @@ class CommandeModel extends Model
 
         if ($commande) {
             $this->update($idCommande, ["etat" => $etat]);
-            return "L'état de la commande a été modifiée avec succès";
+            return true;
         }
 
-        return "Impossible de modifier l'état de cette commande";
+        return false;
     }
 }

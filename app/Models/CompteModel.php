@@ -75,9 +75,9 @@ class CompteModel extends Model
             $this->update($idCli, [
                 "news" => true
             ]);     
-            return "Newsletter ajouté au compte avec succès.";
+            return true;
         }
-        return "Impossible d'ajouter la newsletter à ce compte.";
+        return false;
     }
 
     public function removeNewsLetter($idCli) {
@@ -87,14 +87,10 @@ class CompteModel extends Model
             $this->update($idCli, [
                 "news" => false
             ]);     
-            return "Newsletter supprimé du compte avec succès.";
+            return true;
         }
-        return "Impossible de supprimer la newsletter de ce compte.";
+        return false;
     }
 
-    public function contactMail($nom, $mail, $objet, $content) 
-    {
-
-    }
 
 }

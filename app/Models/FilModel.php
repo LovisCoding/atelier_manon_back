@@ -27,9 +27,9 @@ class FilModel extends Model
         $fil = $this->getFil($libCouleur);
 
         if (!$fil && $this->insert(["libCouleur" => $libCouleur])) {
-            return "Fil ajouté avec succès.";
+            return true;
         }
-        return "Impossible d'ajouter ce fil.";
+        return false;
     }
 
     public function deleteFil($libCouleur) {
@@ -37,9 +37,9 @@ class FilModel extends Model
 
         if ($fil) {
             $this->delete($fil);
-            return "Fil supprimé avec succès.";
+            return true;
         }
 
-        return "Impossible de supprimer ce fil.";
+        return false;
     }
 }

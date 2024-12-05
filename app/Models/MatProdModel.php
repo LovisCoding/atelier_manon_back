@@ -47,10 +47,10 @@ class MatProdModel extends Model
                 "libmateriau" => $libMat
             ]);
 
-            return "Matériau ajouté au produit avec succès !";
+            return true;
         }
 
-        return "Impossible d'ajouter ce matériau à ce produit ! (matériau ou produit inexistant)";
+        return false;
     }
 
 
@@ -65,10 +65,10 @@ class MatProdModel extends Model
                 ->where("libMateriau", $libMat)
                 ->delete();
 
-            return "Matériau supprimé du produit avec succès !";
+            return true;
         }
 
-        return "Impossible de supprimer ce matériau de ce produit ! (matériau ou produit inexistant)";
+        return false;
     }
 
 

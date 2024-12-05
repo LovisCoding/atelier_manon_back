@@ -35,9 +35,9 @@ class CodePromoModel extends Model
                 "type" => $type
             ])) 
         {
-            return "Code promo ajouté avec succès.";
+            return true;
         }
-        return "Impossible d'ajouter ce code promo.";
+        return false;
     }
 
     public function deleteCodePromo($code)
@@ -46,9 +46,9 @@ class CodePromoModel extends Model
 
         if ($codePromo) {
             $this->delete($code);
-            return "Code promo supprimé avec succès.";
+            return true;
         }
 
-        return "Impossible de supprimer ce code promo.";
+        return false;
     }
 }

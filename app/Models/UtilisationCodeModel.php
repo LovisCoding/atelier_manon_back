@@ -57,7 +57,7 @@ class UtilisationCodeModel extends Model
         $codeUseInAnotherCommand = $this->codeUseInAnotherCommande($code, $idCommande);
 
         if ($codeUseInAnotherCommand) {
-            return "Ce code a déjà été utilisé par ce compte.";
+            return false;
         }
         
         $utilisateCode = $this->where("idCommande", $idCommande)
@@ -71,10 +71,10 @@ class UtilisationCodeModel extends Model
                 "code" => $code
             ]);
 
-            return "Code ajouté à la commande avec succès !";
+            return true;
         }
 
-        return "Impossible d'ajouter ce code à cette commande ! (déjà utilisé)";
+        return false;
     }
 
 
@@ -89,10 +89,10 @@ class UtilisationCodeModel extends Model
                 ->where("code", $code)
                 ->delete();
 
-            return "Code supprimé de la commande avec succès !";
+            return true;
         }
 
-        return "Impossible de supprimer ce code de cette commande !";
+        return false;
     }
 
     public function getCodesPromoByCommande($idCommande)

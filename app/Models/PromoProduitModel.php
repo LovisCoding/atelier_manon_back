@@ -43,10 +43,10 @@ class PromoProduitModel extends Model
                 "code" => $code
             ]);
 
-            return "Code promo ajouté au produit avec succès !";
+            return true;
         }
 
-        return "Impossible d'ajouter ce code promo à ce produit ! (code ou produit inexistant)";
+        return false;
     }
 
 
@@ -61,10 +61,10 @@ class PromoProduitModel extends Model
                 ->where("code", $code)
                 ->delete();
 
-            return "Code promo supprimé du produit avec succès !";
+            return true;
         }
 
-        return "Impossible de supprimer ce code promo de ce produit ! (code promo ou produit inexistant)";
+        return false;
     }
 
     public function getProduitsByCode($code) {

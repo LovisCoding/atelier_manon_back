@@ -30,9 +30,9 @@ class CategorieModel extends Model
         $categorie = $this->getCategorieByLib($libCateg);
 
         if (!$categorie && $this->insert(["libCateg" => $libCateg])) {
-            return "Catégorie ajouté avec succès.";
+            return true;
         }
-        return "Impossible d'ajouter ce catégorie.";
+        return false;
     }
 
     public function deleteCategorie($idCateg) {
@@ -40,9 +40,9 @@ class CategorieModel extends Model
 
         if ($categorie) {
             $this->delete($idCateg);
-            return "Catégorie supprimée avec succès.";
+            return true;
         }
 
-        return "Impossible de supprimer cette catégorie.";
+        return false;
     }
 }

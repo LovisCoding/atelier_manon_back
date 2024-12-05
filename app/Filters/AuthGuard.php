@@ -15,7 +15,8 @@ class AuthGuard implements FilterInterface
         service('response')
             ->setHeader('Access-Control-Allow-Origin', '*')
             ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+            ->setHeader('Access-Control-Allow-Credentials', 'true');
         
         // Si la méthode de requête est OPTIONS, renvoyer une réponse vide (200 OK) sans traitement ultérieur
         if ($request->getMethod() === 'options') {

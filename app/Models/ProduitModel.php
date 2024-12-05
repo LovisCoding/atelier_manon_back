@@ -77,7 +77,7 @@ class ProduitModel extends Model
 
     public function updateProduit($idProd, $libProd, $descriptionProd, $prix, $estGravable, $tabPhoto, $tempsRea, $idCateg)
     {
-        $this->update($idProd, [
+        return $this->update($idProd, [
             "libProd" => $libProd,
             "descriptionProd" => $descriptionProd,
             "prix" => $prix,
@@ -112,7 +112,7 @@ class ProduitModel extends Model
 
     public function deleteProduit($idProd)
     {
-        $this->delete($idProd);
+        return $this->delete($idProd);
     }
 
 

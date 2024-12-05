@@ -45,10 +45,10 @@ class FilProdModel extends Model
                 "libCouleur" => $libCouleur
             ]);
 
-            return "Fil ajouté au produit avec succès !";
+            return true;
         }
 
-        return "Impossible d'ajouter ce fil à ce produit ! (matériau ou produit inexistant)";
+        return false;
     }
 
 
@@ -63,10 +63,10 @@ class FilProdModel extends Model
                 ->where("libCouleur", $libCouleur)
                 ->delete();
 
-            return "Fil supprimé du produit avec succès !";
+            return true;
         }
 
-        return "Impossible de supprimer cette fil de ce produit ! (matériau ou produit inexistant)";
+        return false;
     }
 
     public function getFilsProduit($idProd)
