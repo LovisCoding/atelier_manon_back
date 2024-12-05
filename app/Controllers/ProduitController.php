@@ -13,18 +13,39 @@ class ProduitController extends ResourceController
 
     public function getImage($image)
     {
+        $width = $this->request->getGet('width');
+        $height = $this->request->getGet('height');
+    
         $filePath = FCPATH . 'images/' . $image;
-
+    
         if (!is_file($filePath)) {
             return $this->failNotFound('Image not found');
         }
+    
+        $img = imagecreatefromwebp($filePath);
+    
+        if ($width && $height) {
 
-        $mimeType = mime_content_type($filePath);
+            $originalWidth = imagesx($img);
+            $originalHeight = imagesy($img);
+    
+            $newWidth = (int)$width;
+            $newHeight = (int)$height;
+    
+            $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+    
+            imagecopyresampled($resizedImage, $img, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
+    
+            imagedestroy($img);
+    
+            $img = $resizedImage;
+        }
+    
+        header("Content-Type: image/webp");    
 
-        header("Content-Type: $mimeType");
-        header("Content-Length: " . filesize($filePath));
+        imagewebp($img);
+        imagedestroy($img);
 
-        readfile($filePath);
         exit;
     }
 
