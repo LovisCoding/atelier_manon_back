@@ -43,6 +43,31 @@ class PromoProduitController extends ResourceController
 	
 		return $this->respond("Promotion ajoutée avec succès.", 201);
 	}
+
+	public function addPromoProduits() 
+	{
+		$data = $this->request->getJSON();
+	
+		if (empty($data->tabProd) || empty($data->code)) {
+			return $this->respond("Les paramètres tabProd et code sont requis.", 400);
+		}
+	
+		if (!is_array($data->tabProd) || !is_string($data->code)) {
+			return $this->respond("Le tableau de produit et le code promotionnel doivent être valides.", 400);
+		}
+
+		foreach($data->tabProd as $idProd) {
+			$response = $this->model->addPromoProduit($data->code, $idProd);
+	
+			if (!$response) {
+				return $this->respond("Impossible d'ajouter la promotion pour ces produits.", 500); 
+			}
+		}
+	
+
+	
+		return $this->respond("Promotion ajoutée avec succès.", 201);
+	}
 	
 	public function deletePromoProduit() 
 	{
