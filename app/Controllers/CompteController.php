@@ -172,6 +172,24 @@ class CompteController extends ResourceController
 	}
 
 
+	public function addNewsLetter() 
+	{
+		$data = $this->request->getJSON();
+
+		$response = $this->model->addNewsLetter($data->idCli);
+
+		return $this->respond($response);
+	}
+
+
+	public function removeNewsLetter() 
+	{
+		$data = $this->request->getJSON();
+
+		$response = $this->model->removeNewsLetter($data->idCli);
+
+		return $this->respond($response);
+	}
 
 	public function sendNewsLetters()
 	{

@@ -28,7 +28,10 @@ class ProduitModel extends Model
     {
         if ($idProd == -1)
             return null;
-        return $this->where("idProd", $idProd)->first();;
+        $produit = $this->where("idProd", $idProd)->first();
+        $produit["estGravable"] = boolval($produit["estGravable"]);
+        $produit["tabPhoto"] = $this->parsePgArray($produit["tabPhoto"]);
+        return $produit;
     }
 
 
@@ -63,6 +66,8 @@ class ProduitModel extends Model
         foreach($produits as $produit) {
             $newProd = $produit;
             $newProd["tabPhoto"] = $this->parsePgArray($produit["tabPhoto"]);
+            $newProd["estGravable"] = boolval($produit["estGravable"]);
+
             $newProduits[] = $newProd;
         }
 

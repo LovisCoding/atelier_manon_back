@@ -73,6 +73,8 @@ $routes->get('/api/client/panier/get-panier-client', 'PanierController::getPanie
 
 $routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProduitController::getProduitsCommande');
 
+$routes->post('/api/client/account/add-newsletter', 'CompteController::addNewsLetter');
+$routes->post('/api/client/account/remove-newsletter', 'CompteController::removeNewsLetter');
 
 /*********/
 /* ADMIN */

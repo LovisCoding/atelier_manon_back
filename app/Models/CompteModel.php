@@ -67,4 +67,28 @@ class CompteModel extends Model
             "token_expiration" => null
         ]);
     }
+
+    public function addNewsLetter($idCli) {
+        $account = $this->getAccountById($idCli);
+
+        if ($account) {
+            $this->update($idCli, [
+                "news" => true
+            ]);     
+            return "Newsletter ajouté au compte avec succès.";
+        }
+        return "Impossible d'ajouter la newsletter à ce compte.";
+    }
+
+    public function removeNewsLetter($idCli) {
+        $account = $this->getAccountById($idCli);
+
+        if ($account) {
+            $this->update($idCli, [
+                "news" => false
+            ]);     
+            return "Newsletter supprimé du compte avec succès.";
+        }
+        return "Impossible de supprimer la newsletter de ce compte.";
+    }
 }
