@@ -49,7 +49,8 @@ class CommandeController extends ResourceController
             $data->comm,
             boolval($data->estCadeau),
             $data->carte,
-            $dateLivraison
+            $dateLivraison,
+            $data->codesPromo
         );
 
         return $this->respond($response);

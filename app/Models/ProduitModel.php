@@ -52,7 +52,7 @@ class ProduitModel extends Model
 
         $query->where('prix >=', $priceInf);
 
-        if (!is_null($priceSup)) {
+        if (isset($priceSup) && !is_null($priceSup) && intval($priceSup) !== 0) {
             $query->where('prix <=', $priceSup);
         }
 

@@ -40,7 +40,7 @@ class UtilisationCodeModel extends Model
             $allCommandes = $commandeModel->getCommandesByAccount(intval($account["idCli"]));
 
             foreach($allCommandes as $commande) {
-                $codesPromo = $this->getCodesPromoByCommande(intval($commande["idcommande"]));
+                $codesPromo = $this->getCodesPromoByCommande(intval($commande["idCommande"]));
                 if (in_array($code, $codesPromo)) {
                     return true;
                 }
