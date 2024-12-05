@@ -123,6 +123,9 @@ $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::u
 
 $routes->get('/api/admin/commande/get-commandes', 'CommandeController::getCommandes');
 
+$routes->post('/api/account/send-newsletter', 'CompteController::sendNewsLetters');
+
+
 
 
 

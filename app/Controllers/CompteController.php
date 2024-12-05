@@ -39,7 +39,7 @@ class CompteController extends ResourceController
 		$emailService = \Config\Services::email();
 		$emailService->setTo($data->email);
 		$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
-		$emailService->setSubject('Création de votre compte TaskMate !');
+		$emailService->setSubject('Création de votre compte sur L\'Atelier de Manon!');
 		$emailService->setMessage("
 			Bonjour $data->prenomCli $data->nomCli,
 			
@@ -58,8 +58,6 @@ class CompteController extends ResourceController
 		} else {
 			return $this->respond("Erreur lors de l'envoi de l'email.");
 		}
-
-
 	}
 
 	public function confirmAccount()
@@ -107,7 +105,7 @@ class CompteController extends ResourceController
 		}
 	}
 
-	public function forgotPassword() 
+	public function forgotPassword()
 	{
 		$data = $this->request->getJSON();
 		$account = $this->model->getAccountByEmail($data->email);
@@ -154,26 +152,50 @@ class CompteController extends ResourceController
 		if (!session()->get("updatePassword_$token")) {
 			return $this->respond("Token invalide.");
 		}
-	
+
 		return $this->respond("Passage à la vue pour reset");
 	}
 
 	public function updatePassword()
 	{
 		$data = $this->request->getJSON();
-		
+
 		$account = $this->model->getAccountByToken($data->token);
-	
-		if ($account && $data->password === $data->confirm_password) 
-		{
+
+		if ($account && $data->password === $data->confirm_password) {
 			$hashedPassword = password_hash($data->password, PASSWORD_DEFAULT);
 			$this->model->updatePassword($hashedPassword, $account["idCli"]);
 			return $this->respond("Mot de passe réinitialisé avec succès.");
-		} 
-		else 
-		{
+		} else {
 			return $this->respond("Erreur lors de la réinitialisation du mot de passe.");
 		}
 	}
 
+
+
+	public function sendNewsLetters()
+	{
+		$data = $this->request->getJSON();
+
+		$subject = $data->subject;
+		$content = $data->content;
+
+		$accounts = $this->model->getAccountNewsLetter();
+
+		foreach ($accounts as $account) {
+			$email = $account["email"];
+
+			$emailService = \Config\Services::email();
+			$emailService->setTo($email);
+			$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
+			$emailService->setSubject($subject);
+			$emailService->setMessage($content);
+
+			if (!$emailService->send()) {
+				return $this->respond("Erreur lors de l'envoi de l'email.");
+			}
+
+			return $this->respond("Les mails ont bien été envoyés.");
+		}
+	}
 }

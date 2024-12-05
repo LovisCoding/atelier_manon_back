@@ -21,6 +21,12 @@ class CompteModel extends Model
         'news'
     ];
 
+    public function getAccountNewsLetter() 
+    {
+        return $this->where("news", true)->findAll();
+    }
+
+
     public function getAccountById($idCli) 
     {
         return $this->where("idCli", $idCli)->first();
