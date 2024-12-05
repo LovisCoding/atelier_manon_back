@@ -113,7 +113,7 @@ class CommandeModel extends Model
         $commande["prixTotal"] = $prixTotal;
         $commande["prixTotalReduc"] = $prixTotalReduc;
         $commande["codesPromo"] = $codesCommande; 
-        $commande["tempsLivraisonEstime"] = $$tempsLivraisonEstime;
+        $commande["tempsLivraisonEstime"] = $tempsLivraisonEstime;
 
         return $commande;
     }
