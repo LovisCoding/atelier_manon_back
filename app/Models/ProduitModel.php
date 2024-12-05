@@ -59,7 +59,14 @@ class ProduitModel extends Model
         $query->limit($nbDisplay, $offset);
         $produits = $query->findAll();
 
-        return $produits;
+        $newProduits = [];
+        foreach($produits as $produit) {
+            $newProd = $produit;
+            $newProd["tabPhoto"] = $this->parsePgArray($produit["tabPhoto"]);
+            $newProduits[] = $newProd;
+        }
+
+        return $newProduits;
     }
 
 
