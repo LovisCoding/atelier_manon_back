@@ -21,6 +21,17 @@ class CompteModel extends Model
         'news'
     ];
 
+    public function getAccountNewsLetter() 
+    {
+        return $this->where("news", true)->findAll();
+    }
+
+    public function getAccounts() 
+    {
+        return $this->findAll();
+    }
+
+
     public function getAccountById($idCli) 
     {
         return $this->where("idCli", $idCli)->first();
@@ -61,4 +72,30 @@ class CompteModel extends Model
             "token_expiration" => null
         ]);
     }
+
+    public function addNewsLetter($idCli) {
+        $account = $this->getAccountById($idCli);
+
+        if ($account) {
+            $this->update($idCli, [
+                "news" => true
+            ]);     
+            return true;
+        }
+        return false;
+    }
+
+    public function removeNewsLetter($idCli) {
+        $account = $this->getAccountById($idCli);
+
+        if ($account) {
+            $this->update($idCli, [
+                "news" => false
+            ]);     
+            return true;
+        }
+        return false;
+    }
+
+
 }

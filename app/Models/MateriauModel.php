@@ -28,9 +28,9 @@ class MateriauModel extends Model
         $materiau = $this->getMateriau($libMateriau);
 
         if (!$materiau && $this->insert(["libMateriau" => $libMateriau])) {
-            return "Matériau ajouté avec succès.";
+            return true;
         }
-        return "Impossible d'ajouter ce matériau.";
+        return false;
     }
 
     public function deleteMateriau($libMateriau) {
@@ -38,9 +38,9 @@ class MateriauModel extends Model
 
         if ($materiau) {
             $this->delete($materiau);
-            return "Matériau supprimé avec succès.";
+            return true;
         }
 
-        return "Impossible de supprimer ce matériau.";
+        return false;
     }
 }

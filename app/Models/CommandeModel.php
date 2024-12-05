@@ -72,12 +72,14 @@ class CommandeModel extends Model
 
         $prixTotal = 0;
         $prixTotalReduc = 0;
+        $tempsLivraisonEstime = 0;
 
         $produitsCommande = $this->getProduitsFromCommande($idCommande);
         
         foreach ($produitsCommande as $produitCommande) {
             $produit = $produitCommande["produit"];
             $prix = $produit["prix"];
+            $tempsRea = $produit["tempsRea"];
 
             $codesPromo = $this->getCodesPromo($produit, $idCommande);
             $prixReduc = $prix;
@@ -96,11 +98,22 @@ class CommandeModel extends Model
 
             $prixTotal += $prix * $qa;
             $prixTotalReduc += $prixReduc * $qa; 
+            $tempsLivraisonEstime += $tempsRea * $qa;
 
+        }
+
+        $utilisationCodeModel = new UtilisationCodeModel();
+
+        $codesPromo = $utilisationCodeModel->getCodesPromoByCommande($idCommande);
+        $codesCommande = [];
+        foreach ($codesPromo as $codePromo) {
+            $codesCommande[] = $codePromo;
         }
 
         $commande["prixTotal"] = $prixTotal;
         $commande["prixTotalReduc"] = $prixTotalReduc;
+        $commande["codesPromo"] = $codesCommande; 
+        $commande["tempsLivraisonEstime"] = $$tempsLivraisonEstime;
 
         return $commande;
     }
@@ -118,7 +131,7 @@ class CommandeModel extends Model
         return $this->where("idCli", $idCli)->findAll();
     }
 
-    public function addCommande($idCli, $dateCommande, $comm, $estCadeau, $carte, $dateLivraison)
+    public function addCommande($idCli, $dateCommande, $comm, $estCadeau, $carte, $dateLivraison, $codesPromo = [])
     {
         $account = $this->getClient($idCli);
 
@@ -152,6 +165,12 @@ class CommandeModel extends Model
             );
         }
 
+        $utilisationCodeModel = new UtilisationCodeModel();
+
+        foreach ($codesPromo as $codePromo) {
+            $utilisationCodeModel->addUtilisationCode($codePromo, $newId);
+        }
+
         return $newId;
     }
 
@@ -162,10 +181,10 @@ class CommandeModel extends Model
 
         if ($commande) {
             $this->delete($idCommande);
-            return "Commande supprimée avec succès";
+            return true;
         }
 
-        return "Impossible de supprimer cette commande";
+        return false;
     }
 
     public function updateEtatCommande($idCommande, $etat) 
@@ -174,9 +193,9 @@ class CommandeModel extends Model
 
         if ($commande) {
             $this->update($idCommande, ["etat" => $etat]);
-            return "L'état de la commande a été modifiée avec succès";
+            return true;
         }
 
-        return "Impossible de modifier l'état de cette commande";
+        return false;
     }
 }

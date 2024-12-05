@@ -33,10 +33,10 @@ class FAQModel extends Model
             "reponse" => $reponse,
             "idCli" => $idCli
         ])) {
-            return "Question modifiée avec succès";
+            return true;
         }
 
-        return "Impossible de modifier cette question";
+        return false;
         
     }
 
@@ -61,9 +61,9 @@ class FAQModel extends Model
         if ($question) 
         {
             $this->delete($idQuestion);
-            return "Question supprimée avec succès.";
+            return true;
         }
-        return "Impossible de supprimer cette question.";
+        return false;
 
     }
 }

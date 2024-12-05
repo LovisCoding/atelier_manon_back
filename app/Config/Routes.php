@@ -76,6 +76,7 @@ $routes->post('/api/account/login', 'CompteController::login');
 $routes->post('/api/account/forgot-password', 'CompteController::forgotPassword');
 $routes->post('/api/account/reset-password', 'CompteController::resetPassword');
 $routes->post('/api/account/update-password', 'CompteController::updatePassword');
+$routes->post('/api/account/send-mail', 'CompteController::contactMail');
 
 /**********/
 /* CLIENT */
@@ -101,6 +102,10 @@ $routes->delete('/api/client/panier/delete-product-panier', 'PanierController::d
 $routes->get('/api/client/panier/get-panier-client', 'PanierController::getPaniersFromClient');
 
 $routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProduitController::getProduitsCommande');
+
+$routes->post('/api/client/account/add-newsletter', 'CompteController::addNewsLetter');
+$routes->post('/api/client/account/remove-newsletter', 'CompteController::removeNewsLetter');
+$routes->get('/api/client/account/get-compte', 'CompteController::getCompte');
 
 
 /*********/
@@ -139,6 +144,7 @@ $routes->delete('/api/admin/question/delete-question', 'FAQController::deleteQue
 $routes->delete('/api/admin/avis/delete-avis', 'AvisController::deleteAvis');
 
 $routes->post('/api/admin/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
+$routes->post('/api/admin/promoproduit/add-promoproduits', 'PromoProduitController::addPromoProduits');
 $routes->delete('/api/admin/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
 $routes->get('/api/admin/promoproduit/get-produits-promo', 'PromoProduitController::getProduitsByCode');
 
@@ -151,6 +157,10 @@ $routes->delete('/api/admin/commande/delete-commande', 'CommandeController::dele
 $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
 
 $routes->get('/api/admin/commande/get-commandes', 'CommandeController::getCommandes');
+
+$routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsLetters');
+$routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
+
 
 
 

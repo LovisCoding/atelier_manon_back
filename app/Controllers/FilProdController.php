@@ -7,42 +7,61 @@ use App\Models\FilProdModel;
 
 class FilProdController extends ResourceController
 {
-    protected $modelName = 'App\Models\FilProdModel';
-    protected $format    = 'json';
+	protected $modelName = 'App\Models\FilProdModel';
+	protected $format    = 'json';
 
 
-	public function addFilProd() 
+	public function getFilsProduit()
+	{
+		$idProd = $this->request->getGet("idProd");
+
+		if (empty($idProd) || !is_numeric($idProd)) {
+			return $this->respond("L'ID du produit est requis et doit être valide.", 400);
+		}
+
+		$fils = $this->model->getFilsProduit($idProd);
+
+		return $this->respond($fils);
+	}
+
+
+	public function addFilProd()
 	{
 		$data = $this->request->getJSON();
+
+		if (empty($data->idProd) || empty($data->libCouleur)) {
+			return $this->respond("Les champs 'idProd' et 'libCouleur' sont requis.", 400);
+		}
 
 		$idProd = intval($data->idProd);
 		$libCouleur = $data->libCouleur;
 
 		$response = $this->model->addFilProd($idProd, $libCouleur);
 
-		return $this->respond($response);
+		if ($response) {
+			return $this->respond("Le fil a été ajouté au produit avec succès.", 201);
+		} else {
+			return $this->respond("Erreur lors de l'ajout du fil au produit.", 500);
+		}
 	}
 
 	public function deleteFilProd() 
 	{
 		$data = $this->request->getJSON();
-
+	
+		if (empty($data->idProd) || empty($data->libCouleur)) {
+			return $this->respond("Les champs 'idProd' et 'libCouleur' sont requis.", 400);
+		}
+	
 		$idProd = $data->idProd;
 		$libCouleur = $data->libCouleur;
-
+	
 		$response = $this->model->deleteFilProd($idProd, $libCouleur);
-
-		return $this->respond($response);
+	
+		if ($response) {
+			return $this->respond("Le fil a été supprimé du produit avec succès.", 201);
+		} else {
+			return $this->respond("Erreur lors de la suppression du fil du produit.", 500); 
+		}
 	}
-
-	public function getFilsProduit()
-	{
-		$idProd = $this->request->getGet("idProd");
-
-		$fils =  $this->model->getFilsProduit($idProd);
-
-		return $this->respond($fils);
-
-	}
-
 }

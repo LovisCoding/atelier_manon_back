@@ -19,23 +19,42 @@ class CodePromoController extends ResourceController
 	public function addCodePromo() 
 	{
 		$data = $this->request->getJSON();
-
-		$response = $this->model->addCodePromo(
-			$data->code, 
-			$data->reduc,
-			$data->type
-		);
-
-		return $this->respond($response);
+	
+		if (empty($data->code) || !is_string($data->code)) {
+			return $this->fail("Le code promo est requis et doit être une chaîne de caractères valide.", 400);
+		}
+		if (!isset($data->reduc) || !is_numeric($data->reduc) || $data->reduc <= 0) {
+			return $this->fail("La réduction est requise et doit être un nombre positif.", 400);
+		}
+		if (empty($data->type) || !in_array($data->type, ['pourcentage', 'montant'])) {
+			return $this->fail("Le type de réduction est requis et doit être 'pourcentage' ou 'montant'.", 400);
+		}
+	
+		$isAdded = $this->model->addCodePromo($data->code, $data->reduc, $data->type);
+	
+		if (!$isAdded) {
+			return $this->fail("Échec de l'ajout du code promo. Il existe peut-être déjà.", 400);
+		}
+	
+		return $this->respond("Code promo ajouté avec succès.",201);
 	}
+	
 
 	public function deleteCodePromo() 
 	{
 		$data = $this->request->getJSON();
-
-		$response = $this->model->deleteCodePromo($data->code);
-
-		return $this->respond($response);
+	
+		if (empty($data->code) || !is_string($data->code)) {
+			return $this->fail("Le code promo est requis et doit être une chaîne de caractères valide.", 400);
+		}
+	
+		$isDeleted = $this->model->deleteCodePromo($data->code);
+	
+		if (!$isDeleted) {
+			return $this->fail("Échec de la suppression du code promo. Il n'existe peut-être pas.", 400);
+		}
+	
+		return $this->respond("Code promo supprimé avec succès.",201);
 	}
 	public function getCodesPromoWithUse()
 	{
@@ -50,7 +69,7 @@ class CodePromoController extends ResourceController
 
 		return $this->respond($codePromo);
 	}
-
+	
 
 
 }

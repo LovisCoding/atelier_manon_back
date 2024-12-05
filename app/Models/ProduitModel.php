@@ -28,7 +28,10 @@ class ProduitModel extends Model
     {
         if ($idProd == -1)
             return null;
-        return $this->where("idProd", $idProd)->first();;
+        $produit = $this->where("idProd", $idProd)->first();
+        $produit["estGravable"] = boolval($produit["estGravable"]);
+        $produit["tabPhoto"] = $this->parsePgArray($produit["tabPhoto"]);
+        return $produit;
     }
 
 
@@ -52,20 +55,29 @@ class ProduitModel extends Model
 
         $query->where('prix >=', $priceInf);
 
-        if (!is_null($priceSup)) {
+        if (isset($priceSup) && !is_null($priceSup) && intval($priceSup) !== 0) {
             $query->where('prix <=', $priceSup);
         }
 
         $query->limit($nbDisplay, $offset);
         $produits = $query->findAll();
 
-        return $produits;
+        $newProduits = [];
+        foreach($produits as $produit) {
+            $newProd = $produit;
+            $newProd["tabPhoto"] = $this->parsePgArray($produit["tabPhoto"]);
+            $newProd["estGravable"] = boolval($produit["estGravable"]);
+
+            $newProduits[] = $newProd;
+        }
+
+        return $newProduits;
     }
 
 
     public function updateProduit($idProd, $libProd, $descriptionProd, $prix, $estGravable, $tabPhoto, $tempsRea, $idCateg)
     {
-        $this->update($idProd, [
+        return $this->update($idProd, [
             "libProd" => $libProd,
             "descriptionProd" => $descriptionProd,
             "prix" => $prix,
@@ -100,7 +112,7 @@ class ProduitModel extends Model
 
     public function deleteProduit($idProd)
     {
-        $this->delete($idProd);
+        return $this->delete($idProd);
     }
 
 

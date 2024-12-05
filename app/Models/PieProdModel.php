@@ -43,10 +43,10 @@ class PieProdModel extends Model
                 "libPierre" => $libPierre
             ]);
 
-            return "Pierre ajouté au produit avec succès !";
+            return true;
         }
 
-        return "Impossible d'ajouter cette pierre à ce produit ! (matériau ou produit inexistant)";
+        return false;
     }
 
 
@@ -61,10 +61,10 @@ class PieProdModel extends Model
                 ->where("libPierre", $libPierre)
                 ->delete();
 
-            return "Pierre supprimé du produit avec succès !";
+            return true;
         }
 
-        return "Impossible de supprimer cette pierre de ce produit ! (matériau ou produit inexistant)";
+        return false;
     }
 
     public function getPierresProduit($idProd)

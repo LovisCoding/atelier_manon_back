@@ -34,10 +34,10 @@ class ArticleModel extends Model
             "titreArticle" => $titreArticle,
             "contenu" => $contenu
         ])) {
-            return "Article modifié avec succès";
+            return true;
         }
 
-        return "Impossible de modifier cet article";
+        return false;
         
     }
 
@@ -62,9 +62,9 @@ class ArticleModel extends Model
         if ($article) 
         {
             $this->delete($idArticle);
-            return "Article supprimé avec succès.";
+            return true;
         }
-        return "Impossible de supprimer cet article.";
+        return false;
 
     }
 }

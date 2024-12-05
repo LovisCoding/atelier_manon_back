@@ -97,7 +97,7 @@ class PanierModel extends Model
                     "qa" => $qa
                 ])->update();
 
-                return "Quantité augmenté avec succès.";
+                return true;
             } else {
                 $qa = 1;
 
@@ -109,10 +109,10 @@ class PanierModel extends Model
                     "qa" => $qa
                 ]);
 
-                return "Produit ajouté avec succès.";
+                return true;
             }
         }
-        return "Impossible d'ajouter ce produit.";
+        return false;
     }
 
     public function deleteProductFromPanier($idProd, $gravure, $variante, $idCli)
@@ -125,11 +125,11 @@ class PanierModel extends Model
                 ->where("gravure", $gravure)
                 ->where("variante", $variante)
                 ->delete();
-                return "Produit supprimé avec succès.";
+                return true;
             }
         }
 
-        return "Impossible de supprimer ce poduit.";
+        return false;
     }
 
     public function reduceProductFromPanier($idProd, $gravure, $variante, $idCli)
@@ -145,7 +145,7 @@ class PanierModel extends Model
                     ->where("gravure", $gravure)
                     ->where("variante", $variante)
                     ->delete();
-                    return "Produit supprimé avec succès.";
+                    return true;
                 } else {
                     $this->where("idProd", $idProd)
                     ->where("idCli", $idCli)
@@ -155,11 +155,11 @@ class PanierModel extends Model
                         "qa" => $qa
                     ])->update();
 
-                    return "Quantité diminué avec succès.";
+                    return true;
                 }
             }
         }
 
-        return "Impossible de supprimer ce poduit.";
+        return false;
     }
 }

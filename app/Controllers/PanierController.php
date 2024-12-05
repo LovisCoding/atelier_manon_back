@@ -13,62 +13,110 @@ class PanierController extends ResourceController
 	public function addProductToPanier() 
 	{
 		$data = $this->request->getJSON();
-
+	
+		if (empty($data->idProd) || !is_numeric($data->idProd)) {
+			return $this->respond("L'id du produit est requis et doit être valide.", 400);
+		}
+	
+		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+			return $this->respond("L'id du client est requis et doit être valide.", 400);
+		}
+	
 		$response = $this->model->addProductToPanier(
 			$data->idProd,
 			$data->gravure,
 			$data->variante,
 			$data->idCli
 		);
-
-		return $this->respond($response);
+	
+		if ($response) {
+			return $this->respond("Le produit a été ajouté au panier.", 201);
+		} else {
+			return $this->respond("Erreur lors de l'ajout du produit au panier.", 500);
+		}
 	}
-
+	
 	public function reduceProductFromPanier() 
 	{
 		$data = $this->request->getJSON();
-
+	
+		if (empty($data->idProd) || !is_numeric($data->idProd)) {
+			return $this->respond("L'id du produit est requis et doit être valide.", 400);
+		}
+	
+		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+			return $this->respond("L'id du client est requis et doit être valide.", 400);
+		}
+	
 		$response = $this->model->reduceProductFromPanier(
 			$data->idProd,
 			$data->gravure,
 			$data->variante,
 			$data->idCli
 		);
-
-		return $this->respond($response);
+	
+		if ($response) {
+			return $this->respond("Le produit a été réduit dans le panier.", 201);
+		} else {
+			return $this->respond("Erreur lors de la réduction du produit dans le panier.", 500);
+		}
 	}
-
-
+	
 	public function deleteProductFromPanier() 
 	{
 		$data = $this->request->getJSON();
-
+	
+		if (empty($data->idProd) || !is_numeric($data->idProd)) {
+			return $this->respond("L'id du produit est requis et doit être valide.", 400);
+		}
+	
+		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+			return $this->respond("L'id du client est requis et doit être valide.", 400);
+		}
+	
 		$response = $this->model->deleteProductFromPanier(
 			$data->idProd,
 			$data->gravure,
 			$data->variante,
 			$data->idCli
 		);
-
-		return $this->respond($response);
+	
+		if ($response) {
+			return $this->respond("Le produit a été supprimé du panier.", 201);
+		} else {
+			return $this->respond("Erreur lors de la suppression du produit du panier.", 500);
+		}
 	}
-
+	
 	public function deletePanierClient()
 	{
 		$data = $this->request->getJSON();
-
-		$paniers =  $this->model->deletePanierClient($data->idCli);
-
-		return $this->respond($paniers);
+	
+		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+			return $this->respond("L'id du client est requis et doit être valide.", 400);
+		}
+	
+		$response = $this->model->deletePanierClient($data->idCli);
+	
+		if ($response) {
+			return $this->respond("Le panier a été supprimé.", 201);
+		} else {
+			return $this->respond("Erreur lors de la suppression du panier du client.", 500);
+		}
 	}
-
+	
 	public function getPaniersFromClient()
 	{
 		$idCli = $this->request->getGet("idCli");
-
-		$paniers =  $this->model->getPaniersFromClient($idCli);
-
+	
+		if (empty($idCli) || !is_numeric($idCli)) {
+			return $this->respond("L'id du client est requis et doit être valide.", 400);
+		}
+	
+		$paniers = $this->model->getPaniersFromClient($idCli);
+	
 		return $this->respond($paniers);
 	}
+	
 
 }
