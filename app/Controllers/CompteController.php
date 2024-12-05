@@ -10,6 +10,25 @@ class CompteController extends ResourceController
 	protected $modelName = 'App\Models\CompteModel';
 	protected $format    = 'json';
 
+
+	public function getComptes() 
+	{
+		$clients = $this->model->getAccounts();
+		return $this->respond($clients);
+	}
+
+	public function getCompte() 
+	{
+		$idCli = $this->request->getGet("idCli");
+
+		if (empty($idCli)) {
+			return $this->respond("L'ID du client est requis.", 400);
+		}
+
+		$client = $this->model->getAccountById($idCli);
+		return $this->respond($client);
+	}
+
 	public function register()
 	{
 		$data = $this->request->getJSON();

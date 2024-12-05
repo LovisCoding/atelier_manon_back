@@ -76,6 +76,7 @@ $routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProdu
 
 $routes->post('/api/client/account/add-newsletter', 'CompteController::addNewsLetter');
 $routes->post('/api/client/account/remove-newsletter', 'CompteController::removeNewsLetter');
+$routes->get('/api/client/account/get-compte', 'CompteController::getCompte');
 
 
 /*********/
@@ -127,7 +128,8 @@ $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::u
 
 $routes->get('/api/admin/commande/get-commandes', 'CommandeController::getCommandes');
 
-$routes->post('/api/account/send-newsletter', 'CompteController::sendNewsLetters');
+$routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsLetters');
+$routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
 
 
 

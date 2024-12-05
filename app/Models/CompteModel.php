@@ -26,6 +26,11 @@ class CompteModel extends Model
         return $this->where("news", true)->findAll();
     }
 
+    public function getAccounts() 
+    {
+        return $this->findAll();
+    }
+
 
     public function getAccountById($idCli) 
     {
