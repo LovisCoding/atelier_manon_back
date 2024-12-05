@@ -47,6 +47,7 @@ $routes->post('/api/account/login', 'CompteController::login');
 $routes->post('/api/account/forgot-password', 'CompteController::forgotPassword');
 $routes->post('/api/account/reset-password', 'CompteController::resetPassword');
 $routes->post('/api/account/update-password', 'CompteController::updatePassword');
+$routes->post('/api/account/send-mail', 'CompteController::contactMail');
 
 /**********/
 /* CLIENT */
@@ -75,6 +76,7 @@ $routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProdu
 
 $routes->post('/api/client/account/add-newsletter', 'CompteController::addNewsLetter');
 $routes->post('/api/client/account/remove-newsletter', 'CompteController::removeNewsLetter');
+
 
 /*********/
 /* ADMIN */

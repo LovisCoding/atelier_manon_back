@@ -226,8 +226,7 @@ class CompteController extends ResourceController
 		$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
 		$emailService->setSubject($data->objet);
 		$emailService->setMessage("
-			Message de la part de $data->nom,
-            avec l'adresse mail $data->mail :
+			Message de la part de $data->nom, avec l'adresse mail $data->mail :
 			
 			$data->content"
 		);

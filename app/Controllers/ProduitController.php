@@ -106,19 +106,6 @@ class ProduitController extends ResourceController
         return $this->respond("Produit supprimé avec succès !");
     }
 
-
-
-    public function addMateriel()
-    {
-        $data = $this->request->getJSON();
-        $idProd = $data->idProd;
-        $idMateriel = $data->idMateriel;
-
-        $this->model->deleteProduit($data->idProd);
-
-        return $this->respond("Produit supprimé avec succès !");
-    }
-
     public function getBestSellers()
     {
         $quantiteToDisplay = $this->request->getGet("quantiteToDisplay");
