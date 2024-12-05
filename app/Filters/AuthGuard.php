@@ -10,6 +10,9 @@ class AuthGuard implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
+
+        // return true; // test push
+
         $uri = $request->getUri()->getPath();
 
         if (strpos($uri, '/client') !== false) {
