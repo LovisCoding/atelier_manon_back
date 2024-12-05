@@ -37,6 +37,12 @@ class CodePromoController extends ResourceController
 
 		return $this->respond($response);
 	}
+	public function getCodesPromoWithUse()
+	{
+		$codesPromo =  $this->model->getCodesPromoWithUse();
+
+		return $this->respond($codesPromo);
+	}
 
 
 

@@ -66,6 +66,7 @@ $routes->get('/api/promoproduit/get-produits-promo', 'PromoProduitController::ge
 $routes->post('/api/codepromo/add-codepromo', 'CodePromoController::addCodePromo');
 $routes->delete('/api/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
 $routes->get('/api/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
+$routes->get('/api/codepromo/get-codespromo-use', 'CodePromoController::getCodesPromoWithUse');
 
 $routes->post('/api/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
 $routes->delete('/api/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
