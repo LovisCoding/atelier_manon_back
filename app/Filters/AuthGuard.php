@@ -24,28 +24,32 @@ class AuthGuard implements FilterInterface
             return $response->setStatusCode(200);
         }
 
-        // Récupération de l'URI et de la session
         $uri = $request->getUri()->getPath();
-        $session = session();
 
-        // Vérification si l'utilisateur est connecté
-        if (!$session->has("data") || empty($session->get("data")["idCli"])) {
-            return $this->jsonResponse(403, 'Forbidden: User not logged in');
-        }
 
-        // Récupération des données utilisateur
-        $data = $session->get("data");
-        $idCli = $data["idCli"];
-        $compteModel = new CompteModel();
-        $account = $compteModel->getAccountById($idCli);
+        if (strpos($uri, '/admin') !== false || strpos($uri, '/client') !== false) {
+            // Récupération de l'URI et de la session
+            $session = session();
 
-        if (!$account) {
-            return $this->jsonResponse(403, 'Forbidden: Invalid user account');
-        }
+            // Vérification si l'utilisateur est connecté
+            if (!$session->has("data") || empty($session->get("data")["idCli"])) {
+                return $this->jsonResponse(403, 'Forbidden: User not logged in');
+            }
 
-        // Vérification des permissions pour /client et /admin
-        if (strpos($uri, '/admin') !== false && !boolval($account["estAdmin"])) {
-            return $this->jsonResponse(403, 'Forbidden: Admin access required');
+            // Récupération des données utilisateur
+            $data = $session->get("data");
+            $idCli = $data["idCli"];
+            $compteModel = new CompteModel();
+            $account = $compteModel->getAccountById($idCli);
+
+            if (!$account) {
+                return $this->jsonResponse(403, 'Forbidden: Invalid user account');
+            }
+
+            // Vérification des permissions pour /client et /admin
+            if (strpos($uri, '/admin') !== false && !boolval($account["estAdmin"])) {
+                return $this->jsonResponse(403, 'Forbidden: Admin access required');
+            }
         }
 
         return null;

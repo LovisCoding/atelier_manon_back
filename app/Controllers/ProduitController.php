@@ -174,5 +174,7 @@ class ProduitController extends ResourceController
 		return $this->respond($produits);
 	}
 
+    
+
     // ...
 }
