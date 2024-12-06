@@ -175,6 +175,5 @@ class ProduitController extends ResourceController
 	}
 
     
-
     // ...
 }

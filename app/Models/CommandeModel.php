@@ -74,6 +74,9 @@ class CommandeModel extends Model
                          ->where("idCli", $idCli)
                          ->first();
 
+        if ($commande == null) 
+            return $commande;
+
         $prixTotal = 0;
         $prixTotalReduc = 0;
         $tempsLivraisonEstime = 0;
