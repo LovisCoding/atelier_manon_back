@@ -39,7 +39,9 @@ class FAQController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 	
-		if (empty($data->contenu) || empty($data->reponse) || empty($data->idCli)) {
+		$idCli = session()->get("data")["idCli"];
+
+		if (empty($data->contenu) || empty($data->reponse) || empty($idCli)) {
 			return $this->respond("Les champs 'contenu', 'réponse', et 'idCli' sont requis.", 400); 
 		}
 	
@@ -48,7 +50,7 @@ class FAQController extends ResourceController
 				$data->idQuestion,
 				$data->contenu,
 				$data->reponse,
-				$data->idCli
+				$idCli
 			);
 	
 			if ($response) {
@@ -64,7 +66,7 @@ class FAQController extends ResourceController
 				$data->contenu,
 				$dateQuestion,
 				$data->reponse,
-				$data->idCli
+				$idCli
 			);
 	
 			if ($response !== -1) {

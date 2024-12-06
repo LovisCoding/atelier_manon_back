@@ -103,6 +103,8 @@ class CompteController extends ResourceController
 	}
 
 	public function login() {
+		$session = session();
+
 		$data = $this->request->getJSON();
 
 		if (empty($data->email) || empty($data->mdp)) {
@@ -112,8 +114,8 @@ class CompteController extends ResourceController
 		$account = $this->model->getAccountByEmail($data->email);
 
 		if ($account) {
-			$accountMdp = $account["mdp"];
-			$authenticatePassword = password_verify($accountMdp, $data->mdp);
+			$mdp = $account['mdp'];
+			$authenticatePassword = password_verify($data->mdp, $mdp);
 
 			if ($authenticatePassword) {
 				session()->set("data", [
@@ -126,8 +128,6 @@ class CompteController extends ResourceController
 			}
 
 		}
-
-		return $this->respond("Email invalide.", 403);
 		 
 	}
 
@@ -239,11 +239,13 @@ class CompteController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 
-		if (empty($data->idCli)) {
+		$idCli = session()->get("data")["idCli"];
+
+		if (empty($idCli)) {
 			return $this->respond("L'ID du client est requis.", 400);
 		}
 
-		$response = $this->model->removeNewsLetter($data->idCli);
+		$response = $this->model->removeNewsLetter($idCli);
 
 		if ($response) {
 			return $this->respond("Client retiré de la newsletter.", 201);

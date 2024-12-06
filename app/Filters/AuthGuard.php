@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Models\CompteModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Filters\FilterInterface;
@@ -10,53 +11,68 @@ class AuthGuard implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
+        $response = service('response');
 
-        // Ajouter les en-têtes CORS
-        service('response')
-            ->setHeader('Access-Control-Allow-Origin', '*')
-            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        // Ajout des headers pour CORS
+        $response->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
             ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             ->setHeader('Access-Control-Allow-Credentials', 'true');
-        
-        // Si la méthode de requête est OPTIONS, renvoyer une réponse vide (200 OK) sans traitement ultérieur
+
+        // Gestion des requêtes OPTIONS
         if ($request->getMethod() === 'options') {
-            service('response')->setStatusCode(200);
-            return service('response');
+            return $response->setStatusCode(200);
         }
 
-        // return true; // test push
+        // Récupération de l'URI et de la session
+        $uri = $request->getUri()->getPath();
+        $session = session();
 
-        // $uri = $request->getUri()->getPath();
+        // Vérification si l'utilisateur est connecté
+        if (!$session->has("data") || empty($session->get("data")["idCli"])) {
+            return $this->jsonResponse(403, 'Forbidden: User not logged in');
+        }
 
-        // if (strpos($uri, '/client') !== false) {
-        //     if (!session()->get('isLoggedIn')) {
-        //         return service('response')
-        //             ->setStatusCode(403)
-        //             ->setHeader('Content-Type', 'application/json')
-        //             ->setBody(json_encode([
-        //                 'status' => 403,
-        //                 'error' => true,
-        //                 'message' => 'Forbidden: Access denied',
-        //             ]));
-        //     }
-        // }
+        // Récupération des données utilisateur
+        $data = $session->get("data");
+        $idCli = $data["idCli"];
+        $compteModel = new CompteModel();
+        $account = $compteModel->getAccountById($idCli);
 
-        // if (strpos($uri, '/admin') !== false) {
-        //     if (!session()->get('isLoggedIn') || !session()->get('isAdmin')) {
-        //         return service('response')
-        //             ->setStatusCode(403)
-        //             ->setHeader('Content-Type', 'application/json')
-        //             ->setBody(json_encode([
-        //                 'status' => 403,
-        //                 'error' => true,
-        //                 'message' => 'Forbidden: Admin access required',
-        //             ]));
-        //     }
-        // }
+        if (!$account) {
+            return $this->jsonResponse(403, 'Forbidden: Invalid user account');
+        }
 
-        // return null;
+        // Vérification des permissions pour /client et /admin
+        if (strpos($uri, '/admin') !== false && !boolval($account["estAdmin"])) {
+            return $this->jsonResponse(403, 'Forbidden: Admin access required');
+        }
+
+        return null;
     }
 
 
+
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null) {}
+
+
+
+    /**
+     * Helper pour créer une réponse JSON.
+     *
+     * @param int    $statusCode Le code HTTP.
+     * @param string $message    Le message de la réponse.
+     * @return ResponseInterface
+     */
+    private function jsonResponse(int $statusCode, string $message): ResponseInterface
+    {
+        return service('response')
+            ->setStatusCode($statusCode)
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode([
+                'status' => $statusCode,
+                'error' => true,
+                'message' => $message,
+            ]));
+    }
 }

@@ -33,8 +33,9 @@ class AvisController extends ResourceController
 	public function addAvis()
 	{
 		$data = $this->request->getJSON();
+		$idCli = session()->get("data")["idCli"];
 	
-		if (empty($data->contenu) || !isset($data->note) || !isset($data->idCli)) {
+		if (empty($data->contenu) || !isset($data->note) || !isset($idCli)) {
 			return $this->fail("Champs obligatoires manquants : 'contenu', 'note' ou 'idCli'", 400);
 		}
 	
@@ -48,7 +49,7 @@ class AvisController extends ResourceController
 			$data->contenu,
 			$dateAvis,
 			$data->note,
-			$data->idCli
+			$idCli
 		);
 	
 		if (!$response || $response == -1) {

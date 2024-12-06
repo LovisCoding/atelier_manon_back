@@ -13,12 +13,14 @@ class PanierController extends ResourceController
 	public function addProductToPanier() 
 	{
 		$data = $this->request->getJSON();
+
+		$idCli = session()->get("data")["idCli"];
 	
 		if (empty($data->idProd) || !is_numeric($data->idProd)) {
 			return $this->respond("L'id du produit est requis et doit être valide.", 400);
 		}
 	
-		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+		if (empty($idCli) || !is_numeric($idCli)) {
 			return $this->respond("L'id du client est requis et doit être valide.", 400);
 		}
 	
@@ -26,7 +28,7 @@ class PanierController extends ResourceController
 			$data->idProd,
 			$data->gravure,
 			$data->variante,
-			$data->idCli
+			$idCli
 		);
 	
 		if ($response) {
@@ -39,12 +41,14 @@ class PanierController extends ResourceController
 	public function reduceProductFromPanier() 
 	{
 		$data = $this->request->getJSON();
+
+		$idCli = session()->get("data")["idCli"];
 	
 		if (empty($data->idProd) || !is_numeric($data->idProd)) {
 			return $this->respond("L'id du produit est requis et doit être valide.", 400);
 		}
 	
-		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+		if (empty($idCli) || !is_numeric($idCli)) {
 			return $this->respond("L'id du client est requis et doit être valide.", 400);
 		}
 	
@@ -52,7 +56,7 @@ class PanierController extends ResourceController
 			$data->idProd,
 			$data->gravure,
 			$data->variante,
-			$data->idCli
+			$idCli
 		);
 	
 		if ($response) {
@@ -65,12 +69,13 @@ class PanierController extends ResourceController
 	public function deleteProductFromPanier() 
 	{
 		$data = $this->request->getJSON();
+		$idCli = session()->get("data")["idCli"];
 	
 		if (empty($data->idProd) || !is_numeric($data->idProd)) {
 			return $this->respond("L'id du produit est requis et doit être valide.", 400);
 		}
 	
-		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+		if (empty($idCli) || !is_numeric($idCli)) {
 			return $this->respond("L'id du client est requis et doit être valide.", 400);
 		}
 	
@@ -78,7 +83,7 @@ class PanierController extends ResourceController
 			$data->idProd,
 			$data->gravure,
 			$data->variante,
-			$data->idCli
+			$idCli
 		);
 	
 		if ($response) {
@@ -91,12 +96,13 @@ class PanierController extends ResourceController
 	public function deletePanierClient()
 	{
 		$data = $this->request->getJSON();
-	
-		if (empty($data->idCli) || !is_numeric($data->idCli)) {
+		$idCli = session()->get("data")["idCli"];
+
+		if (empty($idCli) || !is_numeric($idCli)) {
 			return $this->respond("L'id du client est requis et doit être valide.", 400);
 		}
 	
-		$response = $this->model->deletePanierClient($data->idCli);
+		$response = $this->model->deletePanierClient($idCli);
 	
 		if ($response) {
 			return $this->respond("Le panier a été supprimé.", 201);

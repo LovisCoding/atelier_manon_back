@@ -57,8 +57,10 @@ class CommandeController extends ResourceController
     public function addCommande()
     {
         $data = $this->request->getJSON();
+
+        $idCli = session()->get("data")["idCli"];
     
-        if (empty($data->idCli) || !is_numeric($data->idCli)) {
+        if (empty($idCli) || !is_numeric($idCli)) {
             return $this->fail("L'identifiant du client est requis et doit être un entier valide.", 400);
         }
         if (!is_string($data->comm)) {
@@ -75,7 +77,7 @@ class CommandeController extends ResourceController
         $dateLivraison = (new DateTime())->modify("+7 days")->format("d-m-Y");
     
         $response = $this->model->addCommande(
-            $data->idCli,
+            $idCli,
             $dateCommande,
             $data->comm,
             boolval($data->estCadeau),
