@@ -112,9 +112,9 @@ $routes->post('/api/client/account/logout', 'CompteController::logout');
 /* ADMIN */
 /*********/
 
-$routes->post('/api/admin/produit/update-produit', 'ProduitController::updateProduit');
+$routes->post('/api/produit/update-produit', 'ProduitController::updateProduit'); // TODO
 $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
-$routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente');
+$routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente'); // TODO
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
 $routes->delete('/api/admin/matprod/delete-matprod', 'MatProdController::deleteMatProd');

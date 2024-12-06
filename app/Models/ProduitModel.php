@@ -83,17 +83,17 @@ class ProduitModel extends Model
 
         $uploadDir = FCPATH . 'images/';
 
-        foreach ($tabPhoto as $index => $imageData) {
+        foreach ($tabPhoto as $index => $photoBase64) {
 
-            // $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photoBase64);
+            $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photoBase64);
 
             $fileName = $categorie . $libProd . ($index + 1) . '.webp';
             $filePath = $uploadDir . $fileName;
 
-            // $imageData = base64_decode($photoBase64);
-            // if ($imageData === false) {
-            //     continue;
-            // }
+            $imageData = base64_decode($photoBase64);
+            if ($imageData === false) {
+                continue;
+            }
 
             $image = imagecreatefromstring($imageData);
             if ($image === false) {
