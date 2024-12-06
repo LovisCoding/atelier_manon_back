@@ -63,7 +63,7 @@ class ProduitModel extends Model
         $produits = $query->findAll();
 
         $newProduits = [];
-        foreach($produits as $produit) {
+        foreach ($produits as $produit) {
             $newProd = $produit;
             $newProd["tabPhoto"] = $this->parsePgArray($produit["tabPhoto"]);
             $newProd["estGravable"] = boolval($produit["estGravable"]);
@@ -74,15 +74,51 @@ class ProduitModel extends Model
         return $newProduits;
     }
 
+    public function uploadPhotos($tabPhoto, $idCateg, $libProd) 
+    {
+        $categorieModel = new CategorieModel();
+        $categorie = $categorieModel->getCategorie($idCateg);
+
+        $photoPaths = [];
+
+        $uploadDir = FCPATH . 'images/';
+
+        foreach ($tabPhoto as $index => $imageData) {
+
+            $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photoBase64);
+
+            $fileName = $categorie . $libProd . ($index + 1) . '.webp';
+            $filePath = $uploadDir . $fileName;
+
+            // $imageData = base64_decode($photoBase64);
+            // if ($imageData === false) {
+            //     continue;
+            // }
+
+            $image = imagecreatefromstring($imageData);
+            if ($image === false) {
+                continue;
+            }
+
+            imagewebp($image, $filePath, 80); // 80 est la qualité de l'image WebP
+            imagedestroy($image); // Libérer la mémoire
+
+            $photoPaths[] = 'images/' . $fileName;
+        }
+
+        return $photoPaths;
+    } 
 
     public function updateProduit($idProd, $libProd, $descriptionProd, $prix, $estGravable, $tabPhoto, $tempsRea, $idCateg)
     {
+        $photoPaths = $this->uploadPhotos($tabPhoto, $idCateg, $libProd);
+
         return $this->update($idProd, [
             "libProd" => $libProd,
             "descriptionProd" => $descriptionProd,
             "prix" => $prix,
             "estGravable" => $estGravable,
-            "tabPhoto" => $tabPhoto,
+            "tabPhoto" => $photoPaths,
             "tempsRea" => $tempsRea,
             "idCateg" => $idCateg
         ]);
@@ -97,12 +133,14 @@ class ProduitModel extends Model
             return -1;
         }
 
+        $photoPaths = $this->uploadPhotos($tabPhoto, $idCateg, $libProd);
+
         $this->insert([
             "libProd" => $libProd,
             "descriptionProd" => $descriptionProd,
             "prix" => $prix,
             "estGravable" => $estGravable,
-            "tabPhoto" => $tabPhoto,
+            "tabPhoto" => $photoPaths,
             "tempsRea" => $tempsRea,
             "idCateg" => $idCateg
         ]);
@@ -163,39 +201,53 @@ class ProduitModel extends Model
         }
 
         return $newProduit;
-
     }
 
-	public function getProduits() {
-		$produits = $this->findAll();
-		$newProduits = [];
-		foreach ($produits as $produit) {
-			$tabPhoto = $this->parsePgArray($produit['tabPhoto']);
-			if (sizeof($tabPhoto) > 0) {
-				$produit["photo"] = $tabPhoto[0];
-				$produit["tabPhoto"] = $tabPhoto;
-				$newProduits[] = $produit;
-			}
-		}
-		return $newProduits;
-	}
+    public function getProduits()
+    {
+        $produits = $this->findAll();
+        $newProduits = [];
+        foreach ($produits as $produit) {
+            $tabPhoto = $this->parsePgArray($produit['tabPhoto']);
+            if (sizeof($tabPhoto) > 0) {
+                $produit["photo"] = $tabPhoto[0];
+                $produit["tabPhoto"] = $tabPhoto;
+                $newProduits[] = $produit;
+            }
+        }
+        return $newProduits;
+    }
 
-    public function getProduitsVente() {
+    public function getProduitsVente()
+    {
         $produits = $this->getProduits();
 
-        
-		$produits = $this->findAll();
-		$newProduits = [];
-		foreach ($produits as $produit) {
-			$tabPhoto = $this->parsePgArray($produit['tabPhoto']);
-			if (sizeof($tabPhoto) > 0) {
-				$produit["photo"] = $tabPhoto[0];
-				$produit["tabPhoto"] = $tabPhoto;
-				$newProduits[] = $produit;
-			}
-		}
-		return $newProduits;
-	}
+        $commandeProduitModel = new CommandeProduitModel();
+        $newProd = [];
+        $totalQuantity = 0;
+        $prixTotalEstimated = 0;
+        foreach ($produits as $produit) {
+            $nbSell = 0;
+            $commandeProduits = $commandeProduitModel->getCommandeProduits($produit["idProd"]);
+
+            foreach ($commandeProduits as $commandeProduit)
+                $nbSell += $commandeProduit["qa"];
+
+            $produit["quantiteVendue"] = $nbSell;
+            $produit["prixEstime"] = $nbSell * floatval($produit["prix"]);
+
+            $totalQuantity += $nbSell;
+            $prixTotalEstimated += $nbSell * floatval($produit["prix"]);
+
+            $newProd[] = $produit;
+        }
+
+        return [
+            "prixTotalEstime" => $prixTotalEstimated,
+            "quantiteTotal" => $totalQuantity,
+            "produits" => $newProd
+        ];
+    }
 
     private function parsePgArray(string $pgArray): array
     {
@@ -207,7 +259,4 @@ class ProduitModel extends Model
             return trim(stripslashes($element), '"');
         }, $elements);
     }
-
-
-	
 }

@@ -114,6 +114,7 @@ $routes->post('/api/client/account/logout', 'CompteController::logout');
 
 $routes->post('/api/admin/produit/update-produit', 'ProduitController::updateProduit');
 $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
+$routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente');
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
 $routes->delete('/api/admin/matprod/delete-matprod', 'MatProdController::deleteMatProd');

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\CommandeModel;
+use App\Models\CommandeProduitModel;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\ProduitModel;
 

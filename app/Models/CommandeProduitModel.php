@@ -43,7 +43,14 @@ class CommandeProduitModel extends Model
         return "Impossible d'ajouter ce produit.";
     }
 
-
+    public function getCommandeProduits($idProd) 
+    {
+        if ($this->getProduit($idProd)) {
+            $produits = $this->where("idProd", $idProd)->findAll();
+            return $produits;
+        }
+        return null;
+    }
 
     public function getProduitsCommande($idCommande)
     {
