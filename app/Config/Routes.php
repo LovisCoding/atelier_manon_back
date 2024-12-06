@@ -68,8 +68,6 @@ $routes->delete('/api/panier/delete-panier-client', 'PanierController::deletePan
 $routes->delete('/api/panier/delete-product-panier', 'PanierController::deleteProductFromPanier');
 $routes->get('/api/panier/get-panier-client', 'PanierController::getPaniersFromClient');
 
-$routes->get('/api/commandeproduit/get-produits-commande', 'CommandeProduitController::getProduitsCommande');
-
 $routes->post('/api/account/register', 'CompteController::register');
 $routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
 $routes->post('/api/account/login', 'CompteController::login');
