@@ -184,16 +184,16 @@ class CompteController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 
-		if (empty($data->idCli)) {
-			return $this->respond("L'ID du client est requis.", 400);
+		if (empty($data->mail)) {
+			return $this->respond("Le mail du client est requis.", 400);
 		}
 
-		$response = $this->model->addNewsLetter($data->idCli);
+		$response = $this->model->addNewsLetter($data->mail);
 
 		if ($response) {
 			return $this->respond("Client ajouté à la newsletter.", 201);
 		} else {
-			return $this->respond("Erreur lors de l'ajout à la newsletter.", 500);
+			return $this->respond("Erreur lors de l'ajout à la newsletter. (Ce mail n'est lié à aucun compte)", 400);
 		}
 	}
 

@@ -73,11 +73,11 @@ class CompteModel extends Model
         ]);
     }
 
-    public function addNewsLetter($idCli) {
-        $account = $this->getAccountById($idCli);
+    public function addNewsLetter($email) {
+        $account = $this->getAccountByEmail($email);
 
         if ($account) {
-            $this->update($idCli, [
+            $this->update($account["idCli"], [
                 "news" => true
             ]);     
             return true;
