@@ -68,7 +68,11 @@ class CommandeModel extends Model
 
     public function getCommande($idCommande)
     {
-        $commande = $this->where("idCommande", $idCommande)->first();
+        $idCli = session()->get("data")["idCli"];
+
+        $commande = $this->where("idCommande", $idCommande)
+                         ->where("idCli", $idCli)
+                         ->first();
 
         $prixTotal = 0;
         $prixTotalReduc = 0;
