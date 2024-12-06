@@ -102,6 +102,44 @@ class CompteController extends ResourceController
 		return $this->respond("Votre compte a bien été créé.", 201);
 	}
 
+	public function login() {
+		$data = $this->request->getJSON();
+
+		if (empty($data->email) || empty($data->mdp)) {
+			return $this->respond("L'email et le mot de passe sont requis.", 400);
+		}
+
+		$account = $this->model->getAccountByEmail($data->email);
+
+		if ($account) {
+			$accountMdp = $account["mdp"];
+			$authenticatePassword = password_verify($accountMdp, $data->mdp);
+
+			if ($authenticatePassword) {
+				session()->set("data", [
+					"idCli" => $account["idCli"]
+				]);
+				return $this->respond("Connection effectuée avec succès.");
+			}
+			else {
+				return $this->respond("Mot de passe invalide.", 403);
+			}
+
+		}
+
+		return $this->respond("Email invalide.", 403);
+		 
+	}
+
+	public function logout() 
+	{
+		if (session()->destroy()) {
+			return $this->respond("Déconnexion effectuée avec succès.");
+		}
+		return $this->respond("Impossible de se déconnecter", 400);
+
+	}
+
 
 	public function forgotPassword()
 	{

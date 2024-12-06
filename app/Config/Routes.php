@@ -104,6 +104,8 @@ $routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProdu
 $routes->post('/api/client/account/add-newsletter', 'CompteController::addNewsLetter');
 $routes->post('/api/client/account/remove-newsletter', 'CompteController::removeNewsLetter');
 $routes->get('/api/client/account/get-compte', 'CompteController::getCompte');
+$routes->post('/api/client/account/logout', 'CompteController::logout');
+
 
 
 /*********/

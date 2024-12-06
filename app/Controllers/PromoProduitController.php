@@ -41,7 +41,7 @@ class PromoProduitController extends ResourceController
 			return $this->respond("Impossible d'ajouter la promotion pour ce produit.", 500); 
 		}
 	
-		return $this->respond("Promotion ajoutée avec succès.", 201);
+		return $this->respond("Promotion ajoutée au produit avec succès.", 201);
 	}
 
 	public function addPromoProduits() 
@@ -66,7 +66,7 @@ class PromoProduitController extends ResourceController
 	
 
 	
-		return $this->respond("Promotion ajoutée avec succès.", 201);
+		return $this->respond("Promotion ajoutée aux produits avec succès.", 201);
 	}
 	
 	public function deletePromoProduit() 
@@ -87,7 +87,7 @@ class PromoProduitController extends ResourceController
 			return $this->respond("Impossible de supprimer la promotion pour ce produit.", 500);
 		}
 	
-		return $this->respond("Promotion supprimée avec succès.", 201);
+		return $this->respond("Promotion supprimée du produit avec succès.", 201);
 	}
 	
 	public function deletePromoProduits() 
@@ -111,7 +111,7 @@ class PromoProduitController extends ResourceController
 		}
 
 	
-		return $this->respond("Promotion supprimée avec succès.", 201);
+		return $this->respond("Promotion supprimée des produits avec succès.", 201);
 	}
 
 
