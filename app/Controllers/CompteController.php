@@ -17,9 +17,22 @@ class CompteController extends ResourceController
 		return $this->respond($clients);
 	}
 
-	public function getCompte() 
+
+	public function getCompteByAdmin() 
 	{
 		$idCli = $this->request->getGet("idCli");
+
+		if (empty($idCli)) {
+			return $this->respond("L'ID du client est requis.", 400);
+		}
+
+		$client = $this->model->getAccountById($idCli);
+		return $this->respond($client);
+	}
+
+	public function getCompte() 
+	{
+		$idCli = session()->get("data")["idCli"];
 
 		if (empty($idCli)) {
 			return $this->respond("L'ID du client est requis.", 400);

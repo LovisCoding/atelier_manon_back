@@ -161,6 +161,7 @@ $routes->get('/api/admin/commande/get-commandes', 'CommandeController::getComman
 
 $routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsLetters');
 $routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
+$routes->get('/api/admin/account/get-compte-admin', 'CompteController::getCompteByAdmin');
 
 
 

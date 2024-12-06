@@ -113,7 +113,7 @@ class PanierController extends ResourceController
 	
 	public function getPaniersFromClient()
 	{
-		$idCli = $this->request->getGet("idCli");
+		$idCli = session()->get("data")["idCli"];
 	
 		if (empty($idCli) || !is_numeric($idCli)) {
 			return $this->respond("L'id du client est requis et doit être valide.", 400);

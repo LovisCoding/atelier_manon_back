@@ -19,7 +19,7 @@ class CommandeController extends ResourceController
 
     public function getCommandesByClient()
     {
-        $idCli = $this->request->getGet("idCli");
+        $idCli = session()->get("data")["idCli"];
     
         if (empty($idCli) || !is_numeric($idCli)) {
             return $this->fail("L'identifiant du client est requis et doit être un entier valide.", 400);
