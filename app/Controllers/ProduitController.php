@@ -174,6 +174,12 @@ class ProduitController extends ResourceController
 		return $this->respond($produits);
 	}
 
+    public function produitsAllVente() {
+        $produits = $this->model->getProduitsVente();
+
+        return $this->respond($produits);
+    }
+
     
     // ...
 }

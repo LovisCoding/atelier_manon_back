@@ -30,6 +30,19 @@ class AvisController extends ResourceController
         return $this->respond($avis);
 	}
 
+	public function getAvisByClient()
+	{
+		$idCli = session()->get("data")["idCli"];
+
+		if (!$idCli || !is_numeric($idCli))
+			return $this->fail("Le paramètre idCli est invalide ou manquant.", 400);
+
+		$avis = $this->model->getAvisByClient($idCli);
+
+        return $this->respond($avis);
+	}
+
+
 	public function addAvis()
 	{
 		$data = $this->request->getJSON();
