@@ -14,7 +14,6 @@ class ProduitController extends ResourceController
     public function getImage($image)
     {
         $width = $this->request->getGet('width');
-        $height = $this->request->getGet('height');
     
         $filePath = FCPATH . 'images/' . $image;
     
@@ -24,13 +23,15 @@ class ProduitController extends ResourceController
     
         $img = imagecreatefromwebp($filePath);
     
-        if ($width && $height) {
+        if ($width) {
 
             $originalWidth = imagesx($img);
             $originalHeight = imagesy($img);
     
             $newWidth = (int)$width;
-            $newHeight = (int)$height;
+
+            $ratio = $newWidth / $originalWidth;
+            $newHeight = (int)($originalHeight * $ratio);
     
             $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
     
