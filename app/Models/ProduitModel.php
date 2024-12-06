@@ -85,7 +85,7 @@ class ProduitModel extends Model
 
         foreach ($tabPhoto as $index => $imageData) {
 
-            $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photoBase64);
+            // $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photoBase64);
 
             $fileName = $categorie . $libProd . ($index + 1) . '.webp';
             $filePath = $uploadDir . $fileName;
