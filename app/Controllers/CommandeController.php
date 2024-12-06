@@ -61,14 +61,14 @@ class CommandeController extends ResourceController
         if (empty($data->idCli) || !is_numeric($data->idCli)) {
             return $this->fail("L'identifiant du client est requis et doit être un entier valide.", 400);
         }
-        if (empty($data->comm) || !is_string($data->comm)) {
-            return $this->fail("Le commentaire est requis et doit être une chaîne de caractères valide.", 400);
+        if (!is_string($data->comm)) {
+            return $this->fail("Le commentaire doit être une chaîne de caractères valide.", 400);
         }
         if (!isset($data->estCadeau) || !is_bool($data->estCadeau)) {
             return $this->fail("Le statut de cadeau est requis et doit être un booléen.", 400);
         }
-        if (empty($data->carte) || !is_string($data->carte)) {
-            return $this->fail("Le message de la carte est requis et doit être une chaîne de caractères valide.", 400);
+        if (is_string($data->carte)) {
+            return $this->fail("Le message de la carte doit être une chaîne de caractères valide.", 400);
         }
     
         $dateCommande = (new DateTime())->format("d-m-Y");
