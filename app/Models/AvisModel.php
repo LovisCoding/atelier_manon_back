@@ -27,8 +27,17 @@ class AvisModel extends Model
 
     public function getAvis($idAvis = -1) 
     {
-        if ($idAvis == -1)
-            return $this->findAll();
+        if ($idAvis == -1) 
+        {
+            $allAvis = $this->findAll();
+            $newAllAvis = [];
+            foreach ($allAvis as $avis) {
+                $avis["compte"] = $this->getAccount($avis["idCli"]);
+                $newAllAvis[] = $avis;
+            }
+            return $newAllAvis;
+
+        }
          return $this->where("idAvis", $idAvis)->first();;
 
     }
