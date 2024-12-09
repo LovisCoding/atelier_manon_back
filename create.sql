@@ -28,7 +28,8 @@ CREATE TABLE "Compte" (
     token VARCHAR(255),
     token_expiration TIMESTAMP,
     "estAdmin" BOOLEAN NOT NULL DEFAULT FALSE,
-    news BOOLEAN NOT NULL DEFAULT FALSE
+    news BOOLEAN NOT NULL DEFAULT FALSE,
+    "dateSup" Date
 );
 
 CREATE TABLE "Categorie" (
