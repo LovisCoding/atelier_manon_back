@@ -98,6 +98,7 @@ $routes->post('/api/client/commande/add-commande', 'CommandeController::addComma
 
 $routes->get('/api/client/commande/get-commande', 'CommandeController::getCommande');
 $routes->get('/api/client/commande/get-commandes-client', 'CommandeController::getCommandesByClient');
+$routes->post('/api/client/commande/add-single-product-commande', 'CommandeController::addSingleProductCommande');
 
 $routes->post('/api/client/panier/add-product-panier', 'PanierController::addProductToPanier');
 $routes->post('/api/client/panier/reduce-product-panier', 'PanierController::reduceProductFromPanier');
@@ -106,7 +107,6 @@ $routes->delete('/api/client/panier/delete-product-panier', 'PanierController::d
 $routes->get('/api/client/panier/get-panier-client', 'PanierController::getPaniersFromClient');
 
 $routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProduitController::getProduitsCommande');
-$routes->post('/api/client/commande/add-single-product-commande', 'CommandeController::addSingleProductCommande');
 
 $routes->post('/api/client/account/add-newsletter', 'CompteController::addNewsLetter');
 $routes->post('/api/client/account/remove-newsletter', 'CompteController::removeNewsLetter');
