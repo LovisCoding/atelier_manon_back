@@ -33,11 +33,10 @@ class CommandeModel extends Model
             $newCommandes = [];
 
             foreach ($commandes as $commande) {
-                $newCommandes[] = $this->getCommande($commande["idCommande"]);
+                $newCommandes[] = $this->calculCommande($commande);
             }
 
             return $newCommandes;
-    
         }
 
         return $this->where("idCli", $idCli)->findAll();
@@ -60,67 +59,55 @@ class CommandeModel extends Model
 
         $codesPromoProduit = [];
 
-        foreach($utilisationCodes as $utilisationCode) {
+        foreach ($utilisationCodes as $utilisationCode) {
             $produitsApplyPromo = $promoProduitModel->getProduitsByCode($utilisationCode);
-            
-            if (in_array($produit, $produitsApplyPromo))
-            {
+
+            if (in_array($produit, $produitsApplyPromo)) {
                 $codePromoModel = new CodePromoModel();
                 $codesPromoProduit[] = $codePromoModel->getCodePromo($utilisationCode);
             }
-
         }
 
         return $codesPromoProduit;
     }
 
-    
-    public function getCommande($idCommande)
+    public function calculCommande($commande)
     {
-        $idCli = session()->get("data")["idCli"];
-
-        $commande = $this->where("idCommande", $idCommande)
-                         ->where("idCli", $idCli)
-                         ->first();
-
-        if ($commande == null) 
+        if ($commande == null)
             return $commande;
 
         $prixTotal = 0;
         $prixTotalReduc = 0;
         $tempsLivraisonEstime = 0;
 
-        $produitsCommande = $this->getProduitsFromCommande($idCommande);
-        
+        $produitsCommande = $this->getProduitsFromCommande($commande["idCommande"]);
+
         foreach ($produitsCommande as $produitCommande) {
             $produit = $produitCommande["produit"];
             $prix = $produit["prix"];
             $tempsRea = $produit["tempsRea"];
 
-            $codesPromo = $this->getCodesPromo($produit, $idCommande);
+            $codesPromo = $this->getCodesPromo($produit, $commande["idCommande"]);
             $prixReduc = $prix;
-            foreach ($codesPromo as $codePromo) 
-            {
+            foreach ($codesPromo as $codePromo) {
                 if ($codePromo["type"] == "P") {
-                    $reduc = (100 - floatval($codePromo["reduc"])) *0.01;
+                    $reduc = (100 - floatval($codePromo["reduc"])) * 0.01;
                     $prixReduc *= $reduc;
-                }       
-                else {
+                } else {
                     $prixReduc -= floatval($codePromo["reduc"]);
-                }       
+                }
             }
 
             $qa = intval($produitCommande["qa"]);
 
             $prixTotal += $prix * $qa;
-            $prixTotalReduc += $prixReduc * $qa; 
+            $prixTotalReduc += $prixReduc * $qa;
             $tempsLivraisonEstime += $tempsRea * $qa;
-
         }
 
         $utilisationCodeModel = new UtilisationCodeModel();
 
-        $codesPromo = $utilisationCodeModel->getCodesPromoByCommande($idCommande);
+        $codesPromo = $utilisationCodeModel->getCodesPromoByCommande($commande["idCommande"]);
         $codesCommande = [];
         foreach ($codesPromo as $codePromo) {
             $codesCommande[] = $codePromo;
@@ -128,10 +115,37 @@ class CommandeModel extends Model
 
         $commande["prixTotal"] = $prixTotal;
         $commande["prixTotalReduc"] = $prixTotalReduc;
-        $commande["codesPromo"] = $codesCommande; 
+        $commande["codesPromo"] = $codesCommande;
         $commande["tempsLivraisonEstime"] = $tempsLivraisonEstime;
 
         return $commande;
+    }
+
+    public function getCommande($idCommande)
+    {
+        $idCli = session()->get("data")["idCli"];
+
+        $compteModel = new CompteModel();
+        $account = $compteModel->getAccountById($idCli);
+        
+        if ($account) {
+            $estAdmin = boolval($account["estAdmin"]);
+
+            if ($estAdmin) {
+                $commande = $this->where("idCommande", $idCommande)
+                ->first();
+            }
+            else {
+                $commande = $this->where("idCommande", $idCommande)
+                ->where("idCli", $idCli)
+                ->first();
+            }
+
+            return $this->calculCommande($commande);
+
+        }
+
+        return null;
     }
 
     public function getClient($idCommande)
@@ -203,7 +217,7 @@ class CommandeModel extends Model
         return false;
     }
 
-    public function updateEtatCommande($idCommande, $etat) 
+    public function updateEtatCommande($idCommande, $etat)
     {
         $commande = $this->getCommande($idCommande);
 

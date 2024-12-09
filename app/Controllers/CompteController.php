@@ -69,7 +69,10 @@ class CompteController extends ResourceController
 			'adresse' => $adresse
 		]);
 
-		$confirmAccountLink = site_url("email/confirmAccount/$token");
+		$frontUrl = getenv('FRONT_URL');
+		$confirmAccountLink = $frontUrl . "email/confirmAccount/$token";
+
+		return $this->respond($confirmAccountLink);
 
 		$emailService = \Config\Services::email();
 		$emailService->setTo($data->email);
@@ -175,7 +178,9 @@ class CompteController extends ResourceController
 				'token_expiration' => $expiration
 			]);
 
-			$resetLink = site_url("/forgot-password/reset-password/$token");
+			$frontUrl = getenv('FRONT_URL');
+			$resetLink = $frontUrl . "reset-password/$token";
+
 			$message = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe: $resetLink";
 
 			$emailService = \Config\Services::email();
@@ -211,12 +216,8 @@ class CompteController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 
-		if (empty($data->token) || empty($data->password) || empty($data->confirm_password)) {
-			return $this->respond("Le token et les mots de passe sont requis.", 400);
-		}
-
-		if ($data->password !== $data->confirm_password) {
-			return $this->respond("Les mots de passe ne correspondent pas.", 400);
+		if (empty($data->token) || empty($data->password)) {
+			return $this->respond("Le token et le mots de passe sont requis.", 400);
 		}
 
 		$account = $this->model->getAccountByToken($data->token);
