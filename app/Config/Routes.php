@@ -106,6 +106,7 @@ $routes->delete('/api/client/panier/delete-product-panier', 'PanierController::d
 $routes->get('/api/client/panier/get-panier-client', 'PanierController::getPaniersFromClient');
 
 $routes->get('/api/client/commandeproduit/get-produits-commande', 'CommandeProduitController::getProduitsCommande');
+$routes->post('/api/client/commandeproduit/add-single-product-commande', 'CompteController::addSingleProductCommande');
 
 $routes->post('/api/client/account/add-newsletter', 'CompteController::addNewsLetter');
 $routes->post('/api/client/account/remove-newsletter', 'CompteController::removeNewsLetter');

@@ -90,6 +90,40 @@ class CommandeController extends ResourceController
     
         return $this->respond($response, 201);
     }
+
+    public function addSingleProductCommande()
+    {
+        $data = $this->request->getJSON();
+
+        $idCli = session()->get("data")["idCli"];
+    
+        if (empty($idCli) || !is_numeric($idCli)) {
+            return $this->fail("L'identifiant du client est requis et doit être un entier valide.", 400);
+        }
+
+        if (empty($data->variante)) {
+            return $this->fail("La variante est requise.", 400);
+        }
+
+        if (empty($idProd) || !is_numeric($idProd)) {
+            return $this->fail("L'identifiant du produit est requis et doit être un entier valide.", 400);
+        }
+
+        $dateCommande = (new DateTime())->format("d-m-Y");
+    
+        $response = $this->model->addSingleProductCommande(
+            $idCli,
+            $dateCommande,
+            $data->idProd,
+            $data->variante
+        );
+
+        if (!$response) {
+            return $this->respond("Impossible de créer une commande avec ce produit.", 400);
+        }
+        return $this->respond($response);
+    }
+
     
 
     public function deleteCommande()
