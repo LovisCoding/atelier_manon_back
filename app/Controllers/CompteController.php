@@ -129,7 +129,7 @@ class CompteController extends ResourceController
 
 		if ($account) {
 			if ($account["dateSup"] != null) {
-				return $this->respond("Ce compte a été desactivé.");
+				return $this->respond("Ce compte a été desactivé.", 400);
 			}
 
 			$mdp = $account['mdp'];

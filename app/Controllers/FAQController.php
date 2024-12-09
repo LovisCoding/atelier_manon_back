@@ -41,8 +41,8 @@ class FAQController extends ResourceController
 	
 		$idCli = session()->get("data")["idCli"];
 
-		if (empty($data->contenu) || empty($data->reponse) || empty($idCli)) {
-			return $this->respond("Les champs 'contenu', 'réponse', et 'idCli' sont requis.", 400); 
+		if (empty($data->contenu) || empty($idCli)) {
+			return $this->respond("Les champs 'contenu', et 'idCli' sont requis.", 400); 
 		}
 	
 		if ($data->idQuestion !== -1) {

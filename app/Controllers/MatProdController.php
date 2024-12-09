@@ -52,7 +52,7 @@ class MatProdController extends ResourceController
 			return $this->respond("L'id du produit est requis et doit être valide.", 400);
 		}
 
-		if (empty($data->tabMateriaux)) {
+		if (!is_array($data->tabMateriaux)) {
 			return $this->respond("Les matériaux sont requis.", 400);
 		}
 

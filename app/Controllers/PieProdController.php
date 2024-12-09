@@ -53,7 +53,7 @@ class PieProdController extends ResourceController
 			return $this->respond("L'id du produit est requis et doit être valide.", 400);
 		}
 	
-		if (empty($data->tabPierres)) {
+		if (!is_array($data->tabPierres)) {
 			return $this->respond("Les libellés des pierres sont requis.", 400);
 		}
 	

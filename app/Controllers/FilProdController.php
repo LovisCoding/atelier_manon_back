@@ -49,7 +49,7 @@ class FilProdController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 
-		if (empty($data->idProd) || empty($data->tabFils)) {
+		if (empty($data->idProd) || !is_array($data->tabFils)) {
 			return $this->respond("Les champs 'idProd' et 'tabFils' sont requis.", 400);
 		}
 
