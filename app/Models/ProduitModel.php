@@ -88,7 +88,7 @@ class ProduitModel extends Model
     }
 
 
-    public function createProduit($libProd, $descriptionProd, $prix, $estGravable, $tabPhoto, $tempsRea, $idCateg)
+    public function createProduit($libProd, $descriptionProd, $prix, $estGravable, $tempsRea, $idCateg)
     {
         $existProduct = $this->where("libProd", $libProd)->first();
 
