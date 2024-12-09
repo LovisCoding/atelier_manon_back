@@ -28,8 +28,18 @@ class CommandeModel extends Model
 
     public function getCommandes($idCli = -1)
     {
-        if ($idCli == -1)
-            return $this->findAll();
+        if ($idCli == -1) {
+            $commandes =  $this->findAll();
+            $newCommandes = [];
+
+            foreach ($commandes as $commande) {
+                $newCommandes[] = $this->getCommande($commande["idCommande"]);
+            }
+
+            return $newCommandes;
+    
+        }
+
         return $this->where("idCli", $idCli)->findAll();
     }
 
@@ -64,8 +74,7 @@ class CommandeModel extends Model
         return $codesPromoProduit;
     }
 
-
-
+    
     public function getCommande($idCommande)
     {
         $idCli = session()->get("data")["idCli"];

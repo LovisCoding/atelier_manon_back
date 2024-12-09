@@ -115,6 +115,8 @@ $routes->post('/api/client/account/logout', 'CompteController::logout');
 $routes->post('/api/produit/update-produit', 'ProduitController::updateProduit'); // TODO
 $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
 $routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente'); // TODO
+$routes->get('/api/produit/add-image', 'ProduitController::addImage'); // TODO
+
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
 $routes->delete('/api/admin/matprod/delete-matprod', 'MatProdController::deleteMatProd');
@@ -158,7 +160,7 @@ $routes->get('/api/admin/codepromo/get-codespromo', 'CodePromoController::getCod
 $routes->delete('/api/admin/commande/delete-commande', 'CommandeController::deleteCommande');
 $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
 
-$routes->get('/api/admin/commande/get-commandes', 'CommandeController::getCommandes');
+$routes->get('/api/commande/get-commandes', 'CommandeController::getCommandes');
 
 $routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsLetters');
 $routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');

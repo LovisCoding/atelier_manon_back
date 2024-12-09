@@ -95,6 +95,33 @@ class ProduitController extends ResourceController
         return $this->respond($produit);
     }
 
+    public function addImage() 
+    {
+        $data = $this->request->getJSON();
+
+        $image = $data->image;
+        $numero = $data->numero;
+        $idProd = $data->idProd;    
+
+        if (empty($idProd) || !is_numeric($idProd)) {
+            return $this->respond("Le numero du produit est requis.", 400);
+        }
+
+        if (empty($image) || empty($numero) || !is_numeric($numero)) {
+            return $this->respond("L'image, numero et le libelle du produit sont requis.", 400);
+        }
+
+        $response = $this->model->addImage($image, $numero);
+
+        if ($response) {
+            return $this->respond("Image enregistrée avec succès.", 201);
+        }
+        else {
+            return $this->respond("Impossible d'enregistrer cette image.", 400);
+        }
+
+    }
+
     public function updateProduit()
     {
         $data = $this->request->getJSON();

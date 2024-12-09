@@ -74,6 +74,41 @@ class ProduitModel extends Model
         return $newProduits;
     }
 
+    public function uploadPhoto($photo, $numero, $idProd) {
+        $produit = $this->getProduit($idProd);
+        $uploadDir = FCPATH . 'images/';
+
+        if ($produit) {
+            $categorieModel = new CategorieModel();
+            $categorie = $categorieModel->getCategorie($produit["idCateg"]);
+
+            if ($categorie) {
+                $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photo);
+
+                $fileName = $categorie . $produit["libProd"] . $numero . '.webp';
+                $filePath = $uploadDir . $fileName;
+
+                $imageData = base64_decode($photoBase64);
+                if ($imageData === false) {
+                    return false;
+                }
+    
+                $image = imagecreatefromstring($imageData);
+                if ($image === false) {
+                    return false;
+                }
+    
+                imagewebp($image, $filePath, 80);
+                imagedestroy($image);
+                
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
     public function uploadPhotos($tabPhoto, $idCateg, $libProd) 
     {
         $categorieModel = new CategorieModel();
