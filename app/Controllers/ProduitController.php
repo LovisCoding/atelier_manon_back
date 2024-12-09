@@ -22,7 +22,7 @@ class ProduitController extends ResourceController
 
         if (!$response) {
             return $this->respond("Image non trouvé", 404);
-        }   
+        }
     }
 
     public function resizeAndGetImage($filePath, $width)
@@ -240,16 +240,33 @@ class ProduitController extends ResourceController
         return $this->respond($produits);
     }
 
-    public function updateImagesOrder() 
+    public function updateImagesOrder()
     {
         $data = $this->request->getJSON();
+    
 
-        if (is_array($data->tabPhoto)) {
-            return $this->respond("Le tableau d'images est requis.", 400);
+        if (!is_array($data->tabPhoto) || empty($data->idProd) || !is_numeric($data->idProd)) {
+            return $this->respond("L'id du produit et le tableau d'images sont requis.", 400);
         }
 
-        
+        $tabPhoto = $this->toPgArray($data->tabPhoto);  
+    
+        $response = $this->model->updateImagesOrder($tabPhoto, $data->idProd);
+    
+        if ($response) {
+            return $this->respond("Ordre des images modifié avec succès !", 201);
+        } else {
+            return $this->respond("Impossible de modifier l'ordre de ces images", 400);
+        }
     }
+
+    private function toPgArray(array $phpArray): string {
+        return '{' . implode(',', array_map(function($val) {
+            return '"' . str_replace('"', '\"', $val) . '"'; // Échappe les guillemets
+        }, $phpArray)) . '}';
+    }
+    
+    
 
 
     // ...
