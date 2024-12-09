@@ -163,7 +163,8 @@ class CommandeModel extends Model
 
     public function addCommande($idCli, $dateCommande, $comm, $estCadeau, $carte, $dateLivraison, $codesPromo = [])
     {
-        $account = $this->getClient($idCli);
+        $accountModel = new CompteModel();
+        $account = $accountModel->getAccountById($idCli);
 
         $adresse = trim($account["adresse"], '{}');
 

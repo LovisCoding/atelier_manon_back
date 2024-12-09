@@ -315,6 +315,19 @@ class ProduitModel extends Model
 
     }
 
+    public function updateImagesOrder($tabPhoto, $idProd) {
+        $produit = $this->getProduit($idProd);
+
+        if ($produit) {
+            $this->update($idProd, [
+                "tabPhoto" => $tabPhoto
+            ]);
+            return true;
+        }
+
+        return false;
+    }
+
     
 
 }
