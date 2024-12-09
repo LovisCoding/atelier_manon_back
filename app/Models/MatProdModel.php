@@ -44,7 +44,7 @@ class MatProdModel extends Model
 
             $this->db->table($this->table)->insert([
                 "idProd" => $idProd,
-                "libmateriau" => $libMat
+                "libMateriau" => $libMat
             ]);
 
             return true;
