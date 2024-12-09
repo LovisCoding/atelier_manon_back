@@ -101,6 +101,7 @@ class ProduitModel extends Model
             "descriptionProd" => $descriptionProd,
             "prix" => $prix,
             "estGravable" => $estGravable,
+            "tabPhoto" => "{}",
             "tempsRea" => $tempsRea,
             "idCateg" => $idCateg
         ]);
