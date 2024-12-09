@@ -111,7 +111,7 @@ class ProduitController extends ResourceController
             return $this->respond("L'image, numero et le libelle du produit sont requis.", 400);
         }
 
-        $response = $this->model->addImage($image, $numero);
+        $response = $this->model->addImage($image, $numero, $idProd);
 
         if ($response) {
             return $this->respond("Image enregistrée avec succès.", 201);
