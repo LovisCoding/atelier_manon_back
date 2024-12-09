@@ -87,6 +87,7 @@ $routes->get('/api/personnalisation/get-evenement', 'PersonnalisationController:
 $routes->post('/api/client/question/add-update-question', 'FAQController::addUpdateQuestion');
 
 $routes->post('/api/client/avis/add-avis', 'AvisController::addAvis');
+$routes->post('/api/client/avis/get-avis-session', 'AvisController::getAvisBySession');
 
 $routes->post('/api/client/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
 $routes->delete('/api/client/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
@@ -122,6 +123,7 @@ $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteP
 $routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente'); // TODO
 $routes->post('/api/produit/add-image', 'ProduitController::addImage'); // TODO
 $routes->post('/api/produit/delete-image', 'ProduitController::deleteImage'); // TODO
+$routes->post('/api/admin/produit/update-images-order', 'ProduitController::updateImagesOrder'); // TODO
 
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
