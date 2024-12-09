@@ -167,7 +167,7 @@ $routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsL
 $routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
 $routes->get('/api/admin/account/get-compte-admin', 'CompteController::getCompteByAdmin');
 
-$routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisatinController::uploadImage');
+$routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage');
 
 
 
