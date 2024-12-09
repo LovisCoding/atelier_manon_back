@@ -125,12 +125,15 @@ $routes->post('/api/produit/delete-image', 'ProduitController::deleteImage'); //
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
 $routes->delete('/api/admin/matprod/delete-matprod', 'MatProdController::deleteMatProd');
+$routes->post('/api/admin/matprod/update-materiaux-produit', 'PieProdController::addMatsProd');
 
 $routes->post('/api/admin/pieprod/add-pieprod', 'PieProdController::addPieProd');
 $routes->delete('/api/admin/pieprod/delete-pieprod', 'PieProdController::deletePieProd');
+$routes->post('/api/admin/pieprod/update-pierres-produit', 'PieProdController::addPiesProd');
 
 $routes->post('/api/admin/filprod/add-filprod', 'FilProdController::addFilProd');
 $routes->delete('/api/admin/filprod/delete-filprod', 'FilProdController::deleteFilProd');
+$routes->post('/api/admin/filprod/update-fils-produit', 'FilProdController::addFilsProd');
 
 $routes->post('/api/admin/materiau/add-materiau', 'MateriauController::addMateriau');
 $routes->delete('/api/admin/materiau/delete-materiau', 'MateriauController::deleteMateriau');

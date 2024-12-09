@@ -44,7 +44,28 @@ class PieProdController extends ResourceController
 			return $this->respond("Erreur lors de l'ajout de la pierre au produit.", 500);
 		}
 	}
+
+	public function addPiesProd()
+	{
+		$data = $this->request->getJSON();
 	
+		if (empty($data->idProd) || !is_numeric($data->idProd)) {
+			return $this->respond("L'id du produit est requis et doit être valide.", 400);
+		}
+	
+		if (empty($data->tabPierres)) {
+			return $this->respond("Les libellés des pierres sont requis.", 400);
+		}
+	
+		$response = $this->model->addPiesProd($data->idProd, $data->tabPierres);
+	
+		if ($response) {
+			return $this->respond("Les pierres ont été modifiées du produit avec succès.", 201);
+		} else {
+			return $this->respond("Erreur lors de l'ajout de la pierre au produit.", 500);
+		}
+	}
+		
 	public function deletePieProd()
 	{
 		$data = $this->request->getJSON();

@@ -49,7 +49,21 @@ class PieProdModel extends Model
         return false;
     }
 
+    public function addPiesProd($idProd, $tabPierres)
+    {
+        $this->where("idProd", $idProd)->delete();
 
+        foreach($tabPierres as $libPierre) {
+            $response = $this->addPieProd($idProd, $libPierre);
+
+            if (!$response) 
+                return false;
+        }
+
+        return true;
+    }
+
+    
     public function deletePieProd($idProd, $libPierre)
     {
         $pierreProd = $this->where("idProd", $idProd)

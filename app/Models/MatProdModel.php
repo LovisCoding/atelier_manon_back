@@ -53,6 +53,21 @@ class MatProdModel extends Model
         return false;
     }
 
+    public function addMatsProd($idProd, $tabMateriaux)
+    {
+        $this->where("idProd", $idProd)->delete();
+
+        foreach($tabMateriaux as $libMateriau) {
+            $response = $this->addMatProd($idProd, $libMateriau);
+
+            if (!$response) 
+                return false;
+        }
+
+        return true;
+    }
+
+
 
     public function deleteMatProd($idProd, $libMat)
     {

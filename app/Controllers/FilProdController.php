@@ -45,6 +45,26 @@ class FilProdController extends ResourceController
 		}
 	}
 
+	public function addFilsProd()
+	{
+		$data = $this->request->getJSON();
+
+		if (empty($data->idProd) || empty($data->tabFils)) {
+			return $this->respond("Les champs 'idProd' et 'tabFils' sont requis.", 400);
+		}
+
+		$idProd = intval($data->idProd);
+		$tabFils = $data->tabFils;
+
+		$response = $this->model->addFilsProd($idProd, $tabFils);
+
+		if ($response) {
+			return $this->respond("Les fils ont été modifiés du produit avec succès.", 201);
+		} else {
+			return $this->respond("Erreur lors de l'ajout du fil au produit.", 500);
+		}
+	}
+
 	public function deleteFilProd() 
 	{
 		$data = $this->request->getJSON();

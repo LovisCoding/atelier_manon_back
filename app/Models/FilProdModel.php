@@ -16,6 +16,7 @@ class FilProdModel extends Model
     protected $useTimestamps = false;
     protected $returnType = 'array';
 
+
     public function existsProdAndFil($idProd, $libCouleur)
     {
         $produitModel = new ProduitModel();
@@ -49,6 +50,19 @@ class FilProdModel extends Model
         }
 
         return false;
+    }
+
+    public function addFilsProd($idProd, $tabLibCouleur) {
+        $this->where("idProd", $idProd)->delete();
+
+        foreach($tabLibCouleur as $libCouleur) {
+            $response = $this->addFilProd($idProd, $libCouleur);
+
+            if (!$response) 
+                return false;
+        }
+
+        return true;
     }
 
 

@@ -44,6 +44,27 @@ class MatProdController extends ResourceController
 		}
 	}
 
+	public function addMatsProd()
+	{
+		$data = $this->request->getJSON();
+
+		if (empty($data->idProd) || !is_numeric($data->idProd)) {
+			return $this->respond("L'id du produit est requis et doit être valide.", 400);
+		}
+
+		if (empty($data->tabMateriaux)) {
+			return $this->respond("Les matériaux sont requis.", 400);
+		}
+
+		$response = $this->model->addMatsProd($data->idProd, $data->tabMateriaux);
+
+		if ($response) {
+			return $this->respond("Les matériaux ont été modifiés au produit avec succès.", 201);
+		} else {
+			return $this->respond("Erreur lors de l'ajout du matériau au produit.", 500);
+		}
+	}
+
 	public function deleteMatProd()
 	{
 		$data = $this->request->getJSON();
