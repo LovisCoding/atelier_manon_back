@@ -202,6 +202,9 @@ class CommandeModel extends Model
             $utilisationCodeModel->addUtilisationCode($codePromo, $newId);
         }
 
+        $panierModel = new PanierModel();
+        $panierModel->deletePanierClient($idCli);
+
         return $newId;
     }
 
