@@ -5,6 +5,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 use function PHPUnit\Framework\isEmpty;
+use DateTime;
 
 class CommandeModel extends Model
 {
@@ -127,22 +128,20 @@ class CommandeModel extends Model
 
         $compteModel = new CompteModel();
         $account = $compteModel->getAccountById($idCli);
-        
+
         if ($account) {
             $estAdmin = $account["estAdmin"] == "t";
 
             if ($estAdmin) {
                 $commande = $this->where("idCommande", $idCommande)
-                ->first();
-            }
-            else {
+                    ->first();
+            } else {
                 $commande = $this->where("idCommande", $idCommande)
-                ->where("idCli", $idCli)
-                ->first();
+                    ->where("idCli", $idCli)
+                    ->first();
             }
 
             return $this->calculCommande($commande);
-
         }
 
         return null;
@@ -206,6 +205,47 @@ class CommandeModel extends Model
         $panierModel->deletePanierClient($idCli);
 
         return $newId;
+    }
+
+    public function addSingleProductCommande($idCli, $dateCommande, $idProd, $variante)
+    {
+
+        $accountModel = new CompteModel();
+        $account = $accountModel->getAccountById($idCli);
+
+        $adresse = trim($account["adresse"], '{}');
+
+        $produitModel = new ProduitModel();
+        $produit = $produitModel->getProduit($idProd);
+
+        if ($produit) {
+            $tempsRea = intval($produit["tempsRea"]) + 2;
+            $dateLivraison = (new DateTime())->modify("+$tempsRea days")->format("d-m-Y");
+
+            $response = $this->insert([
+                "idCli" => $idCli,
+                "dateCommande" => $dateCommande,
+                "dateLivraison" => $dateLivraison,
+                "adresse" => $adresse,
+                "etat" => "pas commencée"
+            ]);
+            if (!$response) {
+                return false;
+            }
+
+            $newId =  $this->getInsertID();
+
+
+            $commandeProduitModel = new CommandeProduitModel();
+            $response = $commandeProduitModel->addProduitToCommande($idProd, $newId, "", $variante, 1);
+
+            if (!$response) {
+                return false;
+            }
+
+            return $newId;
+        }
+        return false;
     }
 
 
