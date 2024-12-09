@@ -146,7 +146,6 @@ class CompteController extends ResourceController
 			}
 
 		}
-		
 		return $this->respond("Email incorrect", 400);
 
 	}

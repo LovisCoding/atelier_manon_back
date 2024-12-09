@@ -59,7 +59,7 @@ class CommandeController extends ResourceController
         $data = $this->request->getJSON();
 
         $idCli = session()->get("data")["idCli"];
-    
+
         if (empty($idCli) || !is_numeric($idCli)) {
             return $this->fail("L'identifiant du client est requis et doit être un entier valide.", 400);
         }
@@ -69,9 +69,7 @@ class CommandeController extends ResourceController
         if (!isset($data->estCadeau) || !is_bool($data->estCadeau)) {
             return $this->fail("Le statut de cadeau est requis et doit être un booléen.", 400);
         }
-        if (is_string($data->carte)) {
-            return $this->fail("Le message de la carte doit être une chaîne de caractères valide.", 400);
-        }
+
     
         $dateCommande = (new DateTime())->format("d-m-Y");
         $dateLivraison = (new DateTime())->modify("+7 days")->format("d-m-Y");

@@ -72,9 +72,9 @@ $routes->get('/api/panier/get-panier-client', 'PanierController::getPaniersFromC
 $routes->post('/api/account/register', 'CompteController::register');
 $routes->post('/api/account/confirmAccount', 'CompteController::confirmAccount');
 $routes->post('/api/account/login', 'CompteController::login');
-$routes->post('/api/account/forgot-password', 'CompteController::forgotPassword');
-$routes->post('/api/account/reset-password', 'CompteController::resetPassword');
-$routes->post('/api/account/update-password', 'CompteController::updatePassword');
+$routes->post('/api/account/forgot-password', 'CompteController::forgotPassword'); // send email
+$routes->post('/api/account/reset-password', 'CompteController::resetPassword'); // check token
+$routes->post('/api/account/update-password', 'CompteController::updatePassword'); // reset password
 $routes->post('/api/account/send-mail', 'CompteController::contactMail');
 
 $routes->get('/api/personnalisation/get-image', 'PersonnalisationController::getImage');
@@ -88,6 +88,7 @@ $routes->get('/api/personnalisation/get-evenement', 'PersonnalisationController:
 $routes->post('/api/client/question/add-update-question', 'FAQController::addUpdateQuestion');
 
 $routes->post('/api/client/avis/add-avis', 'AvisController::addAvis');
+$routes->post('/api/client/avis/get-avis-session', 'AvisController::getAvisBySession');
 
 $routes->post('/api/client/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
 $routes->delete('/api/client/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
@@ -123,6 +124,7 @@ $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteP
 $routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente'); // TODO
 $routes->post('/api/produit/add-image', 'ProduitController::addImage'); // TODO
 $routes->post('/api/produit/delete-image', 'ProduitController::deleteImage'); // TODO
+$routes->post('/api/admin/produit/update-images-order', 'ProduitController::updateImagesOrder'); // TODO
 
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
@@ -180,9 +182,6 @@ $routes->get('/api/admin/account/get-compte-admin', 'CompteController::getCompte
 
 $routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage');
 $routes->post('/api/personnalisation/update-evenement', 'PersonnalisationController::updateEvenement'); // TODO
-
-
-
 
 
 

@@ -240,6 +240,17 @@ class ProduitController extends ResourceController
         return $this->respond($produits);
     }
 
+    public function updateImagesOrder() 
+    {
+        $data = $this->request->getJSON();
+
+        if (is_array($data->tabPhoto)) {
+            return $this->respond("Le tableau d'images est requis.", 400);
+        }
+
+        
+    }
+
 
     // ...
 }
