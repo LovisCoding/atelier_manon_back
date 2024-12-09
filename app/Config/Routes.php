@@ -160,7 +160,7 @@ $routes->get('/api/admin/codepromo/get-codespromo', 'CodePromoController::getCod
 $routes->delete('/api/admin/commande/delete-commande', 'CommandeController::deleteCommande');
 $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
 
-$routes->get('/api/commande/get-commandes', 'CommandeController::getCommandes');
+$routes->get('/api/commande/get-commandes', 'CommandeController::getCommandes');// TODO
 
 $routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsLetters');
 $routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
