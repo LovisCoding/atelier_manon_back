@@ -41,6 +41,7 @@ $routes->get('/api/question/get-question', 'FAQController::getQuestion');
 
 $routes->get('/api/avis/get-all-avis', 'AvisController::getAllAvis');
 $routes->get('/api/avis/get-avis', 'AvisController::getAvis');
+$routes->get('/api/avis/getAvisBySession', 'AvisController::getAvisByClient');
 
 $routes->post('/api/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
 $routes->delete('/api/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
