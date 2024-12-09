@@ -143,6 +143,8 @@ $routes->delete('/api/admin/fil/delete-fil', 'FilController::deleteFil');
 
 $routes->post('/api/admin/categorie/add-categorie', 'CategorieController::addCategorie');
 $routes->delete('/api/admin/categorie/delete-categorie', 'CategorieController::deleteCategorie');
+$routes->delete('/api/categorie/update-image', 'CategorieController::updateImage'); // TODO
+
 
 $routes->post('/api/admin/article/add-update-article', 'ArticleController::addUpdateArticle');
 $routes->delete('/api/admin/article/delete-article', 'ArticleController::deleteArticle');
@@ -171,8 +173,8 @@ $routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsL
 $routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
 $routes->get('/api/admin/account/get-compte-admin', 'CompteController::getCompteByAdmin');
 
-$routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage'); // TODO
-$routes->post('/api/admin/personnalisation/update-evenement', 'PersonnalisationController::updateEvenement');
+$routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage');
+$routes->post('/api/personnalisation/update-evenement', 'PersonnalisationController::updateEvenement'); // TODO
 
 
 

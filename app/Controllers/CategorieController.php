@@ -53,4 +53,26 @@ class CategorieController extends ResourceController
 	
 
 
+	public function updateImage() 
+	{
+		$data = $this->request->getJSON();
+	
+		if (empty($data->idCateg) || !is_numeric($data->idCateg)) {
+			return $this->respond("L'ID de la catégorie est requis et doit être un nombre valide.", 400);
+		}
+
+		if (empty($data->libImage) || empty($data->image)) {
+			return $this->respond("L'image et son nom sont requis.", 400);
+		}
+
+		$response = $this->model->updateImage($data->idCateg, $data->libImage, $data->image);
+
+		if (!$response) {
+            return $this->respond("Impossible d'enregistrer cette image. (mauvais format)", 400);
+		}
+		return $this->respond("Image modifiée avec succès.", 201);
+
+		
+	}
+
 }
