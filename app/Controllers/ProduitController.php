@@ -95,29 +95,56 @@ class ProduitController extends ResourceController
         return $this->respond($produit);
     }
 
-    public function addImage() 
-    {
+    public function deleteImage() {
         $data = $this->request->getJSON();
 
-        $image = $data->image;
-        $numero = $data->numero;
-        $idProd = $data->idProd;    
+        $libImage = $data->libImage;
+
+        $idProd = $data->idProd;
 
         if (empty($idProd) || !is_numeric($idProd)) {
-            return $this->respond("Le numero du produit est requis.", 400);
+            return $this->respond("Le numéro du produit est requis et doit être un entier.", 400);
         }
 
-        if (empty($image) || empty($numero) || !is_numeric($numero)) {
-            return $this->respond("L'image, numero et le libelle du produit sont requis.", 400);
+        if (empty($libImage)) {
+            return $this->respond("Le libelle de son image est requis.", 400);
         }
 
-        $response = $this->model->uploadPhoto($image, $numero, $idProd);
+        $response = $this->model->deletePhoto($libImage, $idProd);
 
         if ($response) {
             return $this->respond("Image enregistrée avec succès.", 201);
         }
         else {
-            return $this->respond("Impossible d'enregistrer cette image.", 400);
+            return $this->respond("Impossible d'enregistrer cette image. (mauvais format ou le nom existe déjà)", 400);
+        }
+    } 
+
+
+    public function addImage() 
+    {
+        $data = $this->request->getJSON();
+
+        $image = $data->image;
+        $libImage = $data->libImage;
+
+        $idProd = $data->idProd;
+
+        if (empty($idProd) || !is_numeric($idProd)) {
+            return $this->respond("Le numéro du produit est requis et doit être un entier.", 400);
+        }
+
+        if (empty($image) || empty($libImage)) {
+            return $this->respond("L'image et son libelle sont requis.", 400);
+        }
+
+        $response = $this->model->uploadPhoto($image, $libImage, $idProd);
+
+        if ($response) {
+            return $this->respond("Image enregistrée avec succès.", 201);
+        }
+        else {
+            return $this->respond("Impossible d'enregistrer cette image. (mauvais format ou le nom existe déjà)", 400);
         }
 
     }
@@ -130,8 +157,6 @@ class ProduitController extends ResourceController
             return $this->respond("Le libellé et la description du produit sont requis.", 400);
         }
 
-        $tabPhoto = is_array($data->tabPhoto) ? '{' . implode(',', array_map(fn($item) => "\"$item\"", $data->tabPhoto)) . '}' : null;
-
         if ($data->idProd !== -1) {
             $response = $this->model->updateProduit(
                 $data->idProd,
@@ -139,7 +164,6 @@ class ProduitController extends ResourceController
                 $data->descriptionProd,
                 floatval($data->prix),
                 boolval($data->estGravable),
-                $tabPhoto,
                 intval($data->tempsRea),
                 intval($data->idCateg)
             );
@@ -154,7 +178,6 @@ class ProduitController extends ResourceController
                 $data->descriptionProd,
                 floatval($data->prix),
                 boolval($data->estGravable),
-                $tabPhoto,
                 intval($data->tempsRea),
                 intval($data->idCateg)
             );

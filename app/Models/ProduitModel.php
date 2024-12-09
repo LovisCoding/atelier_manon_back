@@ -74,86 +74,14 @@ class ProduitModel extends Model
         return $newProduits;
     }
 
-    public function uploadPhoto($photo, $numero, $idProd) {
-        $produit = $this->getProduit($idProd);
-        $uploadDir = FCPATH . 'images/';
 
-        if ($produit) {
-            $categorieModel = new CategorieModel();
-            $categorie = $categorieModel->getCategorie($produit["idCateg"]);
-
-            if ($categorie) {
-                $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photo);
-
-                $fileName = $categorie . $produit["libProd"] . $numero . '.webp';
-                $filePath = $uploadDir . $fileName;
-
-                $imageData = base64_decode($photoBase64);
-                if ($imageData === false) {
-                    return false;
-                }
-    
-                $image = imagecreatefromstring($imageData);
-                if ($image === false) {
-                    return false;
-                }
-    
-                imagewebp($image, $filePath, 80);
-                imagedestroy($image);
-                
-                return true;
-            }
-        }
-
-        return false;
-
-    }
-
-    public function uploadPhotos($tabPhoto, $idCateg, $libProd) 
+    public function updateProduit($idProd, $libProd, $descriptionProd, $prix, $estGravable, $tempsRea, $idCateg)
     {
-        $categorieModel = new CategorieModel();
-        $categorie = $categorieModel->getCategorie($idCateg);
-
-        $photoPaths = [];
-
-        $uploadDir = FCPATH . 'images/';
-
-        foreach ($tabPhoto as $index => $photoBase64) {
-
-            $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photoBase64);
-
-            $fileName = $categorie . $libProd . ($index + 1) . '.webp';
-            $filePath = $uploadDir . $fileName;
-
-            $imageData = base64_decode($photoBase64);
-            if ($imageData === false) {
-                continue;
-            }
-
-            $image = imagecreatefromstring($imageData);
-            if ($image === false) {
-                continue;
-            }
-
-            imagewebp($image, $filePath, 80); // 80 est la qualité de l'image WebP
-            imagedestroy($image); // Libérer la mémoire
-
-            $photoPaths[] = 'images/' . $fileName;
-        }
-
-        return $photoPaths;
-    } 
-
-    public function updateProduit($idProd, $libProd, $descriptionProd, $prix, $estGravable, $tabPhoto, $tempsRea, $idCateg)
-    {
-        $photoPaths = $this->uploadPhotos($tabPhoto, $idCateg, $libProd);
-
         return $this->update($idProd, [
             "libProd" => $libProd,
             "descriptionProd" => $descriptionProd,
             "prix" => $prix,
             "estGravable" => $estGravable,
-            "tabPhoto" => $photoPaths,
             "tempsRea" => $tempsRea,
             "idCateg" => $idCateg
         ]);
@@ -168,14 +96,11 @@ class ProduitModel extends Model
             return -1;
         }
 
-        $photoPaths = $this->uploadPhotos($tabPhoto, $idCateg, $libProd);
-
         $this->insert([
             "libProd" => $libProd,
             "descriptionProd" => $descriptionProd,
             "prix" => $prix,
             "estGravable" => $estGravable,
-            "tabPhoto" => $photoPaths,
             "tempsRea" => $tempsRea,
             "idCateg" => $idCateg
         ]);
@@ -294,4 +219,98 @@ class ProduitModel extends Model
             return trim(stripslashes($element), '"');
         }, $elements);
     }
+
+    private function toPgArray(array $phpArray): string
+    {
+        $escapedElements = array_map(function ($element) {
+
+            if (is_string($element)) {
+                return '"' . addslashes($element) . '"';
+            }
+            return $element;
+        }, $phpArray);
+
+        return '{' . implode(',', $escapedElements) . '}';
+    }
+
+
+
+    public function uploadPhoto($photo, $libPhoto, $idProd)
+    {
+        $produit = $this->getProduit($idProd);
+
+        if (!$produit)
+            return false;
+
+        $tabPhoto = $this->parsePgArray($produit["tabPhoto"]);
+
+        $uploadDir = FCPATH . 'images/';
+        $fileName = $libPhoto . '.webp';
+
+        if (file_exists($fileName))
+            return false;
+
+        $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photo);
+
+        $filePath = $uploadDir . $fileName;
+
+        $imageData = base64_decode($photoBase64);
+        if ($imageData === false) {
+            return false;
+        }
+
+        $image = imagecreatefromstring($imageData);
+        if ($image === false) {
+            return false;
+        }
+
+        imagewebp($image, $filePath, 80);
+        imagedestroy($image);
+
+        $tabPhoto[] = $fileName;
+        
+        $newTabPhoto = $this->toPgArray($tabPhoto);
+        $this->update($idProd, [
+            "tabPhoto" => $newTabPhoto
+        ]);
+
+        return true;
+    }
+
+    public function deletePhoto($libPhoto, $idProd) 
+    {
+        $produit = $this->getProduit($idProd);
+
+        if (!$produit)
+            return false;
+
+        $tabPhoto = $this->parsePgArray($produit["tabPhoto"]);
+
+        $uploadDir = FCPATH . 'images/';
+
+        $fileName = $libPhoto . '.webp';
+
+        if (!file_exists($fileName))
+            return false;
+
+        if (!unlink($uploadDir)) {
+            return false; 
+        }
+    
+        $tabPhoto = array_filter($tabPhoto, function ($photo) use ($libPhoto) {
+            return $photo !== $libPhoto;
+        });
+    
+        $newTabPhoto = $this->toPgArray($tabPhoto);
+    
+        $this->update($idProd, [
+            "tabPhoto" => $newTabPhoto
+        ]);
+    
+        return true;
+
+    }
+
+    
+
 }
