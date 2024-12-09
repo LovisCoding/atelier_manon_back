@@ -54,7 +54,7 @@ class PersonnalisationController extends ResourceController
         }
 
         imagewebp($newImage, $filePath, 80);
-        imagedestroy($image);
+        imagedestroy($newImage);
 
         return $this->respond("Image enregistrée avec succès.", 201);
     }
