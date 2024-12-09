@@ -48,12 +48,12 @@ class PersonnalisationController extends ResourceController
             return $this->respond("Impossible de décoder l'image.", 400);
         }
 
-        $image = imagecreatefromstring($imageData);
-        if ($image === false) {
+        $newImage = imagecreatefromstring($imageData);
+        if ($newImage === false) {
             return $this->respond("Impossible de recréer l'image.", 400);
         }
 
-        imagewebp($image, $filePath, 80);
+        imagewebp($newImage, $filePath, 80);
         imagedestroy($image);
 
         return $this->respond("Image enregistrée avec succès.", 201);
