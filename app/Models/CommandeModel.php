@@ -176,7 +176,7 @@ class CommandeModel extends Model
             "carte" => $carte,
             "dateLivraison" => $dateLivraison,
             "adresse" => $adresse,
-            "etat" => "Pas commencée"
+            "etat" => "pas commencée"
         ]);
 
         $newId = $this->getInsertID();
