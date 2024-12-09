@@ -47,7 +47,7 @@ class AuthGuard implements FilterInterface
             }
 
             // Vérification des permissions pour /client et /admin
-            if (strpos($uri, '/admin') !== false && !boolval($account["estAdmin"])) {
+            if (strpos($uri, '/admin') !== false && $account["estAdmin"] == "f") {
                 return $this->jsonResponse(403, 'Forbidden: Admin access required');
             }
         }

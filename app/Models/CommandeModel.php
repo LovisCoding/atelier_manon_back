@@ -129,7 +129,7 @@ class CommandeModel extends Model
         $account = $compteModel->getAccountById($idCli);
         
         if ($account) {
-            $estAdmin = boolval($account["estAdmin"]);
+            $estAdmin = $account["estAdmin"] == "t";
 
             if ($estAdmin) {
                 $commande = $this->where("idCommande", $idCommande)
