@@ -72,8 +72,6 @@ class CompteController extends ResourceController
 		$frontUrl = getenv('FRONT_URL');
 		$confirmAccountLink = $frontUrl . "email/confirmAccount/$token";
 
-		return $this->respond($confirmAccountLink);
-
 		$emailService = \Config\Services::email();
 		$emailService->setTo($data->email);
 		$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
@@ -329,5 +327,22 @@ $data->content"
 		}
 
 		return $this->respond("L'email a bien été envoyé.");
+	}
+
+
+
+	public function disableAccount() 
+	{
+		$idCli = session()->get("data")["idCli"];
+
+		if (empty($idCli)) {
+			return $this->respond("L'ID du client est requis.", 400);
+		}
+
+		$response = $this->model->disableAccount($idCli);
+
+		if ($response)
+			return $this->respond("Compte désactivé avec succès.");
+		return $this->respond("Impossible de désactiver ce compte.");
 	}
 }

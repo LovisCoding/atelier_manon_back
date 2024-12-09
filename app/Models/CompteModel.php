@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use DateTime;
 
 class CompteModel extends Model
 {
@@ -18,7 +19,8 @@ class CompteModel extends Model
         'token', 
         'token_expiration', 
         'estAdmin', 
-        'news'
+        'news',
+        'dateSup'
     ];
 
     public function getAccountNewsLetter() 
@@ -97,5 +99,16 @@ class CompteModel extends Model
         return false;
     }
 
+    public function disableAccount($idCli) {
+        $account = $this->getAccountById($idCli);
+
+        if ($account) {
+            $this->update($idCli, [
+                "dateSup" => new DateTime()
+            ]);     
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -9,7 +9,7 @@ class CategorieModel extends Model
     protected $table = 'Categorie';
     protected $primaryKey = 'idCateg';
 
-    protected $allowedFields = ['libCateg'];
+    protected $allowedFields = ['libCateg', 'image'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
