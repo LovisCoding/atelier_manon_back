@@ -128,6 +128,10 @@ class CompteController extends ResourceController
 		$account = $this->model->getAccountByEmail($data->email);
 
 		if ($account) {
+			if ($account["dateSup"] != null) {
+				return $this->respond("Ce compte a été desactivé.");
+			}
+
 			$mdp = $account['mdp'];
 			$authenticatePassword = password_verify($data->mdp, $mdp);
 
@@ -142,7 +146,9 @@ class CompteController extends ResourceController
 			}
 
 		}
-		 
+		
+		return $this->respond("Email incorrect", 400);
+
 	}
 
 	public function logout() 

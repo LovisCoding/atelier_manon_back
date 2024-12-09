@@ -42,7 +42,7 @@ class AuthGuard implements FilterInterface
             $compteModel = new CompteModel();
             $account = $compteModel->getAccountById($idCli);
 
-            if (!$account) {
+            if (!$account || $account["dateSup"] != null) {
                 return $this->jsonResponse(403, 'Forbidden: Invalid user account');
             }
 
