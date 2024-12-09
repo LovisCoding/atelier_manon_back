@@ -26,7 +26,7 @@ class CodePromoController extends ResourceController
 		if (!isset($data->reduc) || !is_numeric($data->reduc) || $data->reduc <= 0) {
 			return $this->fail("La réduction est requise et doit être un nombre positif.", 400);
 		}
-		if (empty($data->type) || !in_array($data->type, ['pourcentage', 'montant'])) {
+		if (empty($data->type) || !in_array($data->type, ['E', 'P'])) {
 			return $this->fail("Le type de réduction est requis et doit être 'pourcentage' ou 'montant'.", 400);
 		}
 	
