@@ -76,6 +76,10 @@ $routes->post('/api/account/reset-password', 'CompteController::resetPassword');
 $routes->post('/api/account/update-password', 'CompteController::updatePassword');
 $routes->post('/api/account/send-mail', 'CompteController::contactMail');
 
+$routes->get('/api/personnalisation/get-image', 'PersonnalisationController::getImage');
+$routes->get('/api/personnalisation/get-evenement', 'PersonnalisationController::getEvenementMessage');
+
+
 /**********/
 /* CLIENT */
 /**********/
@@ -167,7 +171,9 @@ $routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsL
 $routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
 $routes->get('/api/admin/account/get-compte-admin', 'CompteController::getCompteByAdmin');
 
-$routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage');
+$routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage'); // TODO
+$routes->post('/api/admin/personnalisation/update-evenement', 'PersonnalisationController::updateEvenement');
+
 
 
 

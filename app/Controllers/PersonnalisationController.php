@@ -13,12 +13,19 @@ class PersonnalisationController extends ResourceController
     public function getImage() 
     {
         $width = $this->request->getGet('width');
-        $type = $this->request->getGet('width');
+        $type = $this->request->getGet('type');
+
+        if (empty($type)) {
+            return $this->respond("Le type de l'image est requis.", 400);
+        }
 
         $filePath = FCPATH . 'images/' . $type . "/" . $type . ".webp";
 
         $produitController = new ProduitController();
-        $produitController->resizeAndGetImage($filePath, $width);
+        $response = $produitController->resizeAndGetImage($filePath, $width);
+        if (!$response) {
+            return $this->respond("Image non trouvé", 404);
+        }
     }
 
     public function uploadImage()
@@ -27,6 +34,10 @@ class PersonnalisationController extends ResourceController
 
         $image = $data->image;
         $type = $data->type;
+
+        if (empty($image) || empty($type)) {
+            return $this->respond("L'image et son type sont requis.", 400);
+        }
 
         $filePath = FCPATH . 'images/' . $type . "/" . $type . ".webp";
 

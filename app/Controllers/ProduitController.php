@@ -18,13 +18,17 @@ class ProduitController extends ResourceController
 
         $filePath = FCPATH . 'images/' . $image;
 
-        $this->resizeAndGetImage($filePath, $width);
+        $response = $this->resizeAndGetImage($filePath, $width);
+
+        if (!$response) {
+            return $this->respond("Image non trouvé", 404);
+        }   
     }
 
     public function resizeAndGetImage($filePath, $width)
     {
         if (!is_file($filePath)) {
-            return $this->failNotFound('Image not found');
+            return false;
         }
 
         $img = imagecreatefromwebp($filePath);
