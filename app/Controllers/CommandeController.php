@@ -105,7 +105,7 @@ class CommandeController extends ResourceController
             return $this->fail("La variante est requise.", 400);
         }
 
-        if (empty($idProd) || !is_numeric($idProd)) {
+        if (empty($data->idProd) || !is_numeric($data->idProd)) {
             return $this->fail("L'identifiant du produit est requis et doit être un entier valide.", 400);
         }
 
