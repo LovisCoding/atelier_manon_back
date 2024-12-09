@@ -115,7 +115,7 @@ $routes->post('/api/client/account/logout', 'CompteController::logout');
 $routes->post('/api/produit/update-produit', 'ProduitController::updateProduit'); // TODO
 $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
 $routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente'); // TODO
-$routes->get('/api/produit/add-image', 'ProduitController::addImage'); // TODO
+$routes->post('/api/produit/add-image', 'ProduitController::addImage'); // TODO
 
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
