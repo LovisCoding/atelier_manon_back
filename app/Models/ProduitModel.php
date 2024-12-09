@@ -247,12 +247,13 @@ class ProduitModel extends Model
         $uploadDir = FCPATH . 'images/';
         $fileName = $libPhoto . '.webp';
 
-        if (file_exists($fileName))
+        $filePath = $uploadDir . $fileName;
+
+        if (file_exists($filePath))
             return false;
 
         $photoBase64 = preg_replace('/^data:image\/\w+;base64,/', '', $photo);
 
-        $filePath = $uploadDir . $fileName;
 
         $imageData = base64_decode($photoBase64);
         if ($imageData === false) {
@@ -289,11 +290,13 @@ class ProduitModel extends Model
         $uploadDir = FCPATH . 'images/';
 
         $fileName = $libPhoto . '.webp';
+        
+        $filePath = $uploadDir . $fileName;
 
-        if (!file_exists($fileName))
+        if (!file_exists($filePath))
             return false;
 
-        if (!unlink($uploadDir)) {
+        if (!unlink($filePath)) {
             return false; 
         }
     

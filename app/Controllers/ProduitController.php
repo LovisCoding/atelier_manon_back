@@ -15,35 +15,40 @@ class ProduitController extends ResourceController
     public function getImage($image)
     {
         $width = $this->request->getGet('width');
-    
+
         $filePath = FCPATH . 'images/' . $image;
-    
+
+        $this->resizeAndGetImage($filePath, $width);
+    }
+
+    public function resizeAndGetImage($filePath, $width)
+    {
         if (!is_file($filePath)) {
             return $this->failNotFound('Image not found');
         }
-    
+
         $img = imagecreatefromwebp($filePath);
-    
+
         if ($width) {
 
             $originalWidth = imagesx($img);
             $originalHeight = imagesy($img);
-    
+
             $newWidth = (int)$width;
 
             $ratio = $newWidth / $originalWidth;
             $newHeight = (int)($originalHeight * $ratio);
-    
+
             $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
-    
+
             imagecopyresampled($resizedImage, $img, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
-    
+
             imagedestroy($img);
-    
+
             $img = $resizedImage;
         }
-    
-        header("Content-Type: image/webp");    
+
+        header("Content-Type: image/webp");
 
         imagewebp($img);
         imagedestroy($img);
@@ -95,7 +100,8 @@ class ProduitController extends ResourceController
         return $this->respond($produit);
     }
 
-    public function deleteImage() {
+    public function deleteImage()
+    {
         $data = $this->request->getJSON();
 
         $libImage = $data->libImage;
@@ -114,14 +120,13 @@ class ProduitController extends ResourceController
 
         if ($response) {
             return $this->respond("Image enregistrée avec succès.", 201);
-        }
-        else {
+        } else {
             return $this->respond("Impossible d'enregistrer cette image. (mauvais format ou le nom existe déjà)", 400);
         }
-    } 
+    }
 
 
-    public function addImage() 
+    public function addImage()
     {
         $data = $this->request->getJSON();
 
@@ -142,11 +147,9 @@ class ProduitController extends ResourceController
 
         if ($response) {
             return $this->respond("Image enregistrée avec succès.", 201);
-        }
-        else {
+        } else {
             return $this->respond("Impossible d'enregistrer cette image. (mauvais format ou le nom existe déjà)", 400);
         }
-
     }
 
     public function updateProduit()
@@ -219,18 +222,20 @@ class ProduitController extends ResourceController
         return $this->respond($bestSellers);
     }
 
-	public function produitsAll() {
-		$produits = $this->model->getProduits();
+    public function produitsAll()
+    {
+        $produits = $this->model->getProduits();
 
-		return $this->respond($produits);
-	}
+        return $this->respond($produits);
+    }
 
-    public function produitsAllVente() {
+    public function produitsAllVente()
+    {
         $produits = $this->model->getProduitsVente();
 
         return $this->respond($produits);
     }
 
-    
+
     // ...
 }
