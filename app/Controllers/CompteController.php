@@ -351,4 +351,26 @@ $data->content"
 			return $this->respond("Compte désactivé avec succès.");
 		return $this->respond("Impossible de désactiver ce compte.");
 	}
+
+
+    public function updateNomPrenom() {
+		$idCli = session()->get("data")["idCli"];
+
+		if (empty($idCli)) {
+			return $this->respond("L'ID du client est requis.", 400);
+		}
+
+		$data = $this->request->getJSON();
+
+		if (empty($data->nom) || empty($data->prenom)) {
+			return $this->respond("Le nom et le prénom sont requis.", 400);
+		}
+
+		$response = $this->model->updateNomPrenom($idCli, $data->nom, $data->prenom);
+
+		if ($response)
+			return $this->respond("Compte modifié avec succès.");
+		return $this->respond("Impossible de modifier ce compte", 400);
+
+    }
 }

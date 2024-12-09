@@ -110,6 +110,7 @@ $routes->post('/api/client/account/remove-newsletter', 'CompteController::remove
 $routes->get('/api/client/account/get-compte', 'CompteController::getCompte');
 $routes->post('/api/client/account/logout', 'CompteController::logout');
 $routes->post('/api/client/account/disable-account', 'CompteController::disableAccount');
+$routes->post('/api/client/account/update-nom-prenom', 'CompteController::updateNomPrenom');
 
 
 /*********/

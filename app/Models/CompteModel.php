@@ -75,6 +75,7 @@ class CompteModel extends Model
         ]);
     }
 
+
     public function addNewsLetter($email) {
         $account = $this->getAccountByEmail($email);
 
@@ -105,6 +106,19 @@ class CompteModel extends Model
         if ($account) {
             $this->update($idCli, [
                 "dateSup" => (new DateTime())->format("d-m-Y")
+            ]);     
+            return true;
+        }
+        return false;
+    }
+
+    public function updateNomPrenom($idCli, $nom, $prenom) {
+        $account = $this->getAccountById($idCli);
+
+        if ($account) {
+            $this->update($idCli, [
+                "nomCli" => $nom,
+                "preCli" => $prenom
             ]);     
             return true;
         }
