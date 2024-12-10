@@ -123,9 +123,9 @@ class ProduitController extends ResourceController
         $response = $this->model->deletePhoto($libImage, $idProd);
 
         if ($response) {
-            return $this->respond("Image enregistrée avec succès.", 201);
+            return $this->respond("Image supprimée avec succès.", 201);
         } else {
-            return $this->respond("Impossible d'enregistrer cette image. (mauvais format ou le nom existe déjà)", 400);
+            return $this->respond("Impossible de supprimer cette image. (mauvais format ou le nom existe déjà)", 400);
         }
     }
 
