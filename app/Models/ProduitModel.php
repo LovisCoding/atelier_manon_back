@@ -173,8 +173,8 @@ class ProduitModel extends Model
             if (sizeof($tabPhoto) > 0) {
                 $produit["photo"] = $tabPhoto[0];
                 $produit["tabPhoto"] = $tabPhoto;
-                $newProduits[] = $produit;
             }
+            $newProduits[] = $produit;
         }
         return $newProduits;
     }
