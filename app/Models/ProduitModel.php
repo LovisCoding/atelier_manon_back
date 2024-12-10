@@ -214,6 +214,10 @@ class ProduitModel extends Model
     {
         $pgArray = trim($pgArray, '{}');
 
+        if ($pgArray === '') {
+            return [];
+        }
+
         $elements = preg_split('/(?<!\\\\),/', $pgArray);
 
         return array_map(function ($element) {
