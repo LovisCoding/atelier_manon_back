@@ -16,8 +16,11 @@ class FAQModel extends Model
 
     public function getQuestions() 
     {
-        return $this->findAll();
+        return $this->where('reponse IS NOT NULL')
+                    ->where('reponse !=', '')
+                    ->findAll();
     }
+    
 
     public function getQuestion($idQuestion = -1)
     {    
