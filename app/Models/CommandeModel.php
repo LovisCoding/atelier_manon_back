@@ -207,7 +207,7 @@ class CommandeModel extends Model
         return $newId;
     }
 
-    public function addSingleProductCommande($idCli, $dateCommande, $idProd, $variante)
+    public function addSingleProductCommande($idCli, $dateCommande, $idProd, $variante, $gravure)
     {
 
         $accountModel = new CompteModel();
@@ -237,7 +237,7 @@ class CommandeModel extends Model
 
 
             $commandeProduitModel = new CommandeProduitModel();
-            $response = $commandeProduitModel->addProduitToCommande($idProd, $newId, "", $variante, 1);
+            $response = $commandeProduitModel->addProduitToCommande($idProd, $newId, $gravure, $variante, 1);
 
             if (!$response) {
                 return false;
