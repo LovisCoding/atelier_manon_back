@@ -40,6 +40,7 @@ $routes->get('/api/question/get-questions', 'FAQController::getQuestions');
 $routes->get('/api/question/get-question', 'FAQController::getQuestion');
 
 $routes->get('/api/avis/get-all-avis', 'AvisController::getAllAvis');
+$routes->get('/api/avis/get-avis-display', 'AvisController::getAllAvisToDisplay');
 $routes->get('/api/avis/get-avis', 'AvisController::getAvis');
 $routes->get('/api/avis/getAvisBySession', 'AvisController::getAvisByClient');
 
@@ -160,6 +161,7 @@ $routes->delete('/api/admin/article/delete-article', 'ArticleController::deleteA
 $routes->delete('/api/admin/question/delete-question', 'FAQController::deleteQuestion');
 
 $routes->delete('/api/admin/avis/delete-avis', 'AvisController::deleteAvis');
+$routes->post('/api/admin/avis/update-avis-display', 'AvisController::updateAvisDisplay');
 
 $routes->post('/api/admin/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
 $routes->post('/api/admin/promoproduit/add-promoproduits', 'PromoProduitController::addPromoProduits');
