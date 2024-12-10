@@ -23,6 +23,12 @@ class CompteModel extends Model
         'dateSup'
     ];
 
+    public function convertBool($account) {
+        $account['estAdmin'] = $account['estAdmin'] == "t";
+        $account['news'] = $account['news'] == "t";
+        return $account;
+    }
+
     public function getAccountNewsLetter() 
     {
         return $this->where("news", true)->findAll();
@@ -36,7 +42,7 @@ class CompteModel extends Model
 
     public function getAccountById($idCli) 
     {
-        return $this->where("idCli", $idCli)->first();
+        return $this->convertBool($this->where("idCli", $idCli)->first());
     }
 
     public function getAccountByEmail($email) 
