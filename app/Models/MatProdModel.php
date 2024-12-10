@@ -8,10 +8,10 @@ class MatProdModel extends Model
 {
     protected $table = 'MatProd';
 
-    protected $primaryKey = ['idProd', 'libmateriau'];
+    protected $primaryKey = ['idProd', 'libMateriau'];
     protected $useAutoIncrement = false;
 
-    protected $allowedFields = ['idProd', 'libmateriau'];
+    protected $allowedFields = ['idProd', 'libMateriau'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
