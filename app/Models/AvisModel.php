@@ -9,7 +9,7 @@ class AvisModel extends Model
     protected $table = 'Avis';
     protected $primaryKey = 'idAvis';
 
-    protected $allowedFields = ['contenu', 'dateAvis', 'note', 'idCli'];
+    protected $allowedFields = ['contenu', 'dateAvis', 'note', 'idCli', 'estAffiche'];
 
     protected $useTimestamps = false;
     protected $returnType = 'array';
@@ -24,6 +24,23 @@ class AvisModel extends Model
 
     }
 
+    public function updateAvisDisplay($estAffiche, $idAvis) 
+    {
+        $avis = $this->getAvis($idAvis);
+        if ($avis) 
+        {
+            $this->update($idAvis, [
+                "estAffiche" => $estAffiche
+            ]);
+            return true;
+        }
+        return false;
+    }
+
+    public function getAllAvisToDisplay() 
+    {
+        return $this->where("estAffiche", "t")->findAll();
+    }
 
     public function getAvis($idAvis = -1) 
     {
@@ -33,13 +50,16 @@ class AvisModel extends Model
             $newAllAvis = [];
             foreach ($allAvis as $avis) {
                 $avis["compte"] = $this->getAccount($avis["idCli"]);
+                $avis["estAffiche"] = $avis["estAffiche"] == "t";
                 $newAllAvis[] = $avis;
             }
             return $newAllAvis;
 
         }
-         return $this->where("idAvis", $idAvis)->first();;
 
+        $avis = $this->where("idAvis", $idAvis)->first();
+        $avis["estAffiche"] = $avis["estAffiche"] == "t";
+        return $avis;
     }
 
     public function getAvisByClient($idCli) 
@@ -64,7 +84,8 @@ class AvisModel extends Model
             "contenu" => $contenu,
             "dateAvis" => $dateAvis,
             "note" => $note,
-            "idCli" => $idCli
+            "idCli" => $idCli,
+            'estAffiche' => false
         ])) {
             return $this->getInsertID();
         }
