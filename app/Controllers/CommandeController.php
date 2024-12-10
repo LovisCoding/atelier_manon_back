@@ -101,8 +101,8 @@ class CommandeController extends ResourceController
             return $this->fail("L'identifiant du client est requis et doit être un entier valide.", 400);
         }
 
-        if (empty($data->variante)) {
-            return $this->fail("La variante est requise.", 400);
+        if (empty($data->variante) || empty($data->gravure)) {
+            return $this->fail("La variante et la gravure sont requises.", 400);
         }
 
         if (empty($data->idProd) || !is_numeric($data->idProd)) {
@@ -115,7 +115,8 @@ class CommandeController extends ResourceController
             $idCli,
             $dateCommande,
             $data->idProd,
-            $data->variante
+            $data->variante,
+            $data->gravure
         );
 
         if (!$response) {
