@@ -294,7 +294,7 @@ class ProduitModel extends Model
 
         $uploadDir = FCPATH . 'images/';
 
-        $fileName = $libPhoto . '.webp';
+        $fileName = $libPhoto;
         
         $filePath = $uploadDir . $fileName;
 
