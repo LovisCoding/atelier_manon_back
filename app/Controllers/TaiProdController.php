@@ -64,7 +64,7 @@ class TaiProdController extends ResourceController
 		}
 	}
 
-	public function deleteMatProd()
+	public function deleteTaiProd()
 	{
 		$data = $this->request->getJSON();
 
@@ -72,16 +72,16 @@ class TaiProdController extends ResourceController
 			return $this->respond("L'id du produit est requis et doit être valide.", 400);
 		}
 
-		if (empty($data->libMat)) {
-			return $this->respond("Le libellé du matériau est requis.", 400);
+		if (empty($data->libTaille)) {
+			return $this->respond("Le libellé de la taille est requise.", 400);
 		}
 
-		$response = $this->model->deleteMatProd($data->idProd, $data->libMat);
+		$response = $this->model->deleteTaiProd($data->idProd, $data->libTaille);
 
 		if ($response) {
-			return $this->respond("Le matériau a été supprimé du produit avec succès.", 201);
+			return $this->respond("La taille a été supprimé du produit avec succès.", 201);
 		} else {
-			return $this->respond("Erreur lors de la suppression du matériau du produit.", 500);
+			return $this->respond("Erreur lors de la suppression de la taille du produit.", 500);
 		}
 	}
 }

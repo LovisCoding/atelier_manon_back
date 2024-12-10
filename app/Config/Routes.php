@@ -19,6 +19,10 @@ $routes->get('/api/produit/get-bestsellers', 'ProduitController::getBestSellers'
 
 $routes->get('/api/img/(:any)', 'ProduitController::getImage/$1');
 
+$routes->get('/api/taiprod/get-tailles-produit', 'TaiProdController::getTaillesProduit');
+
+$routes->get('/api/penprod/get-pendentifs-produit', 'PenProdController::getPendentifsProduit');
+
 $routes->get('/api/matprod/get-materiaux-produit', 'MatProdController::getMateriauxProduit');
 
 $routes->get('/api/pieprod/get-pierres-produit', 'PieProdController::getPierresProduit');
@@ -26,6 +30,11 @@ $routes->get('/api/pieprod/get-pierres-produit', 'PieProdController::getPierresP
 $routes->get('/api/filprod/get-fils-produit', 'FilProdController::getFilsProduit');
 
 $routes->get('/api/materiau/get-materiaux', 'MateriauController::getMateriaux');
+
+$routes->get('/api/pendentif/get-pendentifs', 'PendentifController::getPendentifs');
+
+$routes->get('/api/taille/get-tailles', 'TailleController::getTailles');
+
 
 $routes->get('/api/pierre/get-pierres', 'PierreController::getPierres');
 
@@ -128,6 +137,13 @@ $routes->post('/api/produit/add-image', 'ProduitController::addImage'); // TODO
 $routes->post('/api/produit/delete-image', 'ProduitController::deleteImage'); // TODO
 $routes->post('/api/admin/produit/update-images-order', 'ProduitController::updateImagesOrder'); // TODO
 
+$routes->post('/api/admin/taiprod/add-taiprod', 'TaiProdController::addTaiProd');
+$routes->delete('/api/admin/taiprod/delete-taiprod', 'TaiProdController::deleteTaiProd');
+$routes->post('/api/admin/taiprod/update-tailles-produit', 'TaiProdController::addTaisProd');
+
+$routes->post('/api/admin/penprod/add-penprod', 'PenProdController::addPenProd');
+$routes->delete('/api/admin/penprod/delete-penprod', 'PenProdController::deletePenProd');
+$routes->post('/api/admin/penprod/update-pendentifs-produit', 'PenProdController::addPensProd');
 
 $routes->post('/api/admin/matprod/add-matprod', 'MatProdController::addMatProd');
 $routes->delete('/api/admin/matprod/delete-matprod', 'MatProdController::deleteMatProd');
@@ -141,6 +157,12 @@ $routes->post('/api/admin/filprod/add-filprod', 'FilProdController::addFilProd')
 $routes->delete('/api/admin/filprod/delete-filprod', 'FilProdController::deleteFilProd');
 $routes->post('/api/admin/filprod/update-fils-produit', 'FilProdController::addFilsProd');
 
+$routes->post('/api/admin/pendentif/add-pendentif', 'PendentifController::addPendentif');
+$routes->delete('/api/admin/pendentif/delete-pendentif', 'PendentifController::deletePendentif');
+
+$routes->post('/api/admin/taille/add-taille', 'TailleController::addTaille');
+$routes->delete('/api/admin/taille/delete-taille', 'TailleController::deleteTaille');
+
 $routes->post('/api/admin/materiau/add-materiau', 'MateriauController::addMateriau');
 $routes->delete('/api/admin/materiau/delete-materiau', 'MateriauController::deleteMateriau');
 
@@ -153,7 +175,6 @@ $routes->delete('/api/admin/fil/delete-fil', 'FilController::deleteFil');
 $routes->post('/api/admin/categorie/add-categorie', 'CategorieController::addCategorie');
 $routes->delete('/api/admin/categorie/delete-categorie', 'CategorieController::deleteCategorie');
 $routes->post('/api/categorie/update-image', 'CategorieController::updateImage'); // TODO
-
 
 $routes->post('/api/admin/article/add-update-article', 'ArticleController::addUpdateArticle');
 $routes->delete('/api/admin/article/delete-article', 'ArticleController::deleteArticle');
