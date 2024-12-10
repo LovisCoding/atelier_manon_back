@@ -20,6 +20,11 @@ class FAQModel extends Model
                     ->where('reponse !=', '')
                     ->findAll();
     }
+
+    public function getQuestionsAdmin() 
+    {
+        return $this->findAll();
+    }
     
 
     public function getQuestion($idQuestion = -1)

@@ -250,7 +250,7 @@ class ProduitModel extends Model
         $tabPhoto = $this->parsePgArray($this->toPgArray($produit["tabPhoto"]));
 
         $uploadDir = FCPATH . 'images/';
-        $fileName = $libPhoto . '.webp';
+        $fileName = $libPhoto;
 
         $filePath = $uploadDir . $fileName;
 
