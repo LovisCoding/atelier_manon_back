@@ -290,7 +290,7 @@ class ProduitModel extends Model
         if (!$produit)
             return false;
 
-        $tabPhoto = $this->parsePgArray($produit["tabPhoto"]);
+        $tabPhoto = $this->parsePgArray($this->toPgArray($produit["tabPhoto"]));
 
         $uploadDir = FCPATH . 'images/';
 

@@ -65,7 +65,8 @@ class AvisModel extends Model
         }
 
         $avis = $this->where("idAvis", $idAvis)->first();
-        $avis["estAffiche"] = $avis["estAffiche"] == "t";
+        if ($avis)
+            $avis["estAffiche"] = $avis["estAffiche"] == "t";
         return $avis;
     }
 
