@@ -332,6 +332,171 @@ class ProduitModel extends Model
         return false;
     }
 
+
+
+    /******************/
+    //     STATS      //
+    /******************/
+
+    public function getStatsProportionVente() {
+        $commandeModel = new CommandeModel();
+        $commandeProduitModel = new CommandeProduitModel();
+    
+        $commandes = $commandeModel->getCommandes();
+        $stats = [];
+    
+        if ($commandes) {
+            foreach ($commandes as $commande) {
+
+                $dateCommande = new \DateTime($commande["dateCommande"]);
+                $yearMonth = $dateCommande->format('Y-m');
+    
+                $produits = $commandeProduitModel->getProduitsCommande($commande["idCommande"]);
+    
+                if (!isset($stats[$yearMonth])) {
+                    $stats[$yearMonth] = [];
+                }
+    
+                foreach ($produits as $produit) {
+                    $libProd = $produit['produit']['libProd'];
+    
+                    if (!isset($stats[$yearMonth][$libProd])) {
+                        $stats[$yearMonth][$libProd] = 0;
+                    }
+    
+                    $stats[$yearMonth][$libProd] += $produit['qa'];
+                }
+            }
+        }
+    
+        $proportions = [];
+        foreach ($stats as $month => $products) {
+            $totalProducts = array_sum($products);
+    
+            foreach ($products as $product => $quantity) {
+                $proportions[$month][$product] = ($quantity / $totalProducts) * 100;
+            }
+        }
+    
+        return $proportions;
+    }
+    
+    
+    public function getStatsYearCA() {
+        $commandeModel = new CommandeModel();
+        $commandes = $commandeModel->getCommandes();
+    
+        $stats = [];
+    
+        if ($commandes) {
+            foreach ($commandes as $commande) {
+
+                $dateCommande = new \DateTime($commande['dateCommande']);
+                $yearMonth = $dateCommande->format('Y-m');
+    
+                if (!isset($stats[$yearMonth])) {
+                    $stats[$yearMonth] = 0; 
+                }
+    
+                $stats[$yearMonth] += $commande['prixTotal'];
+                
+            }
+        }
+    
+        return $stats;
+    }
+
+    public function getStatsProportionGravure() {
+        $commandeModel = new CommandeModel();
+        $commandeProduitModel = new CommandeProduitModel();
+    
+        $commandes = $commandeModel->getCommandes();
+        $totalCommandes = count($commandes);
+        $customizedOrders = 0;
+    
+        if ($commandes) {
+            foreach ($commandes as $commande) {
+                $produits = $commandeProduitModel->getProduitsCommande($commande["idCommande"]);
+    
+                foreach ($produits as $produit) {
+                    if (!empty($produit["gravure"])) {
+                        $customizedOrders++;
+                        break; // Une seule personnalisation suffit pour marquer la commande comme personnalisée
+                    }
+                }
+            }
+        }
+    
+        return $totalCommandes > 0 ? ($customizedOrders / $totalCommandes) * 100 : 0;
+    }
+
+    public function getStatsProportionCategorie() {
+        $commandeModel = new CommandeModel();
+        $commandeProduitModel = new CommandeProduitModel();
+    
+        $commandes = $commandeModel->getCommandes();
+        $categorySales = [];
+        $totalQuantity = 0;
+    
+        if ($commandes) {
+            foreach ($commandes as $commande) {
+                $produits = $commandeProduitModel->getProduitsCommande($commande["idCommande"]);
+    
+                foreach ($produits as $produit) {
+                    $categoryId = $produit['produit']['idCateg'];
+                    $quantity = $produit['qa'];
+    
+                    if (!isset($categorySales[$categoryId])) {
+                        $categorySales[$categoryId] = 0;
+                    }
+    
+                    $categorySales[$categoryId] += $quantity;
+                    $totalQuantity += $quantity;
+                }
+            }
+        }
+    
+        foreach ($categorySales as $category => $sales) {
+            $categorySales[$category] = ($sales / $totalQuantity) * 100;
+        }
+    
+        return $categorySales;
+    }
+
+    public function getStatsVenteMoyenCommande() {
+        $commandeModel = new CommandeModel();
+    
+        $commandes = $commandeModel->getCommandes();
+        $totalRevenue = 0;
+        $totalOrders = count($commandes);
+    
+        if ($commandes) {
+            foreach ($commandes as $commande) {
+                $totalRevenue += $commande['prixTotalReduc']; // On prend en compte le prix réduit
+            }
+        }
+    
+        return $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
+    }
+    
+    public function getStatsProportionCadeau() {
+        $commandeModel = new CommandeModel();
+    
+        $commandes = $commandeModel->getCommandes();
+        $totalCommandes = count($commandes);
+        $giftCardOrders = 0;
+    
+        if ($commandes) {
+            foreach ($commandes as $commande) {
+                if ($commande['estCadeau'] === 't') {
+                    $giftCardOrders++;
+                }
+            }
+        }
+    
+        return $totalCommandes > 0 ? ($giftCardOrders / $totalCommandes) * 100 : 0;
+    }
+    
     
 
 }

@@ -132,10 +132,17 @@ $routes->post('/api/client/account/update-nom-prenom', 'CompteController::update
 
 $routes->post('/api/produit/update-produit', 'ProduitController::updateProduit'); // TODO
 $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
-$routes->get('/api/produit/produits-vente', 'ProduitController::produitsAllVente'); // TODO
+$routes->get('/api/admin/produit/produits-vente', 'ProduitController::produitsAllVente');
 $routes->post('/api/produit/add-image', 'ProduitController::addImage'); // TODO
 $routes->post('/api/produit/delete-image', 'ProduitController::deleteImage'); // TODO
 $routes->post('/api/admin/produit/update-images-order', 'ProduitController::updateImagesOrder'); // TODO
+
+$routes->get('/api/admin/produit/get-stats-year-ca', 'ProduitController::getStatsYearCA');
+$routes->get('/api/admin/produit/get-stats-proportion-vente', 'ProduitController::getStatsProportionVente');
+$routes->get('/api/admin/produit/get-stats-proportion-gravure', 'ProduitController::getStatsProportionGravure');
+$routes->get('/api/admin/produit/get-stats-proportion-categorie', 'ProduitController::getStatsProportionCategorie');
+$routes->get('/api/admin/produit/get-stats-vente-moyen-commande', 'ProduitController::getStatsVenteMoyenCommande');
+$routes->get('/api/admin/produit/get-stats-proportion-cadeau', 'ProduitController::getStatsProportionCadeau');
 
 $routes->post('/api/admin/taiprod/add-taiprod', 'TaiProdController::addTaiProd');
 $routes->delete('/api/admin/taiprod/delete-taiprod', 'TaiProdController::deleteTaiProd');

@@ -265,8 +265,48 @@ class ProduitController extends ResourceController
             return '"' . str_replace('"', '\"', $val) . '"'; // Échappe les guillemets
         }, $phpArray)) . '}';
     }
+
+    public function getStatsYearCA() 
+    {
+        $produits = $this->model->getStatsYearCA();
+
+		return $this->respond($produits);
+    }
     
-    
+    public function getStatsProportionVente() 
+    {
+        $produits = $this->model->getStatsProportionVente();
+
+		return $this->respond($produits);
+    }
+
+    public function getStatsProportionGravure() 
+    {
+        $produits = $this->model->getStatsProportionGravure();
+
+		return $this->respond($produits);
+    }
+
+    public function getStatsProportionCategorie() 
+    {
+        $produits = $this->model->getStatsProportionCategorie();
+
+		return $this->respond($produits);
+    }
+
+    public function getStatsVenteMoyenCommande() 
+    {
+        $produits = $this->model->getStatsVenteMoyenCommande();
+
+		return $this->respond($produits);
+    }
+
+    public function getStatsProportionCadeau() 
+    {
+        $produits = $this->model->getStatsProportionCadeau();
+
+		return $this->respond($produits);
+    }
 
 
     // ...
