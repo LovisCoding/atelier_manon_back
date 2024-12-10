@@ -52,7 +52,7 @@ class AvisController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 
-		if (is_bool($data->estAffiche) || is_numeric($data->idAvis) ) {
+		if (!is_bool($data->estAffiche) || !is_numeric($data->idAvis) ) {
 			return $this->fail("Champs obligatoires manquants : 'estAffiche', 'idAvis'", 400);
 		}
 
