@@ -39,7 +39,14 @@ class AvisModel extends Model
 
     public function getAllAvisToDisplay() 
     {
-        return $this->where("estAffiche", "t")->findAll();
+        $allAvis =  $this->where("estAffiche", "t")->findAll();
+        $newAllAvis = [];
+        foreach ($allAvis as $avis) {
+            $avis["compte"] = $this->getAccount($avis["idCli"]);
+            $avis["estAffiche"] = $avis["estAffiche"] == "t";
+            $newAllAvis[] = $avis;
+        }
+        return $newAllAvis;
     }
 
     public function getAvis($idAvis = -1) 

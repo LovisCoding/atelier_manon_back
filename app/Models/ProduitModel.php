@@ -173,8 +173,8 @@ class ProduitModel extends Model
             if (sizeof($tabPhoto) > 0) {
                 $produit["photo"] = $tabPhoto[0];
                 $produit["tabPhoto"] = $tabPhoto;
-                $newProduits[] = $produit;
             }
+            $newProduits[] = $produit;
         }
         return $newProduits;
     }
@@ -214,6 +214,10 @@ class ProduitModel extends Model
     {
         $pgArray = trim($pgArray, '{}');
 
+        if ($pgArray === '') {
+            return [];
+        }
+
         $elements = preg_split('/(?<!\\\\),/', $pgArray);
 
         return array_map(function ($element) {
@@ -246,7 +250,7 @@ class ProduitModel extends Model
         $tabPhoto = $this->parsePgArray($this->toPgArray($produit["tabPhoto"]));
 
         $uploadDir = FCPATH . 'images/';
-        $fileName = $libPhoto . '.webp';
+        $fileName = $libPhoto;
 
         $filePath = $uploadDir . $fileName;
 

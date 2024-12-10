@@ -19,6 +19,13 @@ class FAQController extends ResourceController
 		return $this->respond($questions);
 	}
 
+	public function getQuestionsAdmin()
+	{
+		$questions =  $this->model->getQuestionsAdmin();
+
+		return $this->respond($questions);
+	}
+
 	public function getQuestion()
 	{
 		$idQuestion = $this->request->getGet('idQuestion');
@@ -47,7 +54,7 @@ class FAQController extends ResourceController
 
 		if ($account) {
 
-			if ($account["estAdmin"] == "f" && !empty($data->reponse)) {
+			if ($account["estAdmin"] === "f" && !empty($data->reponse)) {
 				return $this->respond("Impossible d'ajouter une réponse si vous n'êtes pas admin.", 400);
 			}
 

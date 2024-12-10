@@ -180,6 +180,7 @@ $routes->post('/api/admin/article/add-update-article', 'ArticleController::addUp
 $routes->delete('/api/admin/article/delete-article', 'ArticleController::deleteArticle');
 
 $routes->delete('/api/admin/question/delete-question', 'FAQController::deleteQuestion');
+$routes->get('/api/admin/question/get-questions', 'FAQController::getQuestionsAdmin');
 
 $routes->delete('/api/admin/avis/delete-avis', 'AvisController::deleteAvis');
 $routes->post('/api/admin/avis/update-avis-display', 'AvisController::updateAvisDisplay');
