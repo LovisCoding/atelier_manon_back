@@ -19,7 +19,11 @@ class PersonnalisationController extends ResourceController
             return $this->respond("Le type de l'image est requis.", 400);
         }
 
-        $filePath = FCPATH . 'images/' . $type . "/" . $type . ".webp";
+        if ($type === "home" || $type === "bijoux")
+            $filePath = FCPATH . 'images/' . $type . "/" . $type . ".webp";
+        else
+            $filePath = FCPATH . 'images/categories/' . $type . ".webp";
+
 
         $produitController = new ProduitController();
         $response = $produitController->resizeAndGetImage($filePath, $width);
