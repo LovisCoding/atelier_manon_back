@@ -58,7 +58,7 @@ class ProduitModel extends Model
             $query->where('prix <=', $priceSup);
         }
 
-        $produits = $query->findAll();
+        $produits = $query->orderBy("libProd")->findAll();
 
         $newProduits = [];
         foreach ($produits as $produit) {
@@ -120,6 +120,7 @@ class ProduitModel extends Model
         $commandes = $commandeModel
             ->where('dateCommande >=', date('Y-m-01', strtotime('first day of last month')))
             ->where('dateCommande <=', date('Y-m-t', strtotime('last day of last month')))
+            ->orderBy("libProd")
             ->findAll();
 
         $commandeProduitModel = new CommandeProduitModel();
@@ -140,7 +141,7 @@ class ProduitModel extends Model
 
         $produits = [];
         if (sizeof($produitsQuantites) < $quantiteToDisplay) {
-            $produits = $this->limit(3)->findAll();
+            $produits = $this->limit(3)->orderBy("libProd")->findAll();
         } else {
             arsort($produitsQuantites);
             $topProduits = array_slice($produitsQuantites, 0, 3, true);
@@ -164,7 +165,7 @@ class ProduitModel extends Model
 
     public function getProduits()
     {
-        $produits = $this->findAll();
+        $produits = $this->orderBy("libProd")->findAll();
         $newProduits = [];
         foreach ($produits as $produit) {
             $tabPhoto = $this->parsePgArray($produit['tabPhoto']);
@@ -247,9 +248,15 @@ class ProduitModel extends Model
 
         $tabPhoto = $this->parsePgArray($this->toPgArray($produit["tabPhoto"]));
 
-        $uploadDir = FCPATH . 'images/';
-        $fileName = $libPhoto;
+        $uploadDir = FCPATH . 'images/' . $idProd . '/';
 
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0755, true)) {
+                return false;
+            }
+        }
+
+        $fileName = $libPhoto;
         $filePath = $uploadDir . $fileName;
 
         if (file_exists($filePath))
@@ -272,7 +279,7 @@ class ProduitModel extends Model
         imagedestroy($image);
 
         $tabPhoto[] = $fileName;
-        
+
         $newTabPhoto = $this->toPgArray($tabPhoto);
         $this->update($idProd, [
             "tabPhoto" => $newTabPhoto
@@ -281,7 +288,7 @@ class ProduitModel extends Model
         return true;
     }
 
-    public function deletePhoto($libPhoto, $idProd) 
+    public function deletePhoto($libPhoto, $idProd)
     {
         $produit = $this->getProduit($idProd);
 
@@ -293,31 +300,31 @@ class ProduitModel extends Model
         $uploadDir = FCPATH . 'images/';
 
         $fileName = $libPhoto;
-        
+
         $filePath = $uploadDir . $fileName;
 
         if (!file_exists($filePath))
             return false;
 
         if (!unlink($filePath)) {
-            return false; 
+            return false;
         }
-    
+
         $tabPhoto = array_filter($tabPhoto, function ($photo) use ($libPhoto) {
             return $photo !== $libPhoto;
         });
-    
+
         $newTabPhoto = $this->toPgArray($tabPhoto);
-    
+
         $this->update($idProd, [
             "tabPhoto" => $newTabPhoto
         ]);
-    
-        return true;
 
+        return true;
     }
 
-    public function updateImagesOrder($tabPhoto, $idProd) {
+    public function updateImagesOrder($tabPhoto, $idProd)
+    {
         $produit = $this->getProduit($idProd);
 
         if ($produit) {
@@ -336,86 +343,88 @@ class ProduitModel extends Model
     //     STATS      //
     /******************/
 
-    public function getStatsProportionVente() {
+    public function getStatsProportionVente()
+    {
         $commandeModel = new CommandeModel();
         $commandeProduitModel = new CommandeProduitModel();
-    
+
         $commandes = $commandeModel->getCommandes();
         $stats = [];
-    
+
         if ($commandes) {
             foreach ($commandes as $commande) {
 
                 $dateCommande = new \DateTime($commande["dateCommande"]);
                 $yearMonth = $dateCommande->format('Y-m');
-    
+
                 $produits = $commandeProduitModel->getProduitsCommande($commande["idCommande"]);
-    
+
                 if (!isset($stats[$yearMonth])) {
                     $stats[$yearMonth] = [];
                 }
-    
+
                 foreach ($produits as $produit) {
                     $libProd = $produit['produit']['libProd'];
-    
+
                     if (!isset($stats[$yearMonth][$libProd])) {
                         $stats[$yearMonth][$libProd] = 0;
                     }
-    
+
                     $stats[$yearMonth][$libProd] += $produit['qa'];
                 }
             }
         }
-    
+
         $proportions = [];
         foreach ($stats as $month => $products) {
             $totalProducts = array_sum($products);
-    
+
             foreach ($products as $product => $quantity) {
                 $proportions[$month][$product] = ($quantity / $totalProducts) * 100;
             }
         }
-    
+
         return $proportions;
     }
-    
-    
-    public function getStatsYearCA() {
+
+
+    public function getStatsYearCA()
+    {
         $commandeModel = new CommandeModel();
         $commandes = $commandeModel->getCommandes();
-    
+
         $stats = [];
-    
+
         if ($commandes) {
             foreach ($commandes as $commande) {
 
                 $dateCommande = new \DateTime($commande['dateCommande']);
                 $yearMonth = $dateCommande->format('Y-m');
-    
+
                 if (!isset($stats[$yearMonth])) {
-                    $stats[$yearMonth] = 0; 
+                    $stats[$yearMonth] = 0;
                 }
-    
+
                 $stats[$yearMonth] += $commande['prixTotal'];
-                
             }
         }
-    
+
         return $stats;
     }
 
-    public function getStatsProportionGravure() {
+    public function getStatsProportionGravure()
+    {
         $commandeModel = new CommandeModel();
         $commandeProduitModel = new CommandeProduitModel();
-    
+
         $commandes = $commandeModel->getCommandes();
         $totalCommandes = count($commandes);
         $customizedOrders = 0;
-    
+
         if ($commandes) {
             foreach ($commandes as $commande) {
                 $produits = $commandeProduitModel->getProduitsCommande($commande["idCommande"]);
-    
+
                 foreach ($produits as $produit) {
                     if (!empty($produit["gravure"])) {
                         $customizedOrders++;
@@ -424,23 +433,24 @@ class ProduitModel extends Model
                 }
             }
         }
-    
+
         return $totalCommandes > 0 ? ($customizedOrders / $totalCommandes) * 100 : 0;
     }
 
-    public function getStatsProportionCategorie() {
+    public function getStatsProportionCategorie()
+    {
         $commandeModel = new CommandeModel();
         $commandeProduitModel = new CommandeProduitModel();
         $categorieModel = new CategorieModel();
-    
+
         $commandes = $commandeModel->getCommandes();
         $categorySales = [];
         $totalQuantity = 0;
-    
+
         if ($commandes) {
             foreach ($commandes as $commande) {
                 $produits = $commandeProduitModel->getProduitsCommande($commande["idCommande"]);
-    
+
                 foreach ($produits as $produit) {
                     $categoryId = $produit['produit']['idCateg'];
                     $quantity = $produit['qa'];
@@ -451,46 +461,46 @@ class ProduitModel extends Model
                         if (!isset($categorySales[$category['libCateg']])) {
                             $categorySales[$category['libCateg']] = 0;
                         }
-        
+
                         $categorySales[$category['libCateg']] += $quantity;
                         $totalQuantity += $quantity;
                     }
-    
-
                 }
             }
         }
-    
+
         foreach ($categorySales as $category => $sales) {
             $categorySales[$category] = ($sales / $totalQuantity) * 100;
         }
-    
+
         return $categorySales;
     }
 
-    public function getStatsVenteMoyenCommande() {
+    public function getStatsVenteMoyenCommande()
+    {
         $commandeModel = new CommandeModel();
-    
+
         $commandes = $commandeModel->getCommandes();
         $totalRevenue = 0;
         $totalOrders = count($commandes);
-    
+
         if ($commandes) {
             foreach ($commandes as $commande) {
                 $totalRevenue += $commande['prixTotalReduc']; // On prend en compte le prix réduit
             }
         }
-    
+
         return $totalOrders > 0 ? $totalRevenue / $totalOrders : 0;
     }
-    
-    public function getStatsProportionCadeau() {
+
+    public function getStatsProportionCadeau()
+    {
         $commandeModel = new CommandeModel();
-    
+
         $commandes = $commandeModel->getCommandes();
         $totalCommandes = count($commandes);
         $giftCardOrders = 0;
-    
+
         if ($commandes) {
             foreach ($commandes as $commande) {
                 if ($commande['estCadeau'] === 't') {
@@ -498,10 +508,7 @@ class ProduitModel extends Model
                 }
             }
         }
-    
+
         return $totalCommandes > 0 ? ($giftCardOrders / $totalCommandes) * 100 : 0;
     }
-    
-    
-
 }
