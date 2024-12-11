@@ -133,7 +133,7 @@ $routes->post('/api/client/account/update-nom-prenom', 'CompteController::update
 $routes->post('/api/admin/produit/update-produit', 'ProduitController::updateProduit');
 $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
 $routes->get('/api/admin/produit/produits-vente', 'ProduitController::produitsAllVente');
-$routes->post('/api/produit/add-image', 'ProduitController::addImage');
+$routes->post('/api/admin/produit/add-image', 'ProduitController::addImage');
 $routes->post('/api/admin/produit/delete-image', 'ProduitController::deleteImage');
 $routes->post('/api/admin/produit/update-images-order', 'ProduitController::updateImagesOrder');
 
