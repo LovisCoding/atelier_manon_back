@@ -15,8 +15,12 @@ class ProduitController extends ResourceController
     public function getImage($image)
     {
         $width = $this->request->getGet('width');
+        $idProd = $this->request->getGet('idProd');
 
-        $filePath = FCPATH . 'images/' . $image;
+        if (empty($idProd) || !is_numeric($idProd))
+            return $this->respond("L'ID du produit est requis et doit être valide.", 400);
+
+        $filePath = FCPATH . 'images/'. $idProd .'/'. $image;
 
         $response = $this->resizeAndGetImage($filePath, $width);
 

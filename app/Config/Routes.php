@@ -130,12 +130,12 @@ $routes->post('/api/client/account/update-nom-prenom', 'CompteController::update
 /* ADMIN */
 /*********/
 
-$routes->post('/api/produit/update-produit', 'ProduitController::updateProduit'); // TODO
+$routes->post('/api/admin/produit/update-produit', 'ProduitController::updateProduit');
 $routes->delete('/api/admin/produit/delete-produit', 'ProduitController::deleteProduit');
 $routes->get('/api/admin/produit/produits-vente', 'ProduitController::produitsAllVente');
-$routes->post('/api/produit/add-image', 'ProduitController::addImage'); // TODO
-$routes->post('/api/produit/delete-image', 'ProduitController::deleteImage'); // TODO
-$routes->post('/api/admin/produit/update-images-order', 'ProduitController::updateImagesOrder'); // TODO
+$routes->post('/api/produit/add-image', 'ProduitController::addImage');
+$routes->post('/api/admin/produit/delete-image', 'ProduitController::deleteImage');
+$routes->post('/api/admin/produit/update-images-order', 'ProduitController::updateImagesOrder');
 
 $routes->get('/api/admin/produit/get-stats-year-ca', 'ProduitController::getStatsYearCA');
 $routes->get('/api/admin/produit/get-stats-proportion-vente', 'ProduitController::getStatsProportionVente');
@@ -181,7 +181,7 @@ $routes->delete('/api/admin/fil/delete-fil', 'FilController::deleteFil');
 
 $routes->post('/api/admin/categorie/add-categorie', 'CategorieController::addCategorie');
 $routes->delete('/api/admin/categorie/delete-categorie', 'CategorieController::deleteCategorie');
-$routes->post('/api/categorie/update-image', 'CategorieController::updateImage'); // TODO
+$routes->post('/api/categorie/update-image', 'CategorieController::updateImage');
 
 $routes->post('/api/admin/article/add-update-article', 'ArticleController::addUpdateArticle');
 $routes->delete('/api/admin/article/delete-article', 'ArticleController::deleteArticle');
@@ -206,14 +206,14 @@ $routes->get('/api/admin/codepromo/get-codespromo', 'CodePromoController::getCod
 $routes->delete('/api/admin/commande/delete-commande', 'CommandeController::deleteCommande');
 $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
 
-$routes->get('/api/admin/commande/get-commandes', 'CommandeController::getCommandes');// TODO
+$routes->get('/api/admin/commande/get-commandes', 'CommandeController::getCommandes');
 
 $routes->post('/api/admin/account/send-newsletter', 'CompteController::sendNewsLetters');
 $routes->get('/api/admin/account/get-comptes', 'CompteController::getComptes');
 $routes->get('/api/admin/account/get-compte-admin', 'CompteController::getCompteByAdmin');
 
 $routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage');
-$routes->post('/api/personnalisation/update-evenement', 'PersonnalisationController::updateEvenement'); // TODO
+$routes->post('/api/admin/personnalisation/update-evenement', 'PersonnalisationController::updateEvenement');
 
 
 
