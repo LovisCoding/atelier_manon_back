@@ -30,7 +30,7 @@ class CommandeModel extends Model
     public function getCommandes($idCli = -1)
     {
         if ($idCli == -1) {
-            $commandes =  $this->findAll();
+            $commandes =  $this->orderBy("idCommande")->findAll();
             $newCommandes = [];
 
             foreach ($commandes as $commande) {
@@ -157,10 +157,10 @@ class CommandeModel extends Model
 
     public function getCommandesByAccount($idCli)
     {
-        return $this->where("idCli", $idCli)->findAll();
+        return $this->where("idCli", $idCli)->orderBy("idCommande")->findAll();
     }
 
-    public function addCommande($idCli, $dateCommande, $comm, $estCadeau, $carte, $dateLivraison, $codesPromo = [])
+    public function addCommande($idCli, $dateCommande, $comm, $estCadeau, $carte, $codesPromo = [])
     {
         $accountModel = new CompteModel();
         $account = $accountModel->getAccountById($idCli);
@@ -173,7 +173,6 @@ class CommandeModel extends Model
             "comm" => $comm,
             "estCadeau" => $estCadeau,
             "carte" => $carte,
-            "dateLivraison" => $dateLivraison,
             "adresse" => $adresse,
             "etat" => "pas commencée"
         ]);
@@ -184,6 +183,7 @@ class CommandeModel extends Model
         $produitsPanier = $panierModel->getPaniersFromClient($idCli);
 
         $commandeProduitModel = new CommandeProduitModel();
+        $tempsRea = 0;
 
         foreach ($produitsPanier as $produitPanier) {
             $commandeProduitModel->addProduitToCommande(
@@ -193,6 +193,7 @@ class CommandeModel extends Model
                 $produitPanier["variante"],
                 $produitPanier["qa"]
             );
+
         }
 
         $utilisationCodeModel = new UtilisationCodeModel();
@@ -200,6 +201,15 @@ class CommandeModel extends Model
         foreach ($codesPromo as $codePromo) {
             $utilisationCodeModel->addUtilisationCode($codePromo, $newId);
         }
+
+        $newCommande = $this->getCommande($newId);
+        $tempsRea = intval($newCommande["tempsLivraisonEstime"])
+        ;
+        $dateLivraison = (new DateTime())->modify("+$tempsRea days")->format("d-m-Y");
+
+        $this->update($newId, [
+            "dateLivraison" => $dateLivraison
+        ]);
 
         $panierModel = new PanierModel();
         $panierModel->deletePanierClient($idCli);
