@@ -40,7 +40,7 @@ class CommandeModel extends Model
             return $newCommandes;
         }
 
-        return $this->where("idCli", $idCli)->findAll();
+        return $this->where("idCli", $idCli)->orderBy("idCommande", "DESC")->findAll();
     }
 
 
@@ -155,10 +155,6 @@ class CommandeModel extends Model
         return $compteModel->getAccountById($commande["idCli"]);
     }
 
-    public function getCommandesByAccount($idCli)
-    {
-        return $this->where("idCli", $idCli)->orderBy("idCommande")->findAll();
-    }
 
     public function addCommande($idCli, $dateCommande, $comm, $estCadeau, $carte, $codesPromo = [])
     {
