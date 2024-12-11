@@ -35,10 +35,9 @@ class ProduitModel extends Model
     }
 
 
-    public function getProduitsPage($page = 1, $nbDisplay = 9, $search = "", $category = null, $priceInf = 0, $priceSup = null)
+    public function getProduitsPage($search = "", $category = null, $priceInf = 0, $priceSup = null)
     {
         // Calculer l'offset (début des éléments à afficher)
-        $offset = ($page - 1) * $nbDisplay;
 
         $query = $this->asArray()->orderBy('idProd', 'ASC');
 
@@ -59,7 +58,6 @@ class ProduitModel extends Model
             $query->where('prix <=', $priceSup);
         }
 
-        $query->limit($nbDisplay, $offset);
         $produits = $query->findAll();
 
         $newProduits = [];
