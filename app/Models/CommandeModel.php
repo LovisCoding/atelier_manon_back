@@ -63,9 +63,11 @@ class CommandeModel extends Model
         foreach ($utilisationCodes as $utilisationCode) {
             $produitsApplyPromo = $promoProduitModel->getProduitsByCode($utilisationCode);
 
-            if (in_array($produit, $produitsApplyPromo)) {
-                $codePromoModel = new CodePromoModel();
-                $codesPromoProduit[] = $codePromoModel->getCodePromo($utilisationCode);
+            foreach ($produitsApplyPromo as $produitApplyPromo) {
+                if (intval($produitApplyPromo["idProd"]) == $produit) {
+                    $codePromoModel = new CodePromoModel();
+                    $codesPromoProduit[] = $codePromoModel->getCodePromo($utilisationCode);
+                }
             }
         }
 
@@ -88,17 +90,19 @@ class CommandeModel extends Model
             $prix = $produit["prix"];
             $tempsRea = $produit["tempsRea"];
 
-            $codesPromo = $this->getCodesPromo($produit, $commande["idCommande"]);
+            $codesPromo = $this->getCodesPromo(intval($produit["idProd"]), intval($commande["idCommande"]));
             $prixReduc = $prix;
             foreach ($codesPromo as $codePromo) {
                 if ($codePromo["type"] == "P") {
                     $reduc = (100 - floatval($codePromo["reduc"])) * 0.01;
                     $prixReduc *= $reduc;
+                    $commande["reduc"] = $reduc;
+
                 } else {
                     $prixReduc -= floatval($codePromo["reduc"]);
+                    $commande["reduc"] = $codePromo["reduc"];
                 }
             }
-
             $qa = intval($produitCommande["qa"]);
 
             $prixTotal += $prix * $qa;
