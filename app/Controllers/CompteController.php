@@ -77,17 +77,20 @@ class CompteController extends ResourceController
 		$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
 		$emailService->setSubject('Création de votre compte sur L\'Atelier de Manon!');
 		$emailService->setMessage("
-			Bonjour $data->prenomCli $data->nomCli,
+			<p>Bonjour $data->prenomCli $data->nomCli,</p>
 			
-			Merci de vous être inscrit à l'Atelier de Manon.
-			Pour activer votre compte, cliquez sur le lien suivant :
-			$confirmAccountLink
+			<p>Merci de vous être inscrit à l'Atelier de Manon.</p>
 			
-			Si vous n'avez pas créé de compte, ignorez cet email.
+			<p>Pour activer votre compte, cliquez sur le lien suivant :</p>
 			
-			Cordialement,
-			l'Atelier de Manon
+			<p><a href='$confirmAccountLink' class='button'>Activer mon compte</a></p>
+			
+			<p>Si vous n'avez pas créé de compte, ignorez cet email.</p>
+			
+			<p>Cordialement,</p>
+			<p><strong>l'Atelier de Manon</strong></p>
 		");
+	
 
 		if ($emailService->send()) {
 			return $this->respond("Un email a été envoyé pour confirmer votre adresse email.");
@@ -184,8 +187,9 @@ class CompteController extends ResourceController
 			$frontUrl = getenv('FRONT_URL');
 			$resetLink = $frontUrl . "reset-password/$token";
 
-			$message = "Cliquez sur le lien suivant pour réinitialiser votre mot de passe: $resetLink";
-
+			$message = "<p>Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
+					<p><a href='$resetLink' style='color: #007bff; text-decoration: none;'>Réinitialiser mon mot de passe</a></p>";
+		
 			$emailService = \Config\Services::email();
 			$emailService->setTo($data->email);
 			$emailService->setFrom('mail.atelierdemanon@gmail.com', 'L\'Atelier de Manon');
@@ -321,11 +325,9 @@ class CompteController extends ResourceController
 		$emailService->setTo('mail.atelierdemanon@gmail.com');
 		$emailService->setFrom($data->mail, $data->nom);
 		$emailService->setSubject($data->objet);
-		$emailService->setMessage("
-Message de la part de $data->nom, avec l'adresse mail $data->mail :
-    
-$data->content"
-		);
+		$emailService->setMessage("<p><strong>Message de la part de $data->nom</strong>, avec l'adresse mail <a href='mailto:$data->mail'>$data->mail</a> :</p>
+				<p>$data->content</p>");
+	
 
 		if (!$emailService->send()) {
 			return $this->respond("Erreur lors de l'envoi de l'email de contact.", 500);
