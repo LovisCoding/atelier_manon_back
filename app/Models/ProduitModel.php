@@ -120,7 +120,6 @@ class ProduitModel extends Model
         $commandes = $commandeModel
             ->where('dateCommande >=', date('Y-m-01', strtotime('first day of last month')))
             ->where('dateCommande <=', date('Y-m-t', strtotime('last day of last month')))
-            ->orderBy("libProd")
             ->findAll();
 
         $commandeProduitModel = new CommandeProduitModel();
@@ -141,7 +140,7 @@ class ProduitModel extends Model
 
         $produits = [];
         if (sizeof($produitsQuantites) < $quantiteToDisplay) {
-            $produits = $this->limit(3)->orderBy("libProd")->findAll();
+            $produits = $this->orderBy("libProd")->limit(3)->findAll();
         } else {
             arsort($produitsQuantites);
             $topProduits = array_slice($produitsQuantites, 0, 3, true);
@@ -297,7 +296,7 @@ class ProduitModel extends Model
 
         $tabPhoto = $this->parsePgArray($this->toPgArray($produit["tabPhoto"]));
 
-        $uploadDir = FCPATH . 'images/';
+        $uploadDir = FCPATH . 'images/' . $idProd . '/';
 
         $fileName = $libPhoto;
 
