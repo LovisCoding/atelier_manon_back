@@ -51,7 +51,7 @@ class PenProdModel extends Model
         return false;
     }
 
-    public function addPendProd($idProd, $tabPendentifs)
+    public function addPensProd($idProd, $tabPendentifs)
     {
         $this->where("idProd", $idProd)->delete();
 

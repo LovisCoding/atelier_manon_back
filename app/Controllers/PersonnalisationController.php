@@ -83,7 +83,9 @@ class PersonnalisationController extends ResourceController
 
     public function getEvenementMessage()
     {
-        $filePath = FCPATH . 'evenement/message.data';
+        $type = $this->request->getGet('type');
+
+        $filePath = FCPATH . $type .'/message.data';
 
         if (!file_exists($filePath)) {
             return $this->respond("Le fichier message.data n\'existe pas", 404);
