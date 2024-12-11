@@ -38,7 +38,7 @@ class PenProdModel extends Model
             ->where("libPendentif", $libPendentif)
             ->first();
 
-        if ($this->existsProdAndMat($idProd, $libPendentif) && !$taiProd) {
+        if ($this->existsProdAndPendentif($idProd, $libPendentif) && !$taiProd) {
 
             $this->db->table($this->table)->insert([
                 "idProd" => $idProd,
