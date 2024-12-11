@@ -172,6 +172,7 @@ class CommandeModel extends Model
             "dateCommande" => $dateCommande,
             "comm" => $comm,
             "estCadeau" => $estCadeau,
+            "dateLivraison" => $dateCommande,
             "carte" => $carte,
             "adresse" => $adresse,
             "etat" => "pas commencée"
