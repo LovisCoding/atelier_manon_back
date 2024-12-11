@@ -433,6 +433,7 @@ class ProduitModel extends Model
     public function getStatsProportionCategorie() {
         $commandeModel = new CommandeModel();
         $commandeProduitModel = new CommandeProduitModel();
+        $categorieModel = new CategorieModel();
     
         $commandes = $commandeModel->getCommandes();
         $categorySales = [];
@@ -445,13 +446,19 @@ class ProduitModel extends Model
                 foreach ($produits as $produit) {
                     $categoryId = $produit['produit']['idCateg'];
                     $quantity = $produit['qa'];
-    
-                    if (!isset($categorySales[$categoryId])) {
-                        $categorySales[$categoryId] = 0;
+
+                    $category = $categorieModel->getCategorie($categoryId);
+
+                    if ($category) {
+                        if (!isset($categorySales[$category['libCateg']])) {
+                            $categorySales[$category['libCateg']] = 0;
+                        }
+        
+                        $categorySales[$category['libCateg']] += $quantity;
+                        $totalQuantity += $quantity;
                     }
     
-                    $categorySales[$categoryId] += $quantity;
-                    $totalQuantity += $quantity;
+
                 }
             }
         }
