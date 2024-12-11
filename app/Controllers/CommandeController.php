@@ -72,7 +72,6 @@ class CommandeController extends ResourceController
 
     
         $dateCommande = (new DateTime())->format("d-m-Y");
-        $dateLivraison = (new DateTime())->modify("+7 days")->format("d-m-Y");
     
         $response = $this->model->addCommande(
             $idCli,
@@ -80,7 +79,6 @@ class CommandeController extends ResourceController
             $data->comm,
             boolval($data->estCadeau),
             $data->carte,
-            $dateLivraison,
             $data->codesPromo ?? []
         );
     
