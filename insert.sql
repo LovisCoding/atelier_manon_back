@@ -13,6 +13,18 @@ INSERT INTO "Materiau" ("libMateriau") VALUES
 ('Cuir'),
 ('Bois');
 
+INSERT INTO "Taille" ("libTaille") VALUES
+('S'),
+('M'),
+('L'),
+('XL');
+
+INSERT INTO "Pendentif" ("libPendentif") VALUES
+('Tortue'),
+('Lion'),
+('Dauphin'),
+('Girafe');
+
 INSERT INTO "Fil" ("libCouleur") VALUES
 ('Bleu'),
 ('Rouge'),
@@ -55,6 +67,18 @@ INSERT INTO "Produit" ("libProd", "descriptionProd", "prix", "estGravable", "tab
 ('Romy', 'Cordons disponibles en : noir, blanc, beige, marron, kaki, gris, bleu, violet et rose', 10.00, FALSE, ARRAY['BraceletRomy1.webp'], 3, 2),
 ('Juanna', 'Tous les éléments sont modifiables : couleur du métal et la taille', 10.00, FALSE, ARRAY['BraceletRomy1.webp'], 3, 2);
 
+
+INSERT INTO "TaiProd" ("idProd", "libTaille") VALUES
+(1, 'M'),
+(1, 'L'),
+(1, 'XL'),
+(2, 'L');
+
+INSERT INTO "PenProd" ("idProd", "libPendentif") VALUES
+(1, 'Girafe'),
+(1, 'Dauphin'),
+(1, 'Lion'),
+(2, 'Girafe');
 
 INSERT INTO "PieProd" ("idProd", "libPierre") VALUES
 (1, 'Quartz rose'),

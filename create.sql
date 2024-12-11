@@ -10,10 +10,14 @@ DROP TABLE IF EXISTS "Panier" CASCADE;
 DROP TABLE IF EXISTS "FilProd" CASCADE;
 DROP TABLE IF EXISTS "MatProd" CASCADE;
 DROP TABLE IF EXISTS "PieProd" CASCADE;
+DROP TABLE IF EXISTS "PenProd" CASCADE;
+DROP TABLE IF EXISTS "TaiProd" CASCADE;
 DROP TABLE IF EXISTS "Produit" CASCADE;
 DROP TABLE IF EXISTS "Pierre" CASCADE;
 DROP TABLE IF EXISTS "Fil" CASCADE;
 DROP TABLE IF EXISTS "Materiau" CASCADE;
+DROP TABLE IF EXISTS "Taille" CASCADE;
+DROP TABLE IF EXISTS "Pendentif" CASCADE;
 DROP TABLE IF EXISTS "Categorie" CASCADE;
 DROP TABLE IF EXISTS "Compte" CASCADE;
 
@@ -29,12 +33,13 @@ CREATE TABLE "Compte" (
     token_expiration TIMESTAMP,
     "estAdmin" BOOLEAN NOT NULL DEFAULT FALSE,
     news BOOLEAN NOT NULL DEFAULT FALSE,
-    "dateSup" Date
+    "dateSup" TIMESTAMP
 );
 
 CREATE TABLE "Categorie" (
     "idCateg" SERIAL PRIMARY KEY,
-    "libCateg" VARCHAR(30) NOT NULL UNIQUE
+    "libCateg" VARCHAR(30) NOT NULL UNIQUE,
+    "image" VARCHAR(255)
 );
 
 CREATE TABLE "Materiau" (
@@ -48,6 +53,14 @@ CREATE TABLE "Fil" (
 CREATE TABLE "Pierre" (
     "libPierre" VARCHAR(50) PRIMARY KEY,
     "descriptionPierre" TEXT
+);
+
+CREATE TABLE "Taille" (
+    "libTaille" VARCHAR(50) PRIMARY KEY
+);
+
+CREATE TABLE "Pendentif" (
+    "libPendentif" VARCHAR(50) PRIMARY KEY
 );
 
 CREATE TABLE "Produit" (
@@ -79,6 +92,17 @@ CREATE TABLE "FilProd" (
     PRIMARY KEY ("idProd", "libCouleur")
 );
 
+CREATE TABLE "PenProd" (
+    "idProd" INT NOT NULL REFERENCES "Produit"("idProd") ON DELETE CASCADE,
+    "libPendentif" VARCHAR(50) NOT NULL REFERENCES "Pendentif"("libPendentif") ON DELETE CASCADE,
+    PRIMARY KEY ("idProd", "libPendentif")
+);
+
+CREATE TABLE "TaiProd" (
+    "idProd" INT NOT NULL REFERENCES "Produit"("idProd") ON DELETE CASCADE,
+    "libTaille" VARCHAR(50) NOT NULL REFERENCES "Taille"("libTaille") ON DELETE CASCADE,
+    PRIMARY KEY ("idProd", "libTaille")
+);
 
 CREATE TABLE "Panier" (
     "idProd" INT NOT NULL REFERENCES "Produit"("idProd") ON DELETE CASCADE,
@@ -96,7 +120,7 @@ CREATE TABLE "Commande" (
     comm VARCHAR(150),
     "estCadeau" BOOLEAN NOT NULL DEFAULT FALSE,
     carte VARCHAR(150),
-    "dateLivraison" DATE NOT NULL CHECK ("dateLivraison" > CURRENT_DATE),
+    "dateLivraison" DATE NOT NULL,
     adresse VARCHAR(255) NOT NULL,
     etat VARCHAR(20) NOT NULL DEFAULT 'en cours'
 );
@@ -149,5 +173,6 @@ CREATE TABLE "Avis" (
     contenu TEXT NOT NULL,
     "dateAvis" DATE NOT NULL DEFAULT CURRENT_DATE,
     note INT NOT NULL CHECK (note BETWEEN 1 AND 5),
-    "idCli" INT NOT NULL REFERENCES "Compte"("idCli") ON DELETE CASCADE
+    "idCli" INT NOT NULL REFERENCES "Compte"("idCli") ON DELETE CASCADE,
+    "estAffiche" BOOLEAN NOT NULL DEFAULT FALSE
 );
