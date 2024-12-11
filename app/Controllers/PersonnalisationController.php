@@ -68,8 +68,11 @@ class PersonnalisationController extends ResourceController
         $data = $this->request->getJSON();
 
         $message = $data->message;
-
-        $filePath = FCPATH . 'evenement/message.data';
+        
+        if (empty($data->type))
+            $filePath = FCPATH . 'evenement/message.data';
+        else 
+            $filePath = FCPATH . $data->type .'/message.data';
 
         if (file_put_contents($filePath, $message) === false) {
             return $this->respond("Impossible de mettre à jour le fichier", 500);
@@ -94,4 +97,5 @@ class PersonnalisationController extends ResourceController
 
         return $this->respond($message);
     }
+
 }

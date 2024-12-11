@@ -39,7 +39,7 @@ class TaiProdModel extends Model
             ->where("libTaille", $libTaille)
             ->first();
 
-        if ($this->existsProdAndMat($idProd, $libTaille) && !$taiProd) {
+        if ($this->existsProdAndTaille($idProd, $libTaille) && !$taiProd) {
 
             $this->db->table($this->table)->insert([
                 "idProd" => $idProd,
