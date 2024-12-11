@@ -63,26 +63,14 @@ class ProduitController extends ResourceController
 
     public function produits()
     {
-        $page = intval($this->request->getGet('page'));
-        $nbDisplay = intval($this->request->getGet('nbDisplay'));
-
         $search = $this->request->getGet('search') ?? '';
         $category = $this->request->getGet('category') ?? '';
         $priceInf = floatval($this->request->getGet('priceInf')) ?? 0;
         $priceSup = floatval($this->request->getGet('priceSup')) ?? null;
 
-        if ($page < 1) {
-            return $this->respond("Le numéro de page doit être supérieur ou égal à 1.", 400);
-        }
-        if ($nbDisplay < 1 || $nbDisplay > 100) {
-            return $this->respond("Le nombre d'articles à afficher doit être entre 1 et 100.", 400);
-        }
-
-        $produits = $this->model->getProduitsPage($page, $nbDisplay, $search, $category, $priceInf, $priceSup);
+        $produits = $this->model->getProduitsPage($search, $category, $priceInf, $priceSup);
 
         return $this->respond([
-            'page' => $page,
-            'nbDisplay' => $nbDisplay,
             'produits' => $produits
         ]);
     }
