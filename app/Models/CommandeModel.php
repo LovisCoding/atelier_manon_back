@@ -157,7 +157,7 @@ class CommandeModel extends Model
 
     public function getCommandesByAccount($idCli)
     {
-        return $this->where("idCli", $idCli)->orderBy("idCommande")->findAll();
+        return $this->where("idCli", $idCli)->orderBy("idCommande", "DESC")->findAll();
     }
 
     public function addCommande($idCli, $dateCommande, $comm, $estCadeau, $carte, $codesPromo = [])
