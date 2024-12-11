@@ -1,68 +1,76 @@
-# CodeIgniter 4 Application Starter
+<div align="center">
+    <h1>L'atelier de Manon</h1>
+</div>
 
-## What is CodeIgniter?
+<div align="center">
+    <img src="src/assets/img/logo_manon.webp" alt="Logo de l'atelier de Manon" width="300">
+</div>
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+<br>
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+**L'atelier de Manon**, créatrice de bijoux, se lance dans le monde de l'e-commerce avec un site conçu pour refléter son univers. Accessible sur tous les écrans, ce site mettra en avant ses créations uniques et leurs nombreuses options de personnalisation.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+Les utilisateurs pourront explorer les collections, filtrer leurs recherches et commander en ligne en créant un compte. Une section administrateur permettra à Manon de gérer facilement ses produits, la page d'accueil, la FAQ, et d'accéder à l'historique des ventes pour optimiser la gestion des stocks.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Enfin, une page de contact et des liens vers ses réseaux sociaux faciliteront les échanges avec ses clients.
 
-## Installation & updates
+---
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## ✨ **Fonctionnalités clés**  
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+- **Présentation des bijoux** : Découvrez les créations uniques de Manon avec leurs options de personnalisation.  
+- **Commande en ligne** : Passez commande simplement en créant un compte.  
+- **Gestion des contenus** : Mettez à jour produits, page d'accueil et FAQ sans effort.  
+- **Suivi des ventes** : Consultez l'historique des commandes pour une gestion optimale des stocks.  
+- **Contact et réseaux sociaux** : Connectez-vous facilement avec Manon via une page dédiée et des liens vers ses réseaux.  
 
-## Setup
+---
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## 🛠️ **Installation**  
 
-## Important Change with index.php
+> **Note** : Ce dépôt correspond à la partie **back-end** du projet.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### 1. **Cloner le dépôt**  
+Récupérez le projet en local avec la commande suivante :  
+```bash
+git clone git@github.com:LovisCoding/atelier_manon_back.git
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### 2. **Accéder au projet**
+Déplacez-vous dans le dossier du projet :  
+```bash
+cd atelier_manon_back
+```
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### 3. **Installer les dépendances**
+Installez les dépendances du projet avec la commande suivante :  
+```bash
+composer install
+```
 
-## Repository Management
+### 4. **Configurer CodeIgniter 4**
+Copiez le fichier de configuration d'exemple :  
+```bash
+cp .env.example .env
+```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### 5. **Configurer la base de données**
+Modifiez le fichier .env en y ajoutant vos informations de connexion :
+```bash
+database.default.DSN =
+database.default.hostname = localhost
+database.default.database = votredb
+database.default.username = votreuser
+database.default.password = motdepasse
+database.default.DBDriver = Postgre
+database.default.port = 7777
+```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 6. **Créer la base de données**
+Exécutez le fichier SQL `init.sql` situé à la racine du projet pour créer manuellement les tables dans votre base de données.
 
-## Server Requirements
-
-PHP version 8.1 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### 7. **Démarrer l'application**
+Lancez l'application avec la commande suivante :  
+```bash
+php spark serve
+```
