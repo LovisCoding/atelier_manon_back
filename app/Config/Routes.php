@@ -5,6 +5,8 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+$routes->options('{any}', 'OptionController::index');
 $routes->get('/', 'Home::index');
 $routes->get('/api/test', 'TestController::api');
 
