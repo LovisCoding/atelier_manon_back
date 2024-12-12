@@ -71,7 +71,7 @@ class CommandeController extends ResourceController
         }
 
     
-        $dateCommande = (new DateTime())->format("d-m-Y");
+        $dateCommande = (new DateTime())->format("Y-m-d");
     
         $response = $this->model->addCommande(
             $idCli,
