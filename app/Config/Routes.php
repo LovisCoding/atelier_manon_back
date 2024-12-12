@@ -186,7 +186,7 @@ $routes->get('/api/admin/promoproduit/get-produits-promo', 'PromoProduitControll
 $routes->post('/api/admin/codepromo/add-codepromo', 'CodePromoController::addCodePromo');
 $routes->delete('/api/admin/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
 $routes->get('/api/admin/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
-
+$routes->get('/api/admin/codepromo/get-codespromo-use', 'CodePromoController::getCodesPromoWithUse');
 
 $routes->delete('/api/admin/commande/delete-commande', 'CommandeController::deleteCommande');
 $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
