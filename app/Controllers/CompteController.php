@@ -370,7 +370,11 @@ class CompteController extends ResourceController
 			return $this->respond("Le nom et le prénom sont requis.", 400);
 		}
 
-		$response = $this->model->updateNomPrenom($idCli, $data->nom, $data->prenom, $data->adresse);
+		if (is_array($data->adresse)) {
+			$adresse = '{' . implode(',', array_map(fn($item) => "\"$item\"", $data->adresse)) . '}';
+		}
+
+		$response = $this->model->updateNomPrenom($idCli, $data->nom, $data->prenom, $adresse );
 
 		if ($response)
 			return $this->respond("Compte modifié avec succès.");
