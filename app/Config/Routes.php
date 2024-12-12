@@ -181,7 +181,7 @@ $routes->delete('/api/admin/fil/delete-fil', 'FilController::deleteFil');
 
 $routes->post('/api/admin/categorie/add-categorie', 'CategorieController::addCategorie');
 $routes->delete('/api/admin/categorie/delete-categorie', 'CategorieController::deleteCategorie');
-$routes->post('/api/categorie/update-image', 'CategorieController::updateImage');
+$routes->post('/api/admin/categorie/update-image', 'CategorieController::updateImage');
 
 $routes->post('/api/admin/article/add-update-article', 'ArticleController::addUpdateArticle');
 $routes->delete('/api/admin/article/delete-article', 'ArticleController::deleteArticle');
