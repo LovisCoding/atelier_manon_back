@@ -26,6 +26,7 @@ class CompteModel extends Model
     public function convertBool($account) {
         $account['estAdmin'] = $account['estAdmin'] == "t";
         $account['news'] = $account['news'] == "t";
+        $account['adresseFormat'] = trim($account["adresse"], '{}');
         return $account;
     }
 
@@ -118,13 +119,14 @@ class CompteModel extends Model
         return false;
     }
 
-    public function updateNomPrenom($idCli, $nom, $prenom) {
+    public function updateNomPrenom($idCli, $nom, $prenom, $adresse) {
         $account = $this->getAccountById($idCli);
 
         if ($account) {
             $this->update($idCli, [
                 "nomCli" => $nom,
-                "preCli" => $prenom
+                "preCli" => $prenom,
+                "adresse" => $adresse
             ]);     
             return true;
         }

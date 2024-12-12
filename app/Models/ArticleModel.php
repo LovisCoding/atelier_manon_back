@@ -17,7 +17,7 @@ class ArticleModel extends Model
 
     public function getArticles() 
     {
-        return $this->findAll();
+        return $this->orderBy("dateArticle", "DESC")->findAll();
     }
 
     public function getArticle($idArticle = -1)
