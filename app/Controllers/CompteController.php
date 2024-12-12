@@ -185,7 +185,7 @@ class CompteController extends ResourceController
 			]);
 
 			$frontUrl = getenv('FRONT_URL');
-			$resetLink = $frontUrl . "reset-password/$token";
+			$resetLink = $frontUrl . "/reset-password/$token";
 
 			$message = "<p>Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
 					<p><a href='$resetLink' style='color: #007bff; text-decoration: none;'>Réinitialiser mon mot de passe</a></p>";
@@ -320,9 +320,12 @@ class CompteController extends ResourceController
 		if (empty($data->objet) || empty($data->nom) || empty($data->mail) || empty($data->content)) {
 			return $this->respond("Tous les champs sont requis.", 400);
 		}
+		
+		$contactMail = getenv('CONTACT_MAIL');
+
 
 		$emailService = \Config\Services::email();
-		$emailService->setTo('mail.atelierdemanon@gmail.com');
+		$emailService->setTo($contactMail);
 		$emailService->setFrom($data->mail, $data->nom);
 		$emailService->setSubject($data->objet);
 		$emailService->setMessage("<p><strong>Message de la part de $data->nom</strong>, avec l'adresse mail <a href='mailto:$data->mail'>$data->mail</a> :</p>
@@ -367,7 +370,11 @@ class CompteController extends ResourceController
 			return $this->respond("Le nom et le prénom sont requis.", 400);
 		}
 
-		$response = $this->model->updateNomPrenom($idCli, $data->nom, $data->prenom);
+		if (is_array($data->adresse)) {
+			$adresse = '{' . implode(',', array_map(fn($item) => "\"$item\"", $data->adresse)) . '}';
+		}
+
+		$response = $this->model->updateNomPrenom($idCli, $data->nom, $data->prenom, $adresse );
 
 		if ($response)
 			return $this->respond("Compte modifié avec succès.");

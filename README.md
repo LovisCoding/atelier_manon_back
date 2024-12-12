@@ -64,6 +64,10 @@ database.default.username = votreuser
 database.default.password = motdepasse
 database.default.DBDriver = Postgre
 database.default.port = 7777
+
+FRONT_URL=http://localhost:5173
+
+CONTACT_MAIL=mail.atelierdemanon@gmail.com
 ```
 
 ### 6. **Créer la base de données**
