@@ -70,7 +70,7 @@ class CompteController extends ResourceController
 		]);
 
 		$frontUrl = getenv('FRONT_URL');
-		$confirmAccountLink = $frontUrl . "email/confirmAccount/$token";
+		$confirmAccountLink = $frontUrl . "/email/confirmAccount/$token";
 
 		$emailService = \Config\Services::email();
 		$emailService->setTo($data->email);
@@ -185,7 +185,7 @@ class CompteController extends ResourceController
 			]);
 
 			$frontUrl = getenv('FRONT_URL');
-			$resetLink = $frontUrl . "reset-password/$token";
+			$resetLink = $frontUrl . "/reset-password/$token";
 
 			$message = "<p>Cliquez sur le lien suivant pour réinitialiser votre mot de passe :</p>
 					<p><a href='$resetLink' style='color: #007bff; text-decoration: none;'>Réinitialiser mon mot de passe</a></p>";
