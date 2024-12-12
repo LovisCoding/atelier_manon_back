@@ -204,12 +204,11 @@ class CommandeModel extends Model
         }
 
         $newCommande = $this->getCommande($newId);
-        $tempsRea = intval($newCommande["tempsLivraisonEstime"])
-        ;
-        $dateLivraison = (new DateTime())->modify("+$tempsRea days")->format("d-m-Y");
+        $tempsRea = intval($newCommande["tempsLivraisonEstime"]);
+        $dateLivraison = (new DateTime())->modify("+$tempsRea days");
 
         $this->update($newId, [
-            "dateLivraison" => $dateLivraison
+            "dateLivraison" => $dateLivraison->format("Y-m-d")
         ]);
 
         $panierModel = new PanierModel();
