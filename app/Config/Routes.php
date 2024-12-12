@@ -188,6 +188,8 @@ $routes->delete('/api/admin/codepromo/delete-codepromo', 'CodePromoController::d
 $routes->get('/api/admin/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
 $routes->get('/api/admin/codepromo/get-codespromo-use', 'CodePromoController::getCodesPromoWithUse');
 
+https://api.atelier-manon.bernouy.fr/api/codepromo/get-codespromo-id/?code=PROMO10 
+
 $routes->delete('/api/admin/commande/delete-commande', 'CommandeController::deleteCommande');
 $routes->post('/api/admin/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
 
@@ -200,6 +202,29 @@ $routes->get('/api/admin/account/get-compte-admin', 'CompteController::getCompte
 $routes->post('/api/admin/personnalisation/upload-image', 'PersonnalisationController::uploadImage');
 $routes->post('/api/admin/personnalisation/update-evenement', 'PersonnalisationController::updateEvenement');
 
+
+
+$routes->post('/api/promoproduit/add-promoproduit', 'PromoProduitController::addPromoProduit');
+$routes->delete('/api/promoproduit/delete-promoproduit', 'PromoProduitController::deletePromoProduit');
+$routes->get('/api/promoproduit/get-produits-promo', 'PromoProduitController::getProduitsByCode');
+$routes->post('/api/codepromo/add-codepromo', 'CodePromoController::addCodePromo');
+$routes->delete('/api/codepromo/delete-codepromo', 'CodePromoController::deleteCodePromo');
+$routes->get('/api/codepromo/get-codespromo', 'CodePromoController::getCodesPromo');
+$routes->get('/api/codepromo/get-codespromo-use', 'CodePromoController::getCodesPromoWithUse');
+$routes->get('/api/codepromo/get-codespromo-id', 'CodePromoController::getCodePromo');
+$routes->post('/api/utilisationcode/add-utilisationcode', 'UtilisationCodeController::addUtilisationCode');
+$routes->delete('/api/utilisationcode/delete-utilisationcode', 'UtilisationCodeController::deleteUtilisationCode');
+$routes->get('/api/utilisationcode/get-codes-commande', 'UtilisationCodeController::getCodesPromoByCommande');
+$routes->post('/api/commande/add-commande', 'CommandeController::addCommande');
+$routes->delete('/api/commande/delete-commande', 'CommandeController::deleteCommande');
+$routes->post('/api/commande/update-etat-commande', 'CommandeController::updateEtatCommande');
+$routes->get('/api/commande/get-commande', 'CommandeController::getCommande');
+$routes->get('/api/commande/get-commandes', 'CommandeController::getCommandes');
+$routes->post('/api/panier/add-product-panier', 'PanierController::addProductToPanier');
+$routes->post('/api/panier/reduce-product-panier', 'PanierController::reduceProductFromPanier');
+$routes->delete('/api/panier/delete-panier-client', 'PanierController::deletePanierClient');
+$routes->delete('/api/panier/delete-product-panier', 'PanierController::deleteProductFromPanier');
+$routes->get('/api/panier/get-panier-client', 'PanierController::getPaniersFromClient');
 
 
 
