@@ -14,7 +14,7 @@ class AuthGuard implements FilterInterface
         $response = service('response');
 
         // Ajout des headers pour CORS
-        $response->setHeader('Access-Control-Allow-Origin', getenv("FRONT_ADDR"))
+        $response->setHeader('Access-Control-Allow-Origin', getenv("FRONT_URL"))
             ->setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
             ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
             ->setHeader('Access-Control-Allow-Credentials', 'true');

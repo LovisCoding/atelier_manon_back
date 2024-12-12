@@ -70,7 +70,7 @@ class CompteController extends ResourceController
 		]);
 
 		$frontUrl = getenv('FRONT_URL');
-		$confirmAccountLink = $frontUrl . "email/confirmAccount/$token";
+		$confirmAccountLink = $frontUrl . "/email/confirmAccount/$token";
 
 		$emailService = \Config\Services::email();
 		$emailService->setTo($data->email);
