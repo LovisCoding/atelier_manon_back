@@ -230,12 +230,12 @@ class CommandeModel extends Model
 
         if ($produit) {
             $tempsRea = intval($produit["tempsRea"]) + 2;
-            $dateLivraison = (new DateTime())->modify("+$tempsRea days")->format("d-m-Y");
+            $dateLivraison = (new DateTime())->modify("+$tempsRea days");
 
             $response = $this->insert([
                 "idCli" => $idCli,
                 "dateCommande" => $dateCommande,
-                "dateLivraison" => $dateLivraison,
+                "dateLivraison" => $dateLivraison->format("Y-m-d"),
                 "adresse" => $adresse,
                 "etat" => "pas commencée"
             ]);
