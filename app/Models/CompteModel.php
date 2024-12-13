@@ -112,7 +112,7 @@ class CompteModel extends Model
 
         if ($account) {
             $this->update($idCli, [
-                "dateSup" => (new DateTime())->format("d-m-Y")
+                "dateSup" => (new DateTime())->format("Y-m-d")
             ]);     
             return true;
         }
