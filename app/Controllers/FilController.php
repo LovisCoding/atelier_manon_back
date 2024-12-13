@@ -42,7 +42,7 @@ class FilController extends ResourceController
 			return $this->respond("Le champ 'libFil' est requis.", 400);
 		}
 	
-		$response = $this->model->deleteFil($data->libCouleur);
+		$response = $this->model->deleteFil($data->libFil);
 	
 		if ($response) {
 			return $this->respond("Fil supprimé avec succès.", 201);
