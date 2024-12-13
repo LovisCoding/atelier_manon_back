@@ -75,10 +75,8 @@ class ArticleController extends ResourceController
 				return $this->respond("Article créé avec succès.", 201);
 			}
 		}
-	
 	}
 	
-
 	public function deleteArticle() 
 	{
 		$data = $this->request->getJSON();

@@ -152,8 +152,10 @@ class ProduitModel extends Model
 
         $newProduit = [];
         foreach ($produits as $produit) {
-            $tabPhoto = $this->parsePgArray($produit['tabPhoto']);
-            if (sizeof($tabPhoto) > 0) {
+            $tabPhoto = $this->parsePgArray($this->toPgArray($produit["tabPhoto"]));
+
+/*             $tabPhoto = $this->parsePgArray($produit['tabPhoto']);
+ */            if (sizeof($tabPhoto) > 0) {
                 $produit["photo"] = $tabPhoto[0];
                 $newProduit[] = $produit;
             }
