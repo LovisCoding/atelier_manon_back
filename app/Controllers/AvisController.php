@@ -79,7 +79,7 @@ class AvisController extends ResourceController
 			return $this->fail("La note doit être comprise entre 0 et 5", 400);
 		}
 	
-		$dateAvis = (new DateTime())->format("d-m-Y");
+		$dateAvis = (new DateTime())->format("Y-m-d");
 	
 		$response = $this->model->addAvis(
 			$data->contenu,
