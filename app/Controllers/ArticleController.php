@@ -60,7 +60,7 @@ class ArticleController extends ResourceController
 		} 
 		else 
 		{
-			$dateArticle = (new DateTime())->format("d-m-Y");
+			$dateArticle = (new DateTime())->format("Y-m-d");
 	
 			$response = $this->model->addArticle(
 				$data->titreArticle,
