@@ -76,7 +76,7 @@ class FAQController extends ResourceController
 					return $this->respond("Erreur lors de la mise à jour de la question.", 500);
 				}
 			} else {
-				$dateQuestion = (new DateTime())->format("d-m-Y");
+				$dateQuestion = (new DateTime())->format("Y-m-d");
 
 				$response = $this->model->addQuestion(
 					$data->contenu,
