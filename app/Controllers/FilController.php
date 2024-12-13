@@ -38,8 +38,8 @@ class FilController extends ResourceController
 	{
 		$data = $this->request->getJSON();
 	
-		if (empty($data->libCouleur)) {
-			return $this->respond("Le champ 'libCouleur' est requis.", 400);
+		if (empty($data->libFil)) {
+			return $this->respond("Le champ 'libFil' est requis.", 400);
 		}
 	
 		$response = $this->model->deleteFil($data->libCouleur);
