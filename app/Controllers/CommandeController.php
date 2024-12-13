@@ -107,7 +107,7 @@ class CommandeController extends ResourceController
             return $this->fail("L'identifiant du produit est requis et doit être un entier valide.", 400);
         }
 
-        $dateCommande = (new DateTime())->format("d-m-Y");
+        $dateCommande = (new DateTime())->format("Y-m-d");
     
         $response = $this->model->addSingleProductCommande(
             $idCli,
